@@ -1,6 +1,5 @@
 package com.dzspring.app.controller;
 
-import java.lang.reflect.Member;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.dzspring.app.entity.Member;
+import com.dzspring.app.service.MemberService;
 
 @Controller
 @RequestMapping("/member")
@@ -29,5 +31,6 @@ public class MemberController {
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("member");
+		return "home";
 	}
 }
