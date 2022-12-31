@@ -1,8 +1,6 @@
 package com.dzspring.app.controller;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,120 +20,118 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.service.MemberService;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping("/member")
 public class MemberController {
 	
 	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
 	private static class ResponseMessage {
-		private StatusEnum status;
 		private String message;
+		private String url;
 		private Object data;
-	}
-	
-	private static enum StatusEnum {
-		OK(200, "OK")
-		, BAD_REQUEST(400, "BAD_REQUEST")
-		, NOT_FOUND(404, "NOT_FOUND")
-		, INTERNAL_SERVER_ERROR(500, "INTERNAL_SERVER_ERROR");
 		
-		int status;
-		String code;
-		
-		StatusEnum(int status, String code) {
-			this.status = status;
-			this.code = code;
+		public ResponseMessage(String message) {
+			this.message = message;
 		}
 	}
 	
 	@Autowired
 	private MemberService memberService;
-
+	
 	@RequestMapping(value="/login")
 	public ResponseEntity<ResponseMessage> login(@RequestBody Member loginInfo, final Model model, HttpServletRequest request) {
 		Optional<Member> member = memberService.login(loginInfo);
-		member.ifPresent(m -> request.getSession().setAttribute("member", m));
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-		
-		ResponseMessage message = new ResponseMessage();
-		message.setStatus(StatusEnum.OK);
-		message.setMessage("�α��� ����!");
-		
-		return new ResponseEntity<>(message, headers, HttpStatus.OK);
+		member.ifPresent(m -> request.getSession().setAttribute("member", m));	
+		ResponseMessage message = new ResponseMessage("로그인 성공!");
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
 	@RequestMapping("/logout")
 	public ResponseEntity<ResponseMessage> logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("member");
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-		
-		ResponseMessage message = new ResponseMessage();
-		message.setStatus(StatusEnum.OK);
-		message.setMessage("�α׾ƿ� ����!");
-		
-		return new ResponseEntity<>(message, headers, HttpStatus.OK);
+		ResponseMessage message = new ResponseMessage("로그아웃 성공!");
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<ResponseMessage> view(HttpServletRequest request) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-		
-		ResponseMessage message = new ResponseMessage();
-		message.setStatus(StatusEnum.OK);
-		message.setMessage("ȸ�� �󼼺���");
-		message.setData(request.getSession().getAttribute("member"));
-		
-		return new ResponseEntity<>(message, headers, HttpStatus.OK);
+		Member member = (Member) request.getSession().getAttribute("member");
+		ResponseMessage message = new ResponseMessage("회원 상세보기");
+		message.setData(member);
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<ResponseMessage> register(@RequestBody Member registerInfo, HttpServletRequest request) {
 		boolean result = memberService.register(registerInfo);
-		Map<String, String> map = new HashMap<>();
-		map.put("result", Boolean.toString(result));
-		if (result)	map.put("url", request.getContextPath());
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-		
-		ResponseMessage message = new ResponseMessage();
-		message.setStatus(StatusEnum.OK);
-		message.setMessage("ȸ�� �󼼺���");
-		message.setData(map);
 
-		return new ResponseEntity<>(message, headers, HttpStatus.OK);
+		ResponseMessage message = new ResponseMessage(result ? "회원 가입 성공!" : "일시적 오류");
+		message.setData(result);
+		if (result)	message.setUrl(request.getContextPath());
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
-	public boolean update(@RequestBody Member updateInfo, HttpServletRequest request) {
-		return memberService.update(updateInfo);
+	public ResponseEntity<ResponseMessage> update(@RequestBody Member updateInfo, HttpServletRequest request) {
+		boolean result = memberService.update(updateInfo);
+
+		ResponseMessage message = new ResponseMessage(result ? "회원 정보 업데이트!" : "일시적 오류");
+		message.setData(result);
+		if (result)	message.setUrl(request.getContextPath());
+		
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
+	// ISSUE: Delete Method -> Not allowd body
 	@RequestMapping(value = "/", method = RequestMethod.DELETE)
-	public boolean delete(@RequestBody String id) {
-		return memberService.delete(id);
+	public ResponseEntity<ResponseMessage> delete(@RequestBody Member deleteInfo, HttpServletRequest request) {
+		boolean result = memberService.delete(deleteInfo);
+		
+		ResponseMessage message = new ResponseMessage(result ? "회원 탈퇴" : "일시적 오류");
+		message.setData(result);
+		if (result) message.setUrl(request.getContextPath());
+
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/hasMember/{type}/{value}")
-	public boolean hasMember(@PathVariable("type") String type, @PathVariable("value") String value) {
-		return memberService.hasMember(type, value);
+	public ResponseEntity<ResponseMessage> hasMember(@PathVariable("type") String type, @PathVariable("value") String value) {
+		boolean result = memberService.hasMember(type, value);
+		ResponseMessage message = new ResponseMessage(result ? "이미 사용 중입니다." : "");
+		message.setData(result);
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/findId/{method}/{value}")
-	public Member findId(@PathVariable("method") String method, @PathVariable("value") String value) {
+	public ResponseEntity<ResponseMessage> findId(@PathVariable("method") String method, @PathVariable("value") String value) {
 		Optional<Member> result = memberService.findId(method, value);
-		return result.get();
+		ResponseMessage message = new ResponseMessage();
+		message.setData(result.isPresent());
+		result.ifPresentOrElse(
+				member -> message.setMessage(member.getId())
+				, () -> message.setMessage("일치하는 정보가 없습니다."));
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/initPwd/{id}")
-	public boolean initPwd(@PathVariable("id") String id) {
-		return memberService.initPwd(id);
+	public ResponseEntity<ResponseMessage> initPwd(@PathVariable("id") String id, HttpServletRequest request) {
+		boolean result = memberService.initPwd(id);
+		ResponseMessage message = new ResponseMessage();
+		message.setData(result);
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
+	private HttpHeaders getJSONHeader() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+		return headers;
 	}
 }
