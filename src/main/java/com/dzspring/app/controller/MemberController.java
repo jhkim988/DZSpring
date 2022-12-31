@@ -114,27 +114,28 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
-	public String update(@RequestBody Member updateInfo) {
-		return "";
+	public boolean update(@RequestBody Member updateInfo, HttpServletRequest request) {
+		return memberService.update(updateInfo);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.DELETE)
-	public String delete(@RequestBody String id) {
-		return "";
+	public boolean delete(@RequestBody String id) {
+		return memberService.delete(id);
 	}
 
 	@RequestMapping(value = "/hasMember/{type}/{value}")
-	public String hasMember(@PathVariable("type") String type, @PathVariable("value") String value) {
-		return "";
+	public boolean hasMember(@PathVariable("type") String type, @PathVariable("value") String value) {
+		return memberService.hasMember(type, value);
 	}
 
 	@RequestMapping(value = "/findId/{method}/{value}")
-	public String findId(@PathVariable("method") String method, @PathVariable("value") String value) {
-		return "";
+	public Member findId(@PathVariable("method") String method, @PathVariable("value") String value) {
+		Optional<Member> result = memberService.findId(method, value);
+		return result.get();
 	}
 
 	@RequestMapping(value = "/initPwd/{id}")
-	public String initPwd(@PathVariable("id") String id) {
-		return "";
+	public boolean initPwd(@PathVariable("id") String id) {
+		return memberService.initPwd(id);
 	}
 }
