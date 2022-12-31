@@ -81,8 +81,16 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public Member view(HttpServletRequest request) {
-		return (Member) request.getSession().getAttribute("member");
+	public ResponseEntity<ResponseMessage> view(HttpServletRequest request) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+		
+		ResponseMessage message = new ResponseMessage();
+		message.setStatus(StatusEnum.OK);
+		message.setMessage("회원 상세보기");
+		message.setObject(request.getSession().getAttribute("member"));
+		
+		return new ResponseEntity<>(message, headers, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
