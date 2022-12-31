@@ -1,6 +1,8 @@
 package com.dzspring.app.controller;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,9 +96,21 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String register(@RequestBody Member registerInfo) {
-//		memberService.register(registerInfo);
-		return "";
+	public ResponseEntity<ResponseMessage> register(@RequestBody Member registerInfo, HttpServletRequest request) {
+		boolean result = memberService.register(registerInfo);
+		Map<String, String> map = new HashMap<>();
+		map.put("result", Boolean.toString(result));
+		if (result)	map.put("url", request.getContextPath());
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+		
+		ResponseMessage message = new ResponseMessage();
+		message.setStatus(StatusEnum.OK);
+		message.setMessage("회원 상세보기");
+		message.setObject(map);
+
+		return new ResponseEntity<>(message, headers, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
