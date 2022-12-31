@@ -32,7 +32,7 @@ public class MemberController {
 	private static class ResponseMessage {
 		private StatusEnum status;
 		private String message;
-		private Object object;
+		private Object data;
 	}
 	
 	private static enum StatusEnum {
@@ -90,7 +90,7 @@ public class MemberController {
 		ResponseMessage message = new ResponseMessage();
 		message.setStatus(StatusEnum.OK);
 		message.setMessage("회원 상세보기");
-		message.setObject(request.getSession().getAttribute("member"));
+		message.setData(request.getSession().getAttribute("member"));
 		
 		return new ResponseEntity<>(message, headers, HttpStatus.OK);
 	}
@@ -108,7 +108,7 @@ public class MemberController {
 		ResponseMessage message = new ResponseMessage();
 		message.setStatus(StatusEnum.OK);
 		message.setMessage("회원 상세보기");
-		message.setObject(map);
+		message.setData(map);
 
 		return new ResponseEntity<>(message, headers, HttpStatus.OK);
 	}
