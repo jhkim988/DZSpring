@@ -67,9 +67,17 @@ public class MemberController {
 	}
 
 	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request) {
+	public ResponseEntity<ResponseMessage> logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("member");
-		return "home";
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+		
+		ResponseMessage message = new ResponseMessage();
+		message.setStatus(StatusEnum.OK);
+		message.setMessage("로그아웃 성공!");
+		
+		return new ResponseEntity<>(message, headers, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
