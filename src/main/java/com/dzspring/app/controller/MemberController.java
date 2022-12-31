@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -81,25 +82,47 @@ public class MemberController {
 
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseMessage> update(@RequestBody Member updateInfo, HttpServletRequest request) {
-		boolean result = memberService.update(updateInfo);
-
-		ResponseMessage message = new ResponseMessage(result ? "회원 정보 업데이트!" : "일시적 오류");
-		message.setData(result);
-		if (result)	message.setUrl(request.getContextPath());
+		Optional<Member> member = memberService.update(updateInfo);
+		
+		ResponseMessage message = new ResponseMessage();
+		message.setData(member.isPresent());
+		member.ifPresentOrElse(mem -> {
+				HttpSession session = request.getSession();
+				session.setAttribute("member", mem);
+				message.setUrl(request.getContextPath());
+				message.setMessage("회원 정보 업데이트!");
+			}
+			, () -> message.setMessage("일시적 오류"));
 		
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
-	// ISSUE: Delete Method -> Not allowd body
-	@RequestMapping(value = "/", method = RequestMethod.DELETE)
-	public ResponseEntity<ResponseMessage> delete(@RequestBody Member deleteInfo, HttpServletRequest request) {
-		boolean result = memberService.delete(deleteInfo);
-		
-		ResponseMessage message = new ResponseMessage(result ? "회원 탈퇴" : "일시적 오류");
+	@RequestMapping(value="/validate")
+	public ResponseEntity<ResponseMessage> validate(@RequestBody String inputPwd, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("member");
+		boolean result = memberService.validate(member.getId(), inputPwd);
+		ResponseMessage message = new ResponseMessage();
+		if (result) session.setAttribute("validate", true);
 		message.setData(result);
-		if (result) message.setUrl(request.getContextPath());
-
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<ResponseMessage> delete(@PathVariable String id, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Object isValidate = session.getAttribute("validate");
+		if (isValidate != null && isValidate.getClass() == boolean.class && (boolean) isValidate) {
+			boolean result = memberService.delete(id);
+			
+			ResponseMessage message = new ResponseMessage(result ? "회원 탈퇴" : "일시적 오류");
+			message.setData(result);
+			if (result) message.setUrl(request.getContextPath());
+			session.removeAttribute("validate");
+			return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(null, null, HttpStatus.FORBIDDEN);
+		}
 	}
 
 	@RequestMapping(value = "/hasMember/{type}/{value}")
