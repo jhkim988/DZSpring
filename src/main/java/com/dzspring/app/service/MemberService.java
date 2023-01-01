@@ -1,6 +1,7 @@
 package com.dzspring.app.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ public interface MemberService {
 	Optional<Member> update(Member updateInfo);
 	boolean validate(String id, String pwd);
 	boolean delete(String id) throws SQLException;
+	boolean delete(List<String> ids) throws SQLException;
 	boolean hasMember(String type, String value);
 	Optional<Member> findId(String method, String value);
 	boolean initPwd(String id);

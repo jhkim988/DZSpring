@@ -3,6 +3,7 @@ package com.dzspring.app.service.impl;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ import com.dzspring.app.service.MemberService;
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
-	MemberRepository memberRepository;
+	private MemberRepository memberRepository;
 
 	@Override
 	public Optional<Member> login(Member loginInfo) {
@@ -57,6 +58,15 @@ public class MemberServiceImpl implements MemberService {
 		int delete = memberRepository.delete(id);
 		if (1 != move || 1 != delete)
 			throw new SQLException();
+		return true;
+	}
+	
+	@Override
+	@Transactional
+	public boolean delete(List<String> ids) throws SQLException {
+		int moves = memberRepository.insertTmpTable(ids);
+		int deletes = memberRepository.delete(ids);
+		if (moves != deletes) throw new SQLException();
 		return true;
 	}
 
