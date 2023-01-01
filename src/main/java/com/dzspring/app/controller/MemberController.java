@@ -1,6 +1,7 @@
 package com.dzspring.app.controller;
 
 import java.nio.charset.Charset;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -113,9 +114,13 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		Object isValidate = session.getAttribute("validate");
 		if (isValidate != null && isValidate.getClass() == boolean.class && (boolean) isValidate) {
-			boolean result = memberService.delete(id);
-			
-			ResponseMessage message = new ResponseMessage(result ? "회원 탈퇴" : "일시적 오류");
+			boolean result = false;
+			ResponseMessage message = new ResponseMessage("회원 탈퇴");
+			try {
+				result = memberService.delete(id);
+			} catch (SQLException e) {
+				message.setMessage("일시적 오류");
+			}
 			message.setData(result);
 			if (result) message.setUrl(request.getContextPath());
 			session.removeAttribute("validate");
