@@ -3,11 +3,13 @@ package com.dzspring.app.controller;
 import static com.dzspring.app.controller.ResponseMessage.getJSONHeader;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +32,14 @@ public class AdminController {
 		} catch (SQLException e) {
 			message.setMessage("일시적 오류");
 		}
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/memberSearch")
+	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, String> searchCondition) {
+		String method = searchCondition.get("method");
+		ResponseMessage message = new ResponseMessage();
+//		message.setData() // TODO: List<Member>
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 }
