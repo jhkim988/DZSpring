@@ -1,6 +1,5 @@
 package com.dzspring.app.controller;
 
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -8,9 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,29 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.service.MemberService;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import static com.dzspring.app.controller.ResponseMessage.*;
 
 @RestController
 @RequestMapping("/member")
 public class MemberController {
-	
-	@Data
-	@Builder
-	@NoArgsConstructor
-	@AllArgsConstructor
-	private static class ResponseMessage {
-		private String message;
-		private String url;
-		private Object data;
-		
-		public ResponseMessage(String message) {
-			this.message = message;
-		}
-	}
 	
 	@Autowired
 	private MemberService memberService;
@@ -155,11 +134,5 @@ public class MemberController {
 		ResponseMessage message = new ResponseMessage();
 		message.setData(result);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
-	}
-	
-	private HttpHeaders getJSONHeader() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-		return headers;
 	}
 }
