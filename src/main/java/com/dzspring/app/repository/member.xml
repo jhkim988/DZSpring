@@ -1,5 +1,201 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dzspring.app.repository.MemberRepository">
+	<select id="findOneById"
+		resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member where id = #{id}
+	</select>
 	
+	<select id="findOneByPhone"
+		resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member where phone = #{phone}
+	</select>
+	
+	<select id="findOneByEmail"
+		resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member where email = #{email}
+	</select>
+	
+	<insert id="insert">
+		insert into tb_dzspring_member (
+			id
+			, pwd
+			, name
+			, sex
+			, email
+			, phone
+			, address_si
+			, address_gu
+			, address_dong
+			, address_other
+			, birth
+		) values (
+			#{id}
+			, #{pwd}
+			, #{name}
+			, #{sex}
+			, #{email}
+			, #{phone}
+			, #{address_si}
+			, #{address_gu}
+			, #{address_dong}
+			, #{address_other}
+			, #{birth}
+		)
+	</insert>
+	
+	<update id="update">
+		update tb_dzspring_member
+		set
+		pwd=#{pwd}
+		, name=#{name}
+		, sex=#{sex}
+		, phone=#{phone}
+		, email=#{email}
+		, address_si=#{address_si}
+		, address_gu=#{address_gu}
+		, address_dong=#{address_dong}
+		, address_other=#{address_other}
+		, birth=#{birth}
+		, authority=#{authority}
+		where id=#{id}
+	</update>
+	
+	<delete id="delete">
+		delete from tb_dzspring_member where id = #{id}
+	</delete>
+	
+	<delete id="deleteAll">
+		delete from tb_dzspring_member where id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="getTmpPwd" resultType="java.util.HashMap">
+		select * from
+		tb_dzspring_tmppwd where id=#{id}
+	</select>
+	
+	<select id="findAllLimit10" resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member
+		<if test="lastId != null">
+			<![CDATA[
+				where id > #{lastId}
+			]]>
+		</if>
+		order by id asc
+		limit 10
+	</select>
+	
+	<select id="findByEmailLimit10" resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member
+		where 1=1
+		<if test="lastEmail != null">
+			<![CDATA[
+				and (email > #{lastEmail})
+			]]>
+		</if>
+		<if test="value != null">
+			and email like concat('%', #{value}, '%')
+		</if>
+ 		order by email asc
+		limit 10
+	</select>
+	
+	<select id="findByIdLimit10" resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member
+			where 1=1
+			<if test="lastId != null">
+				and id > #{lastId}
+			</if>
+			<if test="value != null">
+				and id like concat('%', #{value}, '%')
+			</if>
+			order by id asc
+			limit 10
+	</select>
+	
+	<select id="findByNameLimit10" resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member
+		where 1=1
+		<if test="lastName != null">
+			<![CDATA[
+				and ((`name` > #{lastName})
+					or (`name` = #{lastName} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="value != null">
+			and `name` like concat('%', #{value}, '%')
+		</if>
+		order by `name` asc, id asc
+		limit 10
+	</select>
+	
+	
+	<select id="findByPhoneLimit10" resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member
+		where 1=1
+		<if test="lastPhone != null">
+			<![CDATA[
+				and phone > #{lastPhone}
+			]]>
+		</if>
+		<if test="value != null">
+			and phone like concat('%', #{value}, '%')
+		</if>
+		order by phone asc
+		limit 10
+	</select>	
+	
+	<select id="findByAuthorityLimit10" resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member
+			where 1=1
+			<if test="lastId != null">
+				<![CDATA[
+					and id > #{lastId}
+				]]>
+			</if>
+			<if test="value != null">
+				authority = #{value}	
+			</if>
+			order by id asc
+			limit 10
+	</select>
+
+
+	<select id="findByCreatedAtLimit10" resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member
+		where 1=1
+		<if test="lastCreatedAt != null">
+			<![CDATA[
+				and (createdAt < #{lastCreatedAt}
+					or (createdAt = #{lastCreatedAt} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="from != null and to != null">
+			and createdAt between #{from} and #{to}
+		</if>
+		order by createdAt desc, id asc
+		limit 10
+	</select>
+
+	<select id="findByUpdatedAtLimit10" resultType="com.dzspring.app.entity.Member">
+		select * from tb_dzspring_member
+		where 1=1
+		<if test="lastUpdatedAt != null">
+			<![CDATA[
+				and (updatedAt < #{lastUpdatedAt}
+					or (updatedAt = #{lastUpdatedAt} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="from != null and to != null">
+			and updatedAt between #{from} and #{to}
+		</if>
+		order by updatedAt desc, id asc
+		limit 10
+	</select>
 </mapper>
