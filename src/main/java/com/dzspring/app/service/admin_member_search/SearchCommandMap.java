@@ -12,7 +12,7 @@ public enum SearchCommandMap {
 	
 	SearchCommandMap(Map<String, Method> map) {
 		try {
-			Class<?> cls = Class.forName("com.dzSpring.app.service.admin_member_search_command.MemberSearchCommand");
+			Class<?> cls = Class.forName("com.dzspring.app.service.admin_member_search.MemberSearchCommand");
 			Arrays.asList(cls.getDeclaredMethods()).forEach(method -> {
 				SearchCommandName commandName = method.getDeclaredAnnotation(SearchCommandName.class);
 				if (commandName == null) return;

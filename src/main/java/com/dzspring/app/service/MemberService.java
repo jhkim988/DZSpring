@@ -2,6 +2,7 @@ package com.dzspring.app.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -19,5 +20,5 @@ public interface MemberService {
 	boolean hasMember(String type, String value);
 	Optional<Member> findId(String method, String value);
 	boolean initPwd(String id);
-	List<Member> list(String method, String value, String last);
+	List<Member> list(Map<String, String> searchInfo);
 }
