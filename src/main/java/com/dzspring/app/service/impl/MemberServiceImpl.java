@@ -1,23 +1,21 @@
 package com.dzspring.app.service.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.repository.MemberRepository;
 import com.dzspring.app.service.MemberService;
 import com.dzspring.app.service.admin_member_search.MemberSearchCommand;
-import com.dzspring.app.service.admin_member_search.SearchCommandMap;
+import com.dzspring.app.service.member_findid.FindIdCommand;
+import com.dzspring.app.service.member_has_member.HasMemberCommand;
 
 @Service("memberServiceImpl")
 public class MemberServiceImpl implements MemberService {
@@ -28,10 +26,16 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberSearchCommand memberSearchCommand;
 
+	@Autowired
+	private FindIdCommand findIdCommand;
+	
+	@Autowired
+	private HasMemberCommand hasMemberCommand;
+	
 	@Override
 	public Optional<Member> login(Member loginInfo) {
 		Member member = memberRepository.findOneById(loginInfo.getId());
-		if (member == null || member.getPwd().equals(loginInfo.getPwd())) {
+		if (member == null || !member.getPwd().equals(loginInfo.getPwd())) {
 			member = null;
 		}
 		return Optional.ofNullable(member);
@@ -59,68 +63,50 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	@Transactional
 	public boolean delete(String id) throws SQLException {
-		int move = memberRepository.insertTmpTable(id);
 		int delete = memberRepository.delete(id);
-		if (1 != move || 1 != delete)
+		if (1 != delete)
 			throw new SQLException();
 		return true;
 	}
 	
 	@Override
-	@Transactional
 	public boolean delete(List<String> ids) throws SQLException {
-		int moves = memberRepository.insertTmpTable(ids);
-		int deletes = memberRepository.delete(ids);
-		if (moves != deletes) throw new SQLException();
+		int deletes = memberRepository.deleteAll(ids);
+		if (deletes <= 0) throw new SQLException();
 		return true;
 	}
 
 	@Override
 	public boolean hasMember(String type, String value) {
-		Member result = null;
-		if ("id".equals(type))
-			memberRepository.findOneById(value);
-		else if ("phone".equals(type))
-			memberRepository.findOneByPhone(value);
-		else if ("email".equals(type))
-			memberRepository.findOneByEmail(value);
-		else
-			throw new UnsupportedOperationException();
-		return result != null;
+		if (!hasMemberCommand.hasType(type)) throw new UnsupportedOperationException();
+		return hasMemberCommand.invoke(type, value) != null;
 	}
 
 	@Override
 	public Optional<Member> findId(String method, String value) {
-		Member result = null;
-		if ("phone".equals(method))
-			result = memberRepository.findOneByPhone(value);
-		else if ("email".equals(method))
-			result = memberRepository.findOneByEmail(value);
-		else
-			throw new UnsupportedOperationException();
-		return Optional.ofNullable(result);
+		if (!findIdCommand.hasMethod(method)) throw new UnsupportedOperationException();
+		return findIdCommand.invoke(method, value);
 	}
 
 	@Override
 	public boolean initPwd(String id) {
 		Member member = memberRepository.findOneById(id);
-		if (member != null)	return false;
+		if (member == null)	return false;
 		
 		Map<String, Object> tmp = memberRepository.getTmpPwd(id);
 		String tmpPwd = (String) tmp.get("tmpPwd");
 		Timestamp createdAt = (Timestamp) tmp.get("createdAt");
-		Timestamp before5min = Timestamp.valueOf(LocalDateTime.now().minusMinutes(10));
-		if (tmpPwd == null || createdAt == null || createdAt.after(before5min))	return false;
-
+		Timestamp before5min = Timestamp.valueOf(LocalDateTime.now().minusMinutes(5));
+		if (tmpPwd == null || createdAt == null || createdAt.before(before5min))	return false;
+		
+		member.setPwd(tmpPwd);
 		return memberRepository.update(member) == 1;
 	}
 	
-	
 	@Override
-	public List<Member> list(String method, String value, String last) {
-		if (memberSearchCommand.hasMethod(method)) throw new UnsupportedOperationException();
-		return memberSearchCommand.invoke(method, value, last);
+	public List<Member> list(Map<String, String> map) {
+		if (!memberSearchCommand.hasMethod(map.get("method"))) throw new UnsupportedOperationException();
+		return memberSearchCommand.invoke(map);
 	}
 }
