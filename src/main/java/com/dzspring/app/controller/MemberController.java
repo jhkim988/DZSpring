@@ -23,14 +23,15 @@ import static com.dzspring.app.controller.ResponseMessage.*;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
-	
+
 	@Autowired
 	private MemberService memberService;
-	
+
 	@RequestMapping(value="/login")
-	public ResponseEntity<ResponseMessage> login(@RequestBody Member loginInfo, final Model model, HttpServletRequest request) {
+	public ResponseEntity<ResponseMessage> login(@RequestBody Member loginInfo, final Model model,
+			HttpServletRequest request) {
 		Optional<Member> member = memberService.login(loginInfo);
-		member.ifPresent(m -> request.getSession().setAttribute("member", m));	
+		member.ifPresent(m -> request.getSession().setAttribute("member", m));
 		ResponseMessage message = new ResponseMessage("로그인 성공!");
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
@@ -56,24 +57,23 @@ public class MemberController {
 
 		ResponseMessage message = new ResponseMessage(result ? "회원 가입 성공!" : "일시적 오류");
 		message.setData(result);
-		if (result)	message.setUrl(request.getContextPath());
+		if (result)
+			message.setUrl(request.getContextPath());
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseMessage> update(@RequestBody Member updateInfo, HttpServletRequest request) {
 		Optional<Member> member = memberService.update(updateInfo);
-		
-		ResponseMessage message = new ResponseMessage();
+
+		ResponseMessage message = new ResponseMessage("일시적 오류!");
 		message.setData(member.isPresent());
-		member.ifPresentOrElse(mem -> {
-				HttpSession session = request.getSession();
-				session.setAttribute("member", mem);
-				message.setUrl(request.getContextPath());
-				message.setMessage("회원 정보 업데이트!");
-			}
-			, () -> message.setMessage("일시적 오류"));
-		
+		member.ifPresent(mem -> {
+			HttpSession session = request.getSession();
+			session.setAttribute("member", mem);
+			message.setUrl(request.getContextPath());
+			message.setMessage("회원 정보 업데이트!");
+		});
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
@@ -83,11 +83,12 @@ public class MemberController {
 		Member member = (Member) session.getAttribute("member");
 		boolean result = memberService.validate(member.getId(), inputPwd);
 		ResponseMessage message = new ResponseMessage();
-		if (result) session.setAttribute("validate", true);
+		if (result)
+			session.setAttribute("validate", true);
 		message.setData(result);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseMessage> delete(@PathVariable String id, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -101,7 +102,8 @@ public class MemberController {
 				message.setMessage("일시적 오류");
 			}
 			message.setData(result);
-			if (result) message.setUrl(request.getContextPath());
+			if (result)
+				message.setUrl(request.getContextPath());
 			session.removeAttribute("validate");
 			return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 		} else {
@@ -110,7 +112,8 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/hasMember/{type}/{value}")
-	public ResponseEntity<ResponseMessage> hasMember(@PathVariable("type") String type, @PathVariable("value") String value) {
+	public ResponseEntity<ResponseMessage> hasMember(@PathVariable("type") String type,
+			@PathVariable("value") String value) {
 		boolean result = memberService.hasMember(type, value);
 		ResponseMessage message = new ResponseMessage(result ? "이미 사용 중입니다." : "");
 		message.setData(result);
@@ -118,13 +121,12 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/findId/{method}/{value}")
-	public ResponseEntity<ResponseMessage> findId(@PathVariable("method") String method, @PathVariable("value") String value) {
+	public ResponseEntity<ResponseMessage> findId(@PathVariable("method") String method,
+			@PathVariable("value") String value) {
 		Optional<Member> result = memberService.findId(method, value);
-		ResponseMessage message = new ResponseMessage();
+		ResponseMessage message = new ResponseMessage("일치하는 정보가 없습니다.");
 		message.setData(result.isPresent());
-		result.ifPresentOrElse(
-				member -> message.setMessage(member.getId())
-				, () -> message.setMessage("일치하는 정보가 없습니다."));
+		result.ifPresent(member -> message.setMessage(member.getId()));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
