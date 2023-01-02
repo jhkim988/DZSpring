@@ -117,15 +117,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberRepository.update(member) == 1;
 	}
 	
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Member> list(String method, String value, String last) {
-		if (SearchCommandMap.MAP.getMap().containsKey(method)) throw new UnsupportedOperationException();
-		try {
-			return (List<Member>) SearchCommandMap.MAP.getMap().get(method).invoke(memberSearchCommand, value);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<>();
+		if (memberSearchCommand.hasMethod(method)) throw new UnsupportedOperationException();
+		return memberSearchCommand.invoke(method, value, last);
 	}
 }
