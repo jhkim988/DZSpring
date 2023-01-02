@@ -12,16 +12,18 @@ public interface MemberRepository {
 	int insert(Member register);
 	int update(Member updateInfo);
 	int delete(String id);
-	int delete(List<String> ids);
+	int deleteAll(List<String> ids);	
+	Map<String, Object> getTmpPwd(String id);
+	List<Member> findAllLimit10(Map<String, String> map);
+	List<Member> findByEmailLimit10(Map<String, String> map);
+	List<Member> findByIdLimit10(Map<String, String> map);
+	List<Member> findByNameLimit10(Map<String, String> map);
+	List<Member> findByPhoneLimit10(Map<String, String> map);
+	List<Member> findByAuthorityLimit10(Map<String, String> map);
+	List<Member> findByCreatedAtLimit10(Map<String, String> map);
+	List<Member> findByUpdatedAtLimit10(Map<String, String> map);
+	
+	// USE TRIGGER
 	int insertTmpTable(String id);
 	int insertTmpTable(List<String> ids);
-	Map<String, Object> getTmpPwd(String id);
-	List<Member> findAllLimit(String value, String last);
-	List<Member> findByCreatedAtLimit10(String value, String last);
-	List<Member> findByEmailLimit10After(String value, String last);
-	List<Member> findByIdLimit10(String value, String last);
-	List<Member> findByNameLimit10(String value, String last);
-	List<Member> findByPhoneLiit10(String value, String last);
-	List<Member> findByUpdatedAtLimit10(String value, String last);
-	List<Member> findByAuthorityAtLimit(String value, String last);
 }

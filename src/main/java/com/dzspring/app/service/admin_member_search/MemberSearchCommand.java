@@ -3,6 +3,7 @@ package com.dzspring.app.service.admin_member_search;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,43 +18,43 @@ public class MemberSearchCommand {
 	private MemberRepository memberRepository;
 	
 	@SearchCommandName("all")
-	public List<Member> allSearch(String value, String last) {
-		return memberRepository.findAllLimit(value, last);
-	}
-	
-	@SearchCommandName("createdAt")
-	public List<Member> createdAtSearch(String value, String last) {
-		return memberRepository.findByCreatedAtLimit10(value, last);
+	public List<Member> allSearch(Map<String, String> map) {
+		return memberRepository.findAllLimit10(map);
 	}
 	
 	@SearchCommandName("email")
-	public List<Member> emailSearch(String value, String last) {
-		return memberRepository.findByEmailLimit10After(value, last);
+	public List<Member> emailSearch(Map<String, String> map) {
+		return memberRepository.findByEmailLimit10(map);
 	}
 	
 	@SearchCommandName("id")
-	public List<Member> idSearch(String value, String last) {
-		return memberRepository.findByIdLimit10(value, last);
+	public List<Member> idSearch(Map<String, String> map) {
+		return memberRepository.findByIdLimit10(map);
 	}
 	
 	@SearchCommandName("name")
-	public List<Member> nameSearch(String value, String last) {
-		return memberRepository.findByNameLimit10(value, last);
+	public List<Member> nameSearch(Map<String, String> map) {
+		return memberRepository.findByNameLimit10(map);
 	}
 	
 	@SearchCommandName("phone")
-	public List<Member> phoneSearch(String value, String last) {
-		return memberRepository.findByPhoneLiit10(value, last);
-	}
-	
-	@SearchCommandName("updatedAt")
-	public List<Member> updatedAt(String value, String last) {
-		return memberRepository.findByUpdatedAtLimit10(value, last);
+	public List<Member> phoneSearch(Map<String, String> map) {
+		return memberRepository.findByPhoneLimit10(map);
 	}
 	
 	@SearchCommandName("authority")
-	public List<Member> authority(String value, String last) {
-		return memberRepository.findByAuthorityAtLimit(value, last);
+	public List<Member> authority(Map<String, String> map) {
+		return memberRepository.findByAuthorityLimit10(map);
+	}
+	
+	@SearchCommandName("createdAt")
+	public List<Member> createdAtSearch(Map<String, String> map) {
+		return memberRepository.findByCreatedAtLimit10(map);
+	}
+	
+	@SearchCommandName("updatedAt")
+	public List<Member> updatedAt(Map<String, String> map) {
+		return memberRepository.findByUpdatedAtLimit10(map);
 	}
 	
 	public boolean hasMethod(String method) {
@@ -61,9 +62,9 @@ public class MemberSearchCommand {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Member> invoke(String method, String value, String last) {
+	public List<Member> invoke(Map<String, String> map) {
 		try {
-			return (List<Member>) SearchCommandMap.MAP.getMap().get(method).invoke(this, value, last);
+			return (List<Member>) SearchCommandMap.MAP.getMap().get(map.get("method")).invoke(this, map);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
