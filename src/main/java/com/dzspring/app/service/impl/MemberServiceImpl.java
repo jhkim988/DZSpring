@@ -1,8 +1,10 @@
 package com.dzspring.app.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,12 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.repository.MemberRepository;
 import com.dzspring.app.service.MemberService;
+import com.dzspring.app.service.admin_member_search.MemberSearchCommand;
+import com.dzspring.app.service.admin_member_search.SearchCommandMap;
 
 @Service("memberServiceImpl")
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberRepository memberRepository;
+	
+	@Autowired
+	private MemberSearchCommand memberSearchCommand;
 
 	@Override
 	public Optional<Member> login(Member loginInfo) {
@@ -108,5 +115,17 @@ public class MemberServiceImpl implements MemberService {
 		if (tmpPwd == null || createdAt == null || createdAt.after(before5min))	return false;
 
 		return memberRepository.update(member) == 1;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Member> list(String method, String value, String last) {
+		if (SearchCommandMap.MAP.getMap().containsKey(method)) throw new UnsupportedOperationException();
+		try {
+			return (List<Member>) SearchCommandMap.MAP.getMap().get(method).invoke(memberSearchCommand, value);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
 	}
 }

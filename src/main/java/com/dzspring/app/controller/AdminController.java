@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,10 +37,32 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/memberSearch")
-	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, String> searchCondition) {
-		String method = searchCondition.get("method");
+	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, String> searchInfo) {
+		String method = searchInfo.get("method");
+		String value = searchInfo.get("value");
+		String last = searchInfo.get("last");
 		ResponseMessage message = new ResponseMessage();
-//		message.setData() // TODO: List<Member>
+		message.setData(memberService.list(method, value, last));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/urlAuth", method=RequestMethod.GET)
+	public ResponseEntity<ResponseMessage> urlAuthlist() {
+		return null;
+	}
+	
+	@RequestMapping(value="/urlAuth", method=RequestMethod.POST)
+	public ResponseEntity<ResponseMessage> insertUrlAuth() {
+		return null;
+	}
+	
+	@RequestMapping(value="/urlAuth/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<ResponseMessage> updateUrlAuth() {
+		return null;
+	}
+	
+	@RequestMapping(value="/urlAuth/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<ResponseMessage> updateUrlDelete() {
+		return null;
 	}
 }

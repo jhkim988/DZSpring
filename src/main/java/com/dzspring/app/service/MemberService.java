@@ -19,4 +19,5 @@ public interface MemberService {
 	boolean hasMember(String type, String value);
 	Optional<Member> findId(String method, String value);
 	boolean initPwd(String id);
+	List<Member> list(String method, String value, String last);
 }

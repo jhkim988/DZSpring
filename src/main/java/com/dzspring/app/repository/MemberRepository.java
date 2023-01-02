@@ -16,4 +16,12 @@ public interface MemberRepository {
 	int insertTmpTable(String id);
 	int insertTmpTable(List<String> ids);
 	Map<String, Object> getTmpPwd(String id);
+	List<Member> findAllLimit(String value, String last);
+	List<Member> findByCreatedAtLimit10(String value, String last);
+	List<Member> findByEmailLimit10After(String value, String last);
+	List<Member> findByIdLimit10(String value, String last);
+	List<Member> findByNameLimit10(String value, String last);
+	List<Member> findByPhoneLiit10(String value, String last);
+	List<Member> findByUpdatedAtLimit10(String value, String last);
+	List<Member> findByAuthorityAtLimit(String value, String last);
 }
