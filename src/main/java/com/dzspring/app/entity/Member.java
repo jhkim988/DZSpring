@@ -1,9 +1,9 @@
 package com.dzspring.app.entity;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +16,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Member {
 	private String id;
-	@JsonIgnore
 	private String pwd;
 	private String name;
+	private String sex;
 	private String email;
 	private String phone;
+	private String address_si;
+	private String address_gu;
+	private String address_dong;
+	private String address_other;
+	private Date birth;
 	@JsonFormat(pattern="yyyy년 MM월 dd일")
 	private Timestamp createdAt;
 	@JsonFormat(pattern="yyyy년 MM월 dd일")
