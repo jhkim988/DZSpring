@@ -22,6 +22,8 @@ public interface MemberRepository {
 	List<Member> findByAuthorityLimit10(Map<String, String> map);
 	List<Member> findByCreatedAtLimit10(Map<String, String> map);
 	List<Member> findByUpdatedAtLimit10(Map<String, String> map);
+	int insertTmpPwdTable(Map<String, String> map);
+	int deleteTmpPwdTable(String id);
 	
 	// USE TRIGGER
 	int insertTmpTable(String id);
