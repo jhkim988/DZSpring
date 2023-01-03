@@ -28,4 +28,8 @@ public class ResponseMessage {
 		headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 		return headers;
 	}
+	
+	public static String getContexPath() {
+		return "/DZSpring/";
+	}
 }
