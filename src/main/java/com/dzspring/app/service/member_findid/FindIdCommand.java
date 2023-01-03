@@ -16,13 +16,17 @@ public class FindIdCommand {
 	private MemberRepository memberRepository;
 	
 	@FindIdMethod("phone")
-	public Optional<Member> findIdByPhone(String value) {
-		return Optional.ofNullable(memberRepository.findOneByPhone(value));
+	public Optional<Member> findIdByPhone(String name, String value) {
+		Member member = memberRepository.findOneByPhone(value);
+		if (member == null || !member.getName().equals(name)) member = null;
+		return Optional.ofNullable(member);
 	}
 	
 	@FindIdMethod("email")
-	public Optional<Member> findIdByEmail(String value) {
-		return Optional.ofNullable(memberRepository.findOneByEmail(value));
+	public Optional<Member> findIdByEmail(String name, String value) {
+		Member member = memberRepository.findOneByEmail(value);
+		if (member == null || !member.getName().equals(name)) member = null;
+		return Optional.ofNullable(member);
 	}
 	
 	public boolean hasMethod(String method) {
@@ -30,9 +34,9 @@ public class FindIdCommand {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Optional<Member> invoke(String method, String value) {
+	public Optional<Member> invoke(String method, String name, String value) {
 		try {
-			return (Optional<Member>) FindIdCommandMap.MAP.getMap().get(method).invoke(this, value);
+			return (Optional<Member>) FindIdCommandMap.MAP.getMap().get(method).invoke(this, name, value);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
