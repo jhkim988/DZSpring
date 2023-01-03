@@ -1,5 +1,8 @@
 package com.dzspring.app.service;
 
-public interface EmailService {
+import org.springframework.stereotype.Service;
 
+@Service("emailService")
+public interface EmailService {
+	void sendInitPwd(String to, String initPwd);
 }

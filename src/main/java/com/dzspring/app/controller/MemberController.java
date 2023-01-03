@@ -3,7 +3,9 @@ package com.dzspring.app.controller;
 import static com.dzspring.app.controller.ResponseMessage.getJSONHeader;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dzspring.app.entity.Member;
+import com.dzspring.app.service.EmailService;
 import com.dzspring.app.service.MemberService;
 
 @RestController
@@ -33,14 +35,21 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
+	@Autowired
+	private EmailService emailService;
+	
 	@RequestMapping(value = "/login")
-	public ResponseEntity<ResponseMessage> login(@RequestBody Member loginInfo, final Model model,
-			HttpServletRequest request) {
+	public ResponseEntity<ResponseMessage> login(@RequestBody Member loginInfo, HttpServletRequest request) {
 		Optional<Member> member = memberService.login(loginInfo);
 		ResponseMessage message = new ResponseMessage("로그인 실패!");
+		Optional<String> prevPageOpt = Arrays.asList(request.getCookies()).stream()
+											.filter(x -> "prevPage".equals(x.getName()))
+											.map(x -> x.getValue()).findAny();
+		String movePage = prevPageOpt.orElse(ResponseMessage.getContexPath());
 		member.ifPresent(m -> {
 			request.getSession().setAttribute("member", m);
 			message.setMessage("로그인 성공!");
+			message.setUrl(movePage);
 		});
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
@@ -142,19 +151,47 @@ public class MemberController {
 	@RequestMapping(value = "/findId")
 	public ResponseEntity<ResponseMessage> findId(@RequestBody HashMap<String, String> queryInfo) {
 		String method = queryInfo.get("method");
+		String name = queryInfo.get("name");
 		String value = queryInfo.get("value");
-		Optional<Member> result = memberService.findId(method, value);
-		ResponseMessage message = new ResponseMessage("일치하는 정보가 없습니다.");
-		message.setData(result.isPresent());
-		result.ifPresent(member -> message.setMessage(member.getId()));
+		Optional<Member> result = memberService.findMemberBy(method, name, value);
+		ResponseMessage message = new ResponseMessage();
+		Map<String, Object> data = new HashMap<>();
+		data.put("result", result.isPresent());
+		result.ifPresent(member -> data.put("id", member.getId()));
+		message.setData(data);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/initPwd/{id}")
-	public ResponseEntity<ResponseMessage> initPwd(@PathVariable("id") String id, HttpServletRequest request) {
-		boolean result = memberService.initPwd(id);
+	
+	@RequestMapping(value = "/tryInitPwd")
+	public ResponseEntity<ResponseMessage> tryInitPwd(@RequestBody HashMap<String, String> queryInfo) {
+		String type = queryInfo.get("type");
+		String name = queryInfo.get("name");
+		String value = queryInfo.get("value");
+		ResponseMessage message = new ResponseMessage("일치하는 정보가 없습니다.");
+		message.setData(false);
+		Optional<Member> member = memberService.findMemberBy(type, name, value);
+		member.ifPresent(mem -> {
+			String auth = memberService.generateInitPwd(mem);
+			emailService.sendInitPwd(mem.getEmail(), auth);
+			message.setMessage("등록된 이메일 주소로 이메일을 발송하였습니다.");
+			message.setData(true);
+		});
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/initPwdAuth")
+	public ResponseEntity<ResponseMessage> initPwdAuth(@RequestBody HashMap<String, String> map) {
+		String id = map.get("id");
+		String auth = map.get("auth");
+		Optional<String> initPwd = memberService.initPwdAuth(id, auth);
+		Map<String, Object> data = new HashMap<>();
+		initPwd.ifPresent(pwd -> {
+			data.put("result", true);
+			data.put("initPwd", pwd);
+			memberService.deleteTmpPwd(id);
+		});
 		ResponseMessage message = new ResponseMessage();
-		message.setData(result);
+		message.setData(data);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 }

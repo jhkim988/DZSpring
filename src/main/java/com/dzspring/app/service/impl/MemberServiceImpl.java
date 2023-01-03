@@ -3,9 +3,11 @@ package com.dzspring.app.service.impl;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,24 +86,28 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Optional<Member> findId(String method, String value) {
+	public Optional<Member> findMemberBy(String method, String name, String value) {
 		if (!findIdCommand.hasMethod(method)) throw new UnsupportedOperationException();
-		return findIdCommand.invoke(method, value);
+		return findIdCommand.invoke(method, name, value);
 	}
-
+	
 	@Override
-	public boolean initPwd(String id) {
+	public Optional<String> initPwdAuth(String id, String auth) {
+		String tmpPwd = null;
 		Member member = memberRepository.findOneById(id);
-		if (member == null)	return false;
+		if (member == null) return Optional.ofNullable(tmpPwd);
 		
 		Map<String, Object> tmp = memberRepository.getTmpPwd(id);
-		String tmpPwd = (String) tmp.get("tmpPwd");
+		tmpPwd = (String) tmp.get("tmpPwd");
+		String authenticate = (String) tmp.get("authenticate");
 		Timestamp createdAt = (Timestamp) tmp.get("createdAt");
 		Timestamp before5min = Timestamp.valueOf(LocalDateTime.now().minusMinutes(5));
-		if (tmpPwd == null || createdAt == null || createdAt.before(before5min))	return false;
-		
+		if (tmpPwd == null || createdAt == null || authenticate == null || !authenticate.equals(auth) || createdAt.before(before5min)) {
+			return Optional.ofNullable(null);
+		}
 		member.setPwd(tmpPwd);
-		return memberRepository.update(member) == 1;
+		memberRepository.update(member);
+		return Optional.ofNullable(tmpPwd);
 	}
 	
 	@Override
@@ -109,4 +115,24 @@ public class MemberServiceImpl implements MemberService {
 		if (!memberSearchCommand.hasMethod(map.get("method"))) throw new UnsupportedOperationException();
 		return memberSearchCommand.invoke(map);
 	}
+
+	@Override
+	public String generateInitPwd(Member member) {
+		ThreadLocalRandom rand = ThreadLocalRandom.current();
+		String initPwd = Integer.toHexString(rand.nextInt());
+		String auth = Integer.toHexString(rand.nextInt());
+		Map<String, String> initPwdInfo = new HashMap<>();
+		initPwdInfo.put("id", member.getId());
+		initPwdInfo.put("tmpPwd", initPwd);
+		initPwdInfo.put("authenticate", auth);
+		memberRepository.insertTmpPwdTable(initPwdInfo);
+		return auth;
+	}
+
+	@Override
+	public int deleteTmpPwd(String id) {
+		return memberRepository.deleteTmpPwdTable(id);
+	}
+
+
 }
