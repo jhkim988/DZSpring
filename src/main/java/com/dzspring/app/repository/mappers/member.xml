@@ -44,6 +44,10 @@
 		)
 	</insert>
 	
+	<insert id="insertTmpPwdTable">
+		insert into tb_dzspring_tmppwd (id, tmpPwd, authenticate) values (#{id}, #{tmpPwd}, #{authenticate})
+	</insert>
+	
 	<update id="update">
 		update tb_dzspring_member
 		set
@@ -70,6 +74,12 @@
 		<foreach collection="list" item="id" open="(" separator="," close=")">
 			#{id}
 		</foreach>
+	</delete>
+	
+	<delete id="deleteTmpPwdTable">
+		<![CDATA[
+			delete from tb_dzspring_tmppwd where id = #{id} or createdAt < TimestampADD(minute, 5, now())
+		]]>
 	</delete>
 	
 	<select id="getTmpPwd" resultType="java.util.HashMap">

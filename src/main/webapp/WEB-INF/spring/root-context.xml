@@ -3,8 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!-- DataSource 설정 -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
@@ -15,16 +13,15 @@
 		<property name="password" value="passwd" />
 	</bean>
 
-	<!-- SessionFactory에 dataSourde, Bean 객체의 별명 설정, xml 파일의 위치 설정 -->
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage"
-			value="com.dzspring.app.entity" />
+		<property name="typeAliasesPackage" value="com.dzspring.app.entity" />
+<!-- 		<property name="configLocation" value="classpath:com/dzspring/app/repository/config.xml" /> -->
 		<property name="mapperLocations"
-			value="classpath:com/dzspring/app/repository/**/*.xml" />
+			value="classpath:com/dzspring/app/repository/mappers/*.xml" />
 	</bean>
-	<!-- SqlSesionTemplate 클래스 설정 -->
+
 	<bean id="sqlSession"
 		class="org.mybatis.spring.SqlSessionTemplate"
 		destroy-method="clearCache">
