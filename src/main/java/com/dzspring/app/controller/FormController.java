@@ -1,7 +1,5 @@
 package com.dzspring.app.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,8 +26,14 @@ public class FormController {
 	public String registerForm() {
 		return "/form/registerForm";
 	}
+	
 	@RequestMapping("/deleteMemberForm")
-	public String deleteMember(HttpServletRequest request) {
+	public String deleteMember() {
 		return "/form/deleteMemberForm";
+	}
+	
+	@RequestMapping("/updateMemberForm")
+	public String updateMember() {
+		return "/form/updateMemberForm";
 	}
 }
