@@ -111,9 +111,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public List<Member> list(Map<String, String> map) {
-		if (!memberSearchCommand.hasMethod(map.get("method"))) throw new UnsupportedOperationException();
-		return memberSearchCommand.invoke(map);
+	public List<Member> list(Map<String, Object> map) {
+		String method = (String) map.get("method");
+		@SuppressWarnings("unchecked")
+		Map<String, Object> value = (Map<String, Object>) map.get("value");
+		if (!memberSearchCommand.hasMethod(method)) throw new UnsupportedOperationException();
+		return memberSearchCommand.invoke(method, value);
 	}
 
 	@Override

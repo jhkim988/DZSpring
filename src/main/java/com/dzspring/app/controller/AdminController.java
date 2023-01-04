@@ -39,7 +39,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/memberSearch")
-	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, String> searchInfo) {
+	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, Object> searchInfo) {
 		ResponseMessage message = new ResponseMessage();
 		message.setData(memberService.list(searchInfo));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);

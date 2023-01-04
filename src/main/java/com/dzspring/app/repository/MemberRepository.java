@@ -14,14 +14,14 @@ public interface MemberRepository {
 	int delete(String id);
 	int deleteAll(List<String> ids);	
 	Map<String, Object> getTmpPwd(String id);
-	List<Member> findAllLimit10(Map<String, String> map);
-	List<Member> findByEmailLimit10(Map<String, String> map);
-	List<Member> findByIdLimit10(Map<String, String> map);
-	List<Member> findByNameLimit10(Map<String, String> map);
-	List<Member> findByPhoneLimit10(Map<String, String> map);
-	List<Member> findByAuthorityLimit10(Map<String, String> map);
-	List<Member> findByCreatedAtLimit10(Map<String, String> map);
-	List<Member> findByUpdatedAtLimit10(Map<String, String> map);
+	List<Member> findAllLimit10(Map<String, Object> map);
+	List<Member> findByEmailLimit10(Map<String, Object> map);
+	List<Member> findByIdLimit10(Map<String, Object> map);
+	List<Member> findByNameLimit10(Map<String, Object> map);
+	List<Member> findByPhoneLimit10(Map<String, Object> map);
+	List<Member> findByAuthorityLimit10(Map<String, Object> map);
+	List<Member> findByCreatedAtLimit10(Map<String, Object> map);
+	List<Member> findByUpdatedAtLimit10(Map<String, Object> map);
 	int insertTmpPwdTable(Map<String, String> map);
 	int deleteTmpPwdTable(String id);
 	

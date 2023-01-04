@@ -20,7 +20,7 @@ public interface MemberService {
 	boolean hasMember(String type, String value);
 	Optional<Member> findMemberBy(String method, String name, String value);
 	Optional<String> initPwdAuth(String id, String auth);
-	List<Member> list(Map<String, String> searchInfo);
+	List<Member> list(Map<String, Object> searchInfo);
 	String generateInitPwd(Member member);
 	int deleteTmpPwd(String id);
 }
