@@ -42,6 +42,6 @@
 	</table>
 	<footer>
 		<button id="updateButton">수정</button>
-		<a href=<c:url value="/member/viewMember"/>>뒤로 가기</a>
+		<a href=<c:url value="/view/member"/>>뒤로 가기</a>
 	</footer>
 </body>
