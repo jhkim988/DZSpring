@@ -168,7 +168,7 @@
 				]]>
 			</if>
 			<if test="value != null">
-				authority = #{value}	
+				and authority = #{value}	
 			</if>
 			order by id asc
 			limit 10
