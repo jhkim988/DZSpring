@@ -15,8 +15,14 @@ import com.dzspring.app.service.EmailService;
 @Service("emailServiceImpl")
 public class EmailServiceImpl implements EmailService {
 
+	
+	private final JavaMailSender mailSender;
+	
 	@Autowired
-	private JavaMailSender mailSender;
+	public EmailServiceImpl(JavaMailSender mailSender) {
+		this.mailSender = mailSender;
+	}
+	
 	
 	@Override
 	public void sendInitPwd(String to, String auth) {

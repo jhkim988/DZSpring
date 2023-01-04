@@ -32,11 +32,14 @@ public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
+	private final MemberService memberService;
+	private final EmailService emailService;
+	
 	@Autowired
-	private MemberService memberService;
-
-	@Autowired
-	private EmailService emailService;
+	public MemberController(MemberService memberService, EmailService emailService) {
+		this.memberService = memberService;
+		this.emailService = emailService;
+	}
 	
 	@RequestMapping(value = "/login")
 	public ResponseEntity<ResponseMessage> login(@RequestBody Member loginInfo, HttpServletRequest request) {

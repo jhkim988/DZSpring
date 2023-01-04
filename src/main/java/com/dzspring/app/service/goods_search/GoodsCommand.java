@@ -15,8 +15,12 @@ import com.dzspring.app.service.Command;
 @Component
 public class GoodsCommand {
 	
+	private final GoodsRepository repository;
+	
 	@Autowired
-	private GoodsRepository repository;
+	public GoodsCommand(GoodsRepository repository) {
+		this.repository = repository;
+	}
 	
 	@Command("all")
 	public List<Goods> allSearch(Map<String, Object> map) {

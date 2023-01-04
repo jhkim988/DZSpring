@@ -22,17 +22,18 @@ import com.dzspring.app.service.member_has_member.HasMemberCommand;
 @Service("memberServiceImpl")
 public class MemberServiceImpl implements MemberService {
 
-	@Autowired
-	private MemberRepository memberRepository;
+	private final MemberRepository memberRepository;
+	private final MemberSearchCommand memberSearchCommand;
+	private final FindIdCommand findIdCommand;
+	private final HasMemberCommand hasMemberCommand;
 	
 	@Autowired
-	private MemberSearchCommand memberSearchCommand;
-
-	@Autowired
-	private FindIdCommand findIdCommand;
-	
-	@Autowired
-	private HasMemberCommand hasMemberCommand;
+	public MemberServiceImpl(MemberRepository memberRepository, MemberSearchCommand memberSearchCommand, FindIdCommand findIdCommand, HasMemberCommand hasMemberCommand) {
+		this.memberRepository = memberRepository;
+		this.memberSearchCommand = memberSearchCommand;
+		this.findIdCommand = findIdCommand;
+		this.hasMemberCommand = hasMemberCommand;
+	}
 	
 	@Override
 	public Optional<Member> login(Member loginInfo) {

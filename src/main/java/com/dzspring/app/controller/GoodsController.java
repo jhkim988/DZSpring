@@ -20,8 +20,12 @@ import com.dzspring.app.service.GoodsService;
 @RequestMapping("/goods")
 public class GoodsController {
 
-	@Autowired
-	private GoodsService goodsService;
+	private final GoodsService goodsService;
+	
+	@Autowired	
+	public GoodsController(GoodsService goodsService) {
+		this.goodsService = goodsService;
+	}
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<ResponseMessage> insert(@RequestBody Goods goods) {

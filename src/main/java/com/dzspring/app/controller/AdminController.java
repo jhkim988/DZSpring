@@ -21,8 +21,12 @@ import com.dzspring.app.service.MemberService;
 @RequestMapping("/admin")
 public class AdminController {
 	
+	private final MemberService memberService;
+	
 	@Autowired
-	private MemberService memberService;
+	public AdminController(MemberService memberService) {
+		this.memberService = memberService;
+	}
 	
 	@RequestMapping("/deleteMembers")
 	public ResponseEntity<ResponseMessage> deleteMembers(@RequestBody(required=true) HashMap<String, Object> queryInfo) {

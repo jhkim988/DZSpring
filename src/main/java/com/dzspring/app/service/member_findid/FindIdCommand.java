@@ -13,8 +13,12 @@ import com.dzspring.app.service.Command;
 @Component
 public class FindIdCommand {
 	
+	private final MemberRepository memberRepository;
+	
 	@Autowired
-	private MemberRepository memberRepository;
+	public FindIdCommand(MemberRepository memberRepository) {
+		this.memberRepository = memberRepository;
+	}
 	
 	@Command("phone")
 	public Optional<Member> findIdByPhone(String name, String value) {

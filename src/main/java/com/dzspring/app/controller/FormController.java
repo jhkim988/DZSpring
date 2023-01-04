@@ -16,8 +16,12 @@ import com.dzspring.app.service.MemberService;
 @RequestMapping("/form")
 public class FormController {
 
+	private final MemberService memberService;
+	
 	@Autowired
-	private MemberService memberService;
+	public FormController(MemberService memberService) {
+		this.memberService = memberService;
+	}
 	
 	@RequestMapping("/loginForm")
 	public String loginForm() {

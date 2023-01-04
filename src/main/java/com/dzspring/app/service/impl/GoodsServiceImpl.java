@@ -14,11 +14,14 @@ import com.dzspring.app.service.goods_search.GoodsCommand;
 @Service("goodsServiceImpl")
 public class GoodsServiceImpl implements GoodsService {
 
+	private final GoodsRepository goodsRepository;
+	private final GoodsCommand goodsCommand;
+
 	@Autowired
-	private GoodsRepository goodsRepository;
-	
-	@Autowired
-	private GoodsCommand goodsCommand;
+	public GoodsServiceImpl(GoodsRepository goodsRepository, GoodsCommand goodsCommand) {
+		this.goodsRepository = goodsRepository;
+		this.goodsCommand = goodsCommand;
+	}
 	
 	@Override
 	public boolean insert(Goods goods) {

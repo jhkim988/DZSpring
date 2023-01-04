@@ -15,8 +15,12 @@ import com.dzspring.app.service.Command;
 @Component
 public class MemberSearchCommand {
 	
+	private final MemberRepository memberRepository;
+	
 	@Autowired
-	private MemberRepository memberRepository;
+	public MemberSearchCommand(MemberRepository memberRepository) {
+		this.memberRepository = memberRepository;
+	}
 	
 	@Command("all")
 	public List<Member> allSearch(Map<String, Object> map) {

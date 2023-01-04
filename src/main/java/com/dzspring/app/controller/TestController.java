@@ -16,8 +16,13 @@ import static com.dzspring.app.controller.ResponseMessage.*;
 @RequestMapping("/test")
 public class TestController {
 	
+	
+	private final MemberService memberService;
+	
 	@Autowired
-	private MemberService memberService;
+	public TestController(MemberService memberService) {
+		this.memberService = memberService;
+	}
 	
 	@RequestMapping("/generateMember")
 	public ResponseEntity<ResponseMessage> generateMember() {
