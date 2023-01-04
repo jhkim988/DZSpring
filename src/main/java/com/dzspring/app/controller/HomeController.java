@@ -16,8 +16,18 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/home/admin", method = RequestMethod.GET)
-	public String admin() {
-		return "admin";
+	@RequestMapping(value = "/admin/member")
+	public String adminMember() {
+		return "/admin/member";
+	}
+	
+	@RequestMapping(value = "/admin/page")
+	public String adminPage() {
+		return "/admin/page";
+	}
+	
+	@RequestMapping(value = "/admin/goods")
+	public String adminGoods() {
+		return "/admin/goods";
 	}
 }
