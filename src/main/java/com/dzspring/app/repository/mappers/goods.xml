@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Post">
+	<insert id="inser">
+		insert into tb_dzspring_goods (
+				id
+				, category
+				, title
+				, author
+				, content
+				, publisher
+				, price
+				, publishedDate
+				, totalPage
+				, goodsStatus
+				, intro
+				, authorIntro
+				, publisherComment
+				, recommendation
+				, createdAt
+			) values (
+				#{id}
+				, #{category}
+				, #{title}
+				, #{author}
+				, #{content}
+				, #{publisher}
+				, #{price}
+				, #{publishedDate}
+				, #{totalPage}
+				, #{goodsStatus}
+				, #{intro}
+				, #{authorIntro}
+				, #{publisherComment}
+				, #{recommendation}
+				, #{createdAt}			
+			)
+	</insert>
+	<update id="update">
+		update tb_dzspring_goods set
+			category = #{category}
+			, title = #{title}
+			, author = #{title}
+			, content = #{content}
+			, publisher = #{publisher}
+			, price = #{price}
+			, publishedDate = #{publishedDate}
+			, totalPage = #{totalPage}
+			, goodsStatus = #{goodsStatus}
+			, intro = #{intro}
+			, authorIntro = #{authorIntro}
+			, publisherComment = #{publisherComment}
+			, recommendation = #{recommendation}			
+		where id = #{id}
+	</update>
+	<delete id="delete">
+		delete from tb_dzspring_goods where id = #{id}
+	</delete>
+</mapper>
