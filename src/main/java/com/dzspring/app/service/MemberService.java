@@ -11,6 +11,7 @@ import com.dzspring.app.entity.Member;
 
 @Service("memerService")
 public interface MemberService {
+	Optional<Member> findOneById(String id);
 	Optional<Member> login(Member loginInfo);
 	boolean register(Member registerInfo);
 	Optional<Member> update(Member updateInfo);

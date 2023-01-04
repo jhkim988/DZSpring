@@ -137,5 +137,8 @@ public class MemberServiceImpl implements MemberService {
 		return memberRepository.deleteTmpPwdTable(id);
 	}
 
-
+	@Override
+	public Optional<Member> findOneById(String id) {
+		return Optional.ofNullable(memberRepository.findOneById(id));
+	}
 }
