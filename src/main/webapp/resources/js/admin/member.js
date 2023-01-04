@@ -107,7 +107,7 @@ const main = () => {
 			, createdAt: { lastId: last.lastId, lastCreatedAt: last.lastCreatedAt, from: firstQuery.value, to: secondQuery.value }
 			, updatedAt: { lastId: last.lastId, lastUpdatedAt: last.lastUpdatedAt, from: firstQuery.value, to: secondQuery.value }
 		};
-		const response = await fetch(`${context.value}/admin/memberSearch`, {
+		const response = await fetch(`${context.value}admin/memberSearch`, {
 			method: `POST`
 			, headers: {
 				'Content-Type': `application/json;charset=utf-8`
@@ -165,7 +165,7 @@ const main = () => {
 		copy.querySelector('.createdAt').textContent = member.createdAt;
 		copy.querySelector('.updatedAt').textContent = member.updatedAt;
 		copy.querySelector('.authority').textContent = member.authority;
-		copy.querySelector('.updateFormButton > a').href = `${context.value}/admin/updateMemberForm?id=${member.id}`;
+		copy.querySelector('.updateFormButton > a').href = `${context.value}form/adminUpdateMemberForm/${member.id}`;
 		const deleteATag = copy.querySelector('.deleteButton > a');
 		deleteATag.dataset.id = member.id;
 		deleteATag.addEventListener("click", deleteMember);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dzspring.app.entity.Member;
 import com.dzspring.app.service.MemberService;
 
 @RestController
@@ -45,6 +46,14 @@ public class AdminController {
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 	
+	// TODO: 구현 필요
+	@RequestMapping("/updateMember")
+	public ResponseEntity<ResponseMessage> updateMember(@RequestBody Member member) {
+		ResponseMessage message = new ResponseMessage();
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
+	// TODO: 구현 필요
 	@RequestMapping(value="/urlAuth", method=RequestMethod.GET)
 	public ResponseEntity<ResponseMessage> urlAuthlist() {
 		return null;
