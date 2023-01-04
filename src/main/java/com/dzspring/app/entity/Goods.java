@@ -19,9 +19,9 @@ public class Goods {
 	private String content;
 	private String publisher;
 	private long price;
-	private Date publishedDate;
+	private Date publishedAt;
 	private long totalPage;
-	private String goodsStatus;
+	private String statusCode;
 	private String intro;
 	private String authorIntro;
 	private String publisherComment;
