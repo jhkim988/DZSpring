@@ -42,6 +42,7 @@ public class MemberController {
 	public ResponseEntity<ResponseMessage> login(@RequestBody Member loginInfo, HttpServletRequest request) {
 		Optional<Member> member = memberService.login(loginInfo);
 		ResponseMessage message = new ResponseMessage("로그인 실패!");
+		message.setData(false);
 		Optional<String> prevPageOpt = Arrays.asList(request.getCookies()).stream()
 											.filter(x -> "prevPage".equals(x.getName()))
 											.map(x -> x.getValue()).findAny();
@@ -50,6 +51,7 @@ public class MemberController {
 			request.getSession().setAttribute("member", m);
 			message.setMessage("로그인 성공!");
 			message.setUrl(movePage);
+			message.setData(true);
 		});
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
