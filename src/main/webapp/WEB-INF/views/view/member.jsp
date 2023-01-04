@@ -34,7 +34,7 @@
 	</table>
 	<footer>
 		<a href=<c:url value="/form/updateMemberForm"/>>회원 정보 수정</a>
-		<a href=<c:url value="/member/deleteMemberForm"/>>회원 탈퇴</a>
+		<a href=<c:url value="/form/deleteMemberForm"/>>회원 탈퇴</a>
 		<a href=<c:url value="/"/>>뒤로 가기</a>
 	</footer>
 </body>
