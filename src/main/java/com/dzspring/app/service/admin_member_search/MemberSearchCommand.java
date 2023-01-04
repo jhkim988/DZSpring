@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.repository.MemberRepository;
+import com.dzspring.app.service.Command;
 
 @Component
 public class MemberSearchCommand {
@@ -17,37 +18,37 @@ public class MemberSearchCommand {
 	@Autowired
 	private MemberRepository memberRepository;
 	
-	@SearchCommandName("all")
+	@Command("all")
 	public List<Member> allSearch(Map<String, Object> map) {
 		return memberRepository.findAllLimit10(map);
 	}
 	
-	@SearchCommandName("email")
+	@Command("email")
 	public List<Member> emailSearch(Map<String, Object> map) {
 		return memberRepository.findByEmailLimit10(map);
 	}
 	
-	@SearchCommandName("id")
+	@Command("id")
 	public List<Member> idSearch(Map<String, Object> map) {
 		return memberRepository.findByIdLimit10(map);
 	}
 	
-	@SearchCommandName("name")
+	@Command("name")
 	public List<Member> nameSearch(Map<String, Object> map) {
 		return memberRepository.findByNameLimit10(map);
 	}
 	
-	@SearchCommandName("phone")
+	@Command("phone")
 	public List<Member> phoneSearch(Map<String, Object> map) {
 		return memberRepository.findByPhoneLimit10(map);
 	}
 	
-	@SearchCommandName("authority")
+	@Command("authority")
 	public List<Member> authority(Map<String, Object> map) {
 		return memberRepository.findByAuthorityLimit10(map);
 	}
 	
-	@SearchCommandName("createdAt")
+	@Command("createdAt")
 	public List<Member> createdAtSearch(Map<String, Object> map) {
 		String lastId = (String) map.get("lastId");
 		if (lastId != null) {
@@ -57,7 +58,7 @@ public class MemberSearchCommand {
 		return memberRepository.findByCreatedAtLimit10(map);
 	}
 	
-	@SearchCommandName("updatedAt")
+	@Command("updatedAt")
 	public List<Member> updatedAt(Map<String, Object> map) {
 		String lastId = (String) map.get("lastId");
 		if (lastId != null) {

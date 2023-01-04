@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.repository.MemberRepository;
+import com.dzspring.app.service.Command;
 
 @Component
 public class FindIdCommand {
@@ -15,14 +16,14 @@ public class FindIdCommand {
 	@Autowired
 	private MemberRepository memberRepository;
 	
-	@FindIdMethod("phone")
+	@Command("phone")
 	public Optional<Member> findIdByPhone(String name, String value) {
 		Member member = memberRepository.findOneByPhone(value);
 		if (member == null || !member.getName().equals(name)) member = null;
 		return Optional.ofNullable(member);
 	}
 	
-	@FindIdMethod("email")
+	@Command("email")
 	public Optional<Member> findIdByEmail(String name, String value) {
 		Member member = memberRepository.findOneByEmail(value);
 		if (member == null || !member.getName().equals(name)) member = null;

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.dzspring.app.service.Command;
+
 public enum SearchCommandMap {
 	MAP(new ConcurrentHashMap<>());
 	
@@ -14,9 +16,9 @@ public enum SearchCommandMap {
 		try {
 			Class<?> cls = Class.forName("com.dzspring.app.service.admin_member_search.MemberSearchCommand");
 			Arrays.asList(cls.getDeclaredMethods()).forEach(method -> {
-				SearchCommandName commandName = method.getDeclaredAnnotation(SearchCommandName.class);
-				if (commandName == null) return;
-				map.put(commandName.value(), method);
+				Command command = method.getDeclaredAnnotation(Command.class);
+				if (command == null) return;
+				map.put(command.value(), method);
 			});
 		} catch (Exception e) {
 			e.printStackTrace();

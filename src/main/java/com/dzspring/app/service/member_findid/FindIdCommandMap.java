@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.dzspring.app.service.Command;
+
 public enum FindIdCommandMap {
 	MAP(new ConcurrentHashMap<>());
 	
@@ -14,9 +16,9 @@ public enum FindIdCommandMap {
 		try {
 			Class<?> cls = Class.forName("com.dzspring.app.service.member_findid.FindIdCommand");
 			Arrays.asList(cls.getDeclaredMethods()).forEach(method -> {
-				FindIdMethod anno = method.getDeclaredAnnotation(FindIdMethod.class);
-				if (anno == null) return;
-				map.put(anno.value(), method);
+				Command command = method.getDeclaredAnnotation(Command.class);
+				if (command == null) return;
+				map.put(command.value(), method);
 			});
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

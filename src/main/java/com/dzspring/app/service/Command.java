@@ -1,4 +1,4 @@
-package com.dzspring.app.service.member_findid;
+package com.dzspring.app.service;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FindIdMethod {
+public @interface Command {
 	String value();
 }
