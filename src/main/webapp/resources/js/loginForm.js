@@ -13,10 +13,10 @@ const main = () => {
 				'Content-Type': 'application/json;charset=utf-8'
 			}
 			, body: JSON.stringify(getValue())
-		});	
+		});
 		const json = await response.json();
 		alert(json.message);
-		if (response.status == 200) {
+		if (json.data) {
 			location.href = json.url;
 		}
 	})
