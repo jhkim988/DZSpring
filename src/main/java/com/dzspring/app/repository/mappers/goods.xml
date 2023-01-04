@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Post">
+<mapper namespace="com.dzspring.app.repository.GoodsRepository">
 	<insert id="inser">
 		insert into tb_dzspring_goods (
 				id
@@ -56,4 +56,177 @@
 	<delete id="delete">
 		delete from tb_dzspring_goods where id = #{id}
 	</delete>
+	<select id="findAllLimit10" resultType="Goods">
+		select * from tb_dzspring_goods
+		<if test="lastId != null">
+			<![CDATA[
+				where id > #{lastId}
+			]]>
+		</if>
+		order by id asc
+		limit 10
+	</select>
+		<select id="findByCategoryLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastCategory != null">
+			<![CDATA[
+				and ((category > #{lastCategory})
+					or (category = #{lastCategory} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="value != null">
+			and category like concat('%', #{value}, '%')
+		</if>
+		order by category asc, id asc
+		limit 10
+	</select>
+		<select id="findByTitleLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastTitle != null">
+			<![CDATA[
+				and ((`title` > #{lastTitle})
+					or (`title`= #{lastTitle} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="value != null">
+			and title like concat('%', #{value}, '%')
+		</if>
+		order by title asc, id asc
+		limit 10
+	</select>
+		<select id="findByAuthorLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastAuthor != null">
+			<![CDATA[
+				and ((`author` > #{lastAuthor})
+					or (`author`= #{lastAuthor} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="value != null">
+			and author like concat('%', #{value}, '%')
+		</if>
+		order by author asc, id asc
+		limit 10
+	</select>
+		<select id="findByPublisherLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastPublisher != null">
+			<![CDATA[
+				and ((`publisher` > #{lastPublisher})
+					or (`publisher`= #{lastPublisher} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="value != null">
+			and publisher like concat('%', #{value}, '%')
+		</if>
+		order by publisher asc, id asc
+		limit 10
+	</select>
+		<select id="findByPriceLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastPrice != null">
+			<![CDATA[
+				and ((`price` > #{lastPrice})
+					or (`price`= #{lastPrice} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="lo != null">
+			<![CDATA[
+				and `price` >= #{lo}
+			]]>
+		</if>
+		<if test="hi != null">
+			<![CDATA[
+				and `price` <= #{hi}
+			]]>
+		</if>
+		order by `price` asc, id asc
+		limit 10
+	</select>
+		<select id="findByPublishedAtLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastPublishedAt != null">
+			<![CDATA[
+				and ((`publishedAt` > #{lastPublishedAt})
+					or (`publishedAt`= #{lastPublishedAt} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="from != null">
+			<![CDATA[
+				and `publishedAt` >= #{from}
+			]]>
+		</if>
+		<if test="to != null">
+			<![CDATA[
+				and `publishedAt` <= #{to}
+			]]>
+		</if>
+		order by publishedAt asc, id asc
+		limit 10
+	</select>
+		<select id="findByPageLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastPage != null">
+			<![CDATA[
+				and ((`page` > #{lastPage})
+					or (`page`= #{lastPage} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="lo != null">
+			<![CDATA[
+				and `page` >= #{lo}
+			]]>
+		</if>
+		<if test="hi != null">
+			<![CDATA[
+				and `page` <= #{hi}
+			]]>
+		</if>
+		order by page asc, id asc
+		limit 10
+	</select>
+		<select id="findByStatusCodeLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastStatusCode != null">
+			<![CDATA[
+				and ((`statusCode` > #{lastStatusCode})
+					or (`statusCode`= #{lastStatusCode} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="value != null">
+			and statusCode like concat('%', #{value}, '%')
+		</if>
+		order by statusCode asc, id asc
+		limit 10
+	</select>
+		<select id="findByCreatedAtLimit10" resultType="Goods">
+		select * from tb_dzspring_goods where 1=1
+		<if test="lastCreatedAt != null">
+			<![CDATA[
+				and ((`createdAt` > #{lastCreatedAt})
+					or (`createdAt`= #{lastCreatedAt} and id > #{lastId})
+				)
+			]]>
+		</if>
+		<if test="from != null">
+			<![CDATA[
+				and `createdAt` >= #{from}
+			]]>
+		</if>
+		<if test="to != null">
+			<![CDATA[
+				and `createdAt` <= #{to}
+			]]>
+		</if>
+		order by createdAt asc, id asc
+		limit 10
+	</select>
 </mapper>

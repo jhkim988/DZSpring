@@ -2,6 +2,8 @@ package com.dzspring.app.controller;
 
 import static com.dzspring.app.controller.ResponseMessage.getJSONHeader;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,4 +71,10 @@ public class GoodsController {
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 	
+	@RequestMapping("/search")
+	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, Object> searchInfo) {
+		ResponseMessage message = new ResponseMessage();
+		message.setData(goodsService.search(searchInfo));
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
 }
