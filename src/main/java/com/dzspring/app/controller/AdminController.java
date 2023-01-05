@@ -16,16 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.service.MemberService;
+import com.dzspring.app.service.impl.AdminMemberSearchService;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 	
 	private final MemberService memberService;
+	private final AdminMemberSearchService adminMemberSearchService;
 	
 	@Autowired
-	public AdminController(MemberService memberService) {
+	public AdminController(MemberService memberService, AdminMemberSearchService adminMemberSearchService) {
 		this.memberService = memberService;
+		this.adminMemberSearchService = adminMemberSearchService;
 	}
 	
 	@RequestMapping("/deleteMembers")
@@ -46,7 +49,7 @@ public class AdminController {
 	@RequestMapping("/memberSearch")
 	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, Object> searchInfo) {
 		ResponseMessage message = new ResponseMessage();
-		message.setData(memberService.list(searchInfo));
+		message.setData(adminMemberSearchService.list(searchInfo));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 	

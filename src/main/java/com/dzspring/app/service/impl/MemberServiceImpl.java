@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.repository.MemberRepository;
 import com.dzspring.app.service.MemberService;
-import com.dzspring.app.service.admin_member_search.MemberSearchCommand;
 import com.dzspring.app.service.member_findid.FindIdCommand;
 import com.dzspring.app.service.member_has_member.HasMemberCommand;
 
@@ -23,14 +22,12 @@ import com.dzspring.app.service.member_has_member.HasMemberCommand;
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
-	private final MemberSearchCommand memberSearchCommand;
 	private final FindIdCommand findIdCommand;
 	private final HasMemberCommand hasMemberCommand;
 	
 	@Autowired
-	public MemberServiceImpl(MemberRepository memberRepository, MemberSearchCommand memberSearchCommand, FindIdCommand findIdCommand, HasMemberCommand hasMemberCommand) {
+	public MemberServiceImpl(MemberRepository memberRepository, FindIdCommand findIdCommand, HasMemberCommand hasMemberCommand) {
 		this.memberRepository = memberRepository;
-		this.memberSearchCommand = memberSearchCommand;
 		this.findIdCommand = findIdCommand;
 		this.hasMemberCommand = hasMemberCommand;
 	}
@@ -111,14 +108,14 @@ public class MemberServiceImpl implements MemberService {
 		return Optional.ofNullable(tmpPwd);
 	}
 	
-	@Override
-	public List<Member> list(Map<String, Object> map) {
-		String method = (String) map.get("method");
-		@SuppressWarnings("unchecked")
-		Map<String, Object> value = (Map<String, Object>) map.get("value");
-		if (!memberSearchCommand.hasMethod(method)) throw new UnsupportedOperationException();
-		return memberSearchCommand.invoke(method, value);
-	}
+//	@Override
+//	public List<Member> list(Map<String, Object> map) {
+//		String method = (String) map.get("method");
+//		@SuppressWarnings("unchecked")
+//		Map<String, Object> value = (Map<String, Object>) map.get("value");
+//		if (!memberSearchCommand.hasMethod(method)) throw new UnsupportedOperationException();
+//		return memberSearchCommand.invoke(method, value);
+//	}
 
 	@Override
 	public String generateInitPwd(Member member) {
