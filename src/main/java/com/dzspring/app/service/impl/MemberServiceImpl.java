@@ -107,15 +107,6 @@ public class MemberServiceImpl implements MemberService {
 		memberRepository.update(member);
 		return Optional.ofNullable(tmpPwd);
 	}
-	
-//	@Override
-//	public List<Member> list(Map<String, Object> map) {
-//		String method = (String) map.get("method");
-//		@SuppressWarnings("unchecked")
-//		Map<String, Object> value = (Map<String, Object>) map.get("value");
-//		if (!memberSearchCommand.hasMethod(method)) throw new UnsupportedOperationException();
-//		return memberSearchCommand.invoke(method, value);
-//	}
 
 	@Override
 	public String generateInitPwd(Member member) {
