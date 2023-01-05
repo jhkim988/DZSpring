@@ -29,6 +29,11 @@ const main = () => {
 			suggest.appendChild(copy);
 		});
 	});
+	
+	searchForm.addEventListener("submit", async e => {
+		e.preventDefault();
+		
+	});
 }
 
 window.onload = main;

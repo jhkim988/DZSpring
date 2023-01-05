@@ -15,9 +15,6 @@
 	<header id="header" style="width: 1200px">
 		<tiles:insertAttribute name="header"></tiles:insertAttribute>
 	</header>
-	<div style="width: 1200px">
-		<tiles:insertAttribute name="search"></tiles:insertAttribute>
-	</div>
 	<main style="width: 1000px">
 		<tiles:insertAttribute name="body"></tiles:insertAttribute>
 	</main>
