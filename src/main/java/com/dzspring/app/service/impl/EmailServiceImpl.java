@@ -42,7 +42,6 @@ public class EmailServiceImpl implements EmailService {
 			}
 			String body = sb.toString();
 			body = body.replace("${USER_AUTHENTICATE}", auth);
-			System.out.println(body);
 			helper.setText(body, true);
 			mailSender.send(message);
 		} catch (Exception e) {

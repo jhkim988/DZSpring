@@ -35,7 +35,6 @@ public class GoodsSearchService {
 
 	@Command("all")
 	public List<Goods> allSearch(Map<String, Object> map) {
-		System.out.println("HERE:" + map);
 		return repository.findAllLimit10(map);
 	}
 
@@ -66,7 +65,6 @@ public class GoodsSearchService {
 
 	@Command("publishedAt")
 	public List<Goods> publishedAtSearch(Map<String, Object> map) {
-		System.out.println("HERE:" + map);
 		return repository.findByPublishedAtLimit10(map);
 	}
 
@@ -84,7 +82,7 @@ public class GoodsSearchService {
 	public List<Goods> createdAtSearch(Map<String, Object> map) {
 		return repository.findByCreatedAtLimit10(map);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public List<Goods> invoke(Map<String, Object> map) {
 		String method = (String) map.get("method");
