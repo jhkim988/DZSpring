@@ -26,6 +26,7 @@ import com.dzspring.app.entity.Member;
 import com.dzspring.app.service.EmailService;
 import com.dzspring.app.service.MemberService;
 import com.dzspring.app.service.impl.FindMemberIdService;
+import com.dzspring.app.service.impl.HasMemberService;
 
 @RestController
 @RequestMapping("/member")
@@ -36,12 +37,14 @@ public class MemberController {
 	private final MemberService memberService;
 	private final EmailService emailService;
 	private final FindMemberIdService findMemberIdService;
+	private final HasMemberService hasMemberService;
 	
 	@Autowired
-	public MemberController(MemberService memberService, EmailService emailService, FindMemberIdService findMemberIdService) {
+	public MemberController(MemberService memberService, EmailService emailService, FindMemberIdService findMemberIdService, HasMemberService hasMemberService) {
 		this.memberService = memberService;
 		this.emailService = emailService;
 		this.findMemberIdService = findMemberIdService;
+		this.hasMemberService = hasMemberService;
 	}
 	
 	@RequestMapping(value = "/login")
@@ -150,7 +153,7 @@ public class MemberController {
 		if (type == null || value == null) {
 			return new ResponseEntity<>(null, getJSONHeader(), HttpStatus.BAD_REQUEST);
 		}
-		boolean result = memberService.hasMember(type, value);
+		boolean result = hasMemberService.invoke(type, value);
 		ResponseMessage message = new ResponseMessage(result ? "이미 사용 중입니다." : "사용 가능합니다.");
 		message.setData(result);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);

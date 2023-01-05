@@ -17,7 +17,6 @@ public interface MemberService {
 	boolean validate(String id, String pwd);
 	boolean delete(String id) throws SQLException;
 	boolean delete(List<String> ids) throws SQLException;
-	boolean hasMember(String type, String value);
 	Optional<String> initPwdAuth(String id, String auth);
 	String generateInitPwd(Member member);
 	int deleteTmpPwd(String id);

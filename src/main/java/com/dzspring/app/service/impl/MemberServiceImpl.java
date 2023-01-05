@@ -15,18 +15,15 @@ import org.springframework.stereotype.Service;
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.repository.MemberRepository;
 import com.dzspring.app.service.MemberService;
-import com.dzspring.app.service.member_has_member.HasMemberCommand;
 
 @Service("memberServiceImpl")
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
-	private final HasMemberCommand hasMemberCommand;
 	
 	@Autowired
-	public MemberServiceImpl(MemberRepository memberRepository, HasMemberCommand hasMemberCommand) {
+	public MemberServiceImpl(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
-		this.hasMemberCommand = hasMemberCommand;
 	}
 	
 	@Override
@@ -72,12 +69,6 @@ public class MemberServiceImpl implements MemberService {
 		int deletes = memberRepository.deleteAll(ids);
 		if (deletes <= 0) throw new SQLException();
 		return true;
-	}
-
-	@Override
-	public boolean hasMember(String type, String value) {
-		if (!hasMemberCommand.hasType(type)) throw new UnsupportedOperationException();
-		return hasMemberCommand.invoke(type, value) != null;
 	}
 	
 	@Override
