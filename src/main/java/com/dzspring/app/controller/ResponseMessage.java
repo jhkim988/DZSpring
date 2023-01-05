@@ -32,4 +32,8 @@ public class ResponseMessage {
 	public static String getContexPath() {
 		return "/DZSpring/";
 	}
+	
+	public static String path(String input) {
+		return new StringBuilder("/DZSpring/").append(input).toString();
+	}
 }
