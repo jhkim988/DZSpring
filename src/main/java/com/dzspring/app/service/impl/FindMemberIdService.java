@@ -51,6 +51,7 @@ public class FindMemberIdService {
 	
 	@SuppressWarnings("unchecked")
 	public Optional<Member> invoke(String method, String name, String value) {
+		if (!findIdCommandMap.containsKey(method)) throw new UnsupportedOperationException();
 		try {
 			return (Optional<Member>) findIdCommandMap.get(method).invoke(this, name, value);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

@@ -85,15 +85,12 @@ public class GoodsSearchService {
 		return repository.findByCreatedAtLimit10(map);
 	}
 
-	public boolean hasMethod(String method) {
-		return goodsCommandMap.containsKey(method);
-	}
-
 	@SuppressWarnings("unchecked")
 	public List<Goods> invoke(Map<String, Object> map) {
+		String method = (String) map.get("method");
+		Map<String, Object> value = (Map<String, Object>) map.get("value");
+		if (!goodsCommandMap.containsKey(method)) throw new UnsupportedOperationException();
 		try {
-			String method = (String) map.get("method");
-			Map<String, Object> value = (Map<String, Object>) map.get("value");
 			return (List<Goods>) goodsCommandMap.get(method).invoke(this, value);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();

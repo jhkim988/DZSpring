@@ -83,15 +83,12 @@ public class AdminMemberSearchService {
 		return memberRepository.findByUpdatedAtLimit10(map);
 	}
 
-	public boolean hasMethod(String method) {
-		return searchCommandMap.containsKey(method);
-	}
-
 	@SuppressWarnings("unchecked")
 	public List<Member> list(Map<String, Object> map) {
+		String method = (String) map.get("method");
+		Map<String, Object> value = (Map<String, Object>) map.get("value");
+		if (!searchCommandMap.containsKey(method)) throw new UnsupportedOperationException();
 		try {
-			String method = (String) map.get("method");
-			Map<String, Object> value = (Map<String, Object>) map.get("value");
 			return (List<Member>) searchCommandMap.get(method).invoke(this, value);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
