@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.service.EmailService;
 import com.dzspring.app.service.MemberService;
+import com.dzspring.app.service.impl.FindMemberIdService;
 
 @RestController
 @RequestMapping("/member")
@@ -34,11 +35,13 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final EmailService emailService;
+	private final FindMemberIdService findMemberIdService;
 	
 	@Autowired
-	public MemberController(MemberService memberService, EmailService emailService) {
+	public MemberController(MemberService memberService, EmailService emailService, FindMemberIdService findMemberIdService) {
 		this.memberService = memberService;
 		this.emailService = emailService;
+		this.findMemberIdService = findMemberIdService;
 	}
 	
 	@RequestMapping(value = "/login")
@@ -158,7 +161,7 @@ public class MemberController {
 		String method = queryInfo.get("method");
 		String name = queryInfo.get("name");
 		String value = queryInfo.get("value");
-		Optional<Member> result = memberService.findMemberBy(method, name, value);
+		Optional<Member> result = findMemberIdService.invoke(method, name, value);
 		ResponseMessage message = new ResponseMessage();
 		Map<String, Object> data = new HashMap<>();
 		data.put("result", result.isPresent());
@@ -174,7 +177,7 @@ public class MemberController {
 		String value = queryInfo.get("value");
 		ResponseMessage message = new ResponseMessage("일치하는 정보가 없습니다.");
 		message.setData(false);
-		Optional<Member> member = memberService.findMemberBy(type, name, value);
+		Optional<Member> member = findMemberIdService.invoke(type, name, value);
 		member.ifPresent(mem -> {
 			String auth = memberService.generateInitPwd(mem);
 			emailService.sendInitPwd(mem.getEmail(), auth);

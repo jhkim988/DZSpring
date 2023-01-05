@@ -15,20 +15,17 @@ import org.springframework.stereotype.Service;
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.repository.MemberRepository;
 import com.dzspring.app.service.MemberService;
-import com.dzspring.app.service.member_findid.FindIdCommand;
 import com.dzspring.app.service.member_has_member.HasMemberCommand;
 
 @Service("memberServiceImpl")
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
-	private final FindIdCommand findIdCommand;
 	private final HasMemberCommand hasMemberCommand;
 	
 	@Autowired
-	public MemberServiceImpl(MemberRepository memberRepository, FindIdCommand findIdCommand, HasMemberCommand hasMemberCommand) {
+	public MemberServiceImpl(MemberRepository memberRepository, HasMemberCommand hasMemberCommand) {
 		this.memberRepository = memberRepository;
-		this.findIdCommand = findIdCommand;
 		this.hasMemberCommand = hasMemberCommand;
 	}
 	
@@ -81,12 +78,6 @@ public class MemberServiceImpl implements MemberService {
 	public boolean hasMember(String type, String value) {
 		if (!hasMemberCommand.hasType(type)) throw new UnsupportedOperationException();
 		return hasMemberCommand.invoke(type, value) != null;
-	}
-
-	@Override
-	public Optional<Member> findMemberBy(String method, String name, String value) {
-		if (!findIdCommand.hasMethod(method)) throw new UnsupportedOperationException();
-		return findIdCommand.invoke(method, name, value);
 	}
 	
 	@Override

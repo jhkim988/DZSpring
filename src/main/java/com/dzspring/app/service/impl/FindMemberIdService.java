@@ -1,7 +1,11 @@
-package com.dzspring.app.service.member_findid;
+package com.dzspring.app.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,13 +15,20 @@ import com.dzspring.app.repository.MemberRepository;
 import com.dzspring.app.service.Command;
 
 @Component
-public class FindIdCommand {
+public class FindMemberIdService {
 	
 	private final MemberRepository memberRepository;
+	private final Map<String, Method> findIdCommandMap;
 	
 	@Autowired
-	public FindIdCommand(MemberRepository memberRepository) {
+	public FindMemberIdService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
+		this.findIdCommandMap = new ConcurrentHashMap<>();
+		Arrays.asList(getClass().getDeclaredMethods()).forEach(method -> {
+			Command command = method.getDeclaredAnnotation(Command.class);
+			if (command == null) return;
+			findIdCommandMap.put(command.value(), method);
+		});
 	}
 	
 	@Command("phone")
@@ -35,16 +46,16 @@ public class FindIdCommand {
 	}
 	
 	public boolean hasMethod(String method) {
-		return FindIdCommandMap.MAP.getMap().containsKey(method);
+		return findIdCommandMap.containsKey(method);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Optional<Member> invoke(String method, String name, String value) {
 		try {
-			return (Optional<Member>) FindIdCommandMap.MAP.getMap().get(method).invoke(this, name, value);
+			return (Optional<Member>) findIdCommandMap.get(method).invoke(this, name, value);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		return Optional.ofNullable(null);
 	}
-}
+}	
