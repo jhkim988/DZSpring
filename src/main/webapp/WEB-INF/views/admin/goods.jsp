@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <body>
+<a href=<c:url value="/admin/goods"/>><button>상품 검색</button></a>
+<a href=<c:url value="/form/goodsInsertForm"/>><button>상품 등록</button></a>
 	<form>
 		<label>
 			<select id="searchType">
@@ -24,9 +26,10 @@
 		</label>
 		<input type="submit" id="searchButton" value="검색">
 	</form>
-	<table>
+	<table border="1px solid black">
 		<thead>
 			<tr>
+				<th>섬네일</th>
 				<th>아이디</th>
 				<th>카테고리</th>
 				<th>제목</th>
@@ -43,6 +46,7 @@
 		</thead>
 		<tbody>
 			<tr style="display:none">
+				<td class='thumbnail'><img/></td>
 				<td class='id'></td>
 				<td class='category'></td>
 				<td class='title'></td>

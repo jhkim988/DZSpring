@@ -135,7 +135,6 @@ const main = () => {
 	
 	const deleteGoods = async e => {
 		e.preventDefault();
-		alert(e.target.dataset.id);
 		const response = await fetch(`${context.value}goods/${e.target.dataset.id}`, {
 			method: 'DELETE'
 			, headers: {
@@ -143,14 +142,15 @@ const main = () => {
 			}
 		});
 		const json = await response.json();
-		if (json.status) {
-			alert(json.message);
+		if (json.data) {
 			tbody.removeChild(e.target.parentNode.parentNode);
 		}
 	}
 	
 	const makeTRTag = goods => {
 		const copy = row.cloneNode(true);
+		goods.img = goods.img || `default`;
+		copy.querySelector('.thumbnail > img').src = `${context.value}goods/thumbnail/${goods.img}`
 		copy.querySelector('.id').textContent = goods.id;
 		copy.querySelector('.category').textContent = goods.category;
 		copy.querySelector('.title').textContent = goods.title;
@@ -158,8 +158,8 @@ const main = () => {
 		copy.querySelector('.publisher').textContent = goods.publisher;
 		copy.querySelector('.price').textContent = goods.price;
 		copy.querySelector('.publishedAt').textContent = goods.publishedAt;
-		copy.querySelector('.page').textContent = goods.page;
-		copy.querySelector('.code').textContent = goods.code;
+		copy.querySelector('.page').textContent = goods.totalPage;
+		copy.querySelector('.code').textContent = goods.statusCode;
 		copy.querySelector('.createdAt').textContent = goods.createdAt;
 		copy.querySelector('.updateFormButton > a').href = `${context.value}form/goodsUpdateForm/${goods.id}`;
 		const deleteATag = copy.querySelector('.deleteButton > a');
