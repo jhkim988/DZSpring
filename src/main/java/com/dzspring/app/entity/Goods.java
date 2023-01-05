@@ -16,7 +16,6 @@ public class Goods {
 	private String category;
 	private String title;
 	private String author;
-	private String content;
 	private String publisher;
 	private long price;
 	private Date publishedAt;
@@ -24,7 +23,8 @@ public class Goods {
 	private String statusCode;
 	private String intro;
 	private String authorIntro;
-	private String publisherComment;
+	private String publisherIntro;
 	private String recommendation;
 	private Date createdAt;
+	private String img;
 }

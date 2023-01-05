@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dzspring.app.repository.GoodsRepository">
-	<insert id="inser">
+	<insert id="insert">
 		insert into tb_dzspring_goods (
 				id
 				, category
 				, title
 				, author
-				, content
 				, publisher
 				, price
-				, publishedDate
+				, publishedAt
 				, totalPage
-				, goodsStatus
+				, statusCode
 				, intro
 				, authorIntro
-				, publisherComment
+				, publisherIntro
 				, recommendation
-				, createdAt
+				, img
 			) values (
 				#{id}
 				, #{category}
 				, #{title}
 				, #{author}
-				, #{content}
 				, #{publisher}
 				, #{price}
-				, #{publishedDate}
+				, #{publishedAt}
 				, #{totalPage}
-				, #{goodsStatus}
+				, #{statusCode}
 				, #{intro}
 				, #{authorIntro}
-				, #{publisherComment}
+				, #{publisherIntro}
 				, #{recommendation}
-				, #{createdAt}			
+				, #{img}
 			)
 	</insert>
 	<update id="update">
@@ -41,21 +39,24 @@
 			category = #{category}
 			, title = #{title}
 			, author = #{title}
-			, content = #{content}
 			, publisher = #{publisher}
 			, price = #{price}
-			, publishedDate = #{publishedDate}
+			, publishedAt = #{publishedAt}
 			, totalPage = #{totalPage}
-			, goodsStatus = #{goodsStatus}
+			, statusCode = #{statusCode}
 			, intro = #{intro}
 			, authorIntro = #{authorIntro}
-			, publisherComment = #{publisherComment}
-			, recommendation = #{recommendation}			
+			, publisherIntro = #{publisherIntro}
+			, recommendation = #{recommendation}
+			, img = #{img}
 		where id = #{id}
 	</update>
 	<delete id="delete">
 		delete from tb_dzspring_goods where id = #{id}
 	</delete>
+	<select id="findOneById" resultType="Goods">
+		select * from tb_dzspring_goods where id = #{id}
+	</select>
 	<select id="findAllLimit10" resultType="Goods">
 		select * from tb_dzspring_goods
 		<if test="lastId != null">
