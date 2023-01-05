@@ -12,19 +12,19 @@
 </head>
 <body>
 	<input type="hidden" id="context" value=<c:url value="/"/>>
-	<header id="header">
+	<header id="header" style="width: 1200px">
 		<tiles:insertAttribute name="header"></tiles:insertAttribute>
 	</header>
-	<div>
+	<div style="width: 1200px">
 		<tiles:insertAttribute name="search"></tiles:insertAttribute>
 	</div>
-	<main>
+	<main style="width: 1000px">
 		<tiles:insertAttribute name="body"></tiles:insertAttribute>
 	</main>
-	<aside id="side">
+	<aside id="side" style="width: 200px">
 		<tiles:insertAttribute name="side"></tiles:insertAttribute>
 	</aside>
-	<footer id="footer">
+	<footer id="footer" style="width: 1200px">
 		<tiles:insertAttribute name="footer"></tiles:insertAttribute>
 	</footer>
 </body>
