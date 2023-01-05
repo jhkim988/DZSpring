@@ -31,4 +31,9 @@ public class GoodsServiceImpl implements GoodsService {
 	public boolean delete(int id) {
 		return 1 == goodsRepository.delete(id);
 	}
+	
+	@Override
+	public Goods findOneById(int id) {
+		return goodsRepository.findOneById(id);
+	}
 }

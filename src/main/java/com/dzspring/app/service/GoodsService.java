@@ -9,4 +9,5 @@ public interface GoodsService {
 	boolean insert(Goods goods);
 	boolean update(Goods goods);
 	boolean delete(int id);
+	Goods findOneById(int id);
 }

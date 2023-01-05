@@ -9,6 +9,7 @@ public interface GoodsRepository {
 	int insert(Goods goods);
 	int update(Goods goods);
 	int delete(int id);
+	Goods findOneById(int goods_id);
 	List<Goods> findAllLimit10(Map<String, Object> map);
 	List<Goods> findByCategoryLimit10(Map<String, Object> map);
 	List<Goods> findByTitleLimit10(Map<String, Object> map);
