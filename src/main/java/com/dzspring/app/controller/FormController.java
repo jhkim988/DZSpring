@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.dzspring.app.entity.Member;
+import com.dzspring.app.service.GoodsService;
 import com.dzspring.app.service.MemberService;
 
 @Controller
@@ -17,10 +19,12 @@ import com.dzspring.app.service.MemberService;
 public class FormController {
 
 	private final MemberService memberService;
+	private final GoodsService goodsService;
 	
 	@Autowired
-	public FormController(MemberService memberService) {
+	public FormController(MemberService memberService, GoodsService goodsService) {
 		this.memberService = memberService;
+		this.goodsService = goodsService;
 	}
 	
 	@RequestMapping("/loginForm")
@@ -58,5 +62,17 @@ public class FormController {
 		Optional<Member> member = memberService.findOneById(id);
 		member.ifPresent(mem -> request.setAttribute("manage_member", mem));
 		return "/form/adminUpdateMemberForm";
+	}
+	
+	@RequestMapping("/goodsInsertForm")
+	public String goodsInsertForm() {
+		return "/form/goodsInsertForm";
+	}
+	
+	@RequestMapping("/goodsUpdateForm/{id}")
+	public ModelAndView goodsUpdateForm(@PathVariable int id) {
+		ModelAndView mav = new ModelAndView("/form/goodsUpdateForm");
+		mav.addObject("goods", goodsService.findOneById(id));
+		return mav;
 	}
 }
