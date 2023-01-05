@@ -15,16 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dzspring.app.entity.Goods;
 import com.dzspring.app.service.GoodsService;
+import com.dzspring.app.service.impl.GoodsSearchService;
 
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
 
 	private final GoodsService goodsService;
+	private final GoodsSearchService goodsSearchService;
 	
 	@Autowired	
-	public GoodsController(GoodsService goodsService) {
+	public GoodsController(GoodsService goodsService, GoodsSearchService goodsSearchService) {
 		this.goodsService = goodsService;
+		this.goodsSearchService = goodsSearchService;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
@@ -78,7 +81,7 @@ public class GoodsController {
 	@RequestMapping("/search")
 	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, Object> searchInfo) {
 		ResponseMessage message = new ResponseMessage();
-		message.setData(goodsService.search(searchInfo));
+		message.setData(goodsSearchService.invoke(searchInfo));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 }
