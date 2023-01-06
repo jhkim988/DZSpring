@@ -10,11 +10,21 @@
 	</label> <input id="searchText" type="text" /> <input type="submit" value="검색" />
 </form>
 
-<ul id="suggest">
-	<li style="display: none; border: 1px solid black"><img src="#" />
-		<p class="title"></p>
-		<p class="author"></p></li>
-</ul>
+<div id="suggest">
+	<div class="card mb-3" style="max-width: 1000px;">
+		<div class="row g-0">
+			<div class="col-md-4">
+				<img src="#" class="img-fluid rounded-start" style="max-height: 100%">
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 class="card-title title"></h5>
+					<p class="card-text author"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <div id="searchResultList">
 	<h3 class="searchKeyword"></h3>
