@@ -58,7 +58,7 @@
 		select * from tb_dzspring_goods where id = #{id}
 	</select>
 	<select id="findAllLimit10" resultType="Goods">
-		select * from tb_dzspring_goods
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods
 		<if test="lastId != null">
 			<![CDATA[
 				where id > #{lastId}
@@ -68,7 +68,7 @@
 		limit 10
 	</select>
 		<select id="findByCategoryLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastCategory != null">
 			<![CDATA[
 				and ((category > #{lastCategory})
@@ -83,7 +83,7 @@
 		limit 10
 	</select>
 		<select id="findByTitleLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastTitle != null">
 			<![CDATA[
 				and ((`title` > #{lastTitle})
@@ -98,7 +98,7 @@
 		limit 10
 	</select>
 		<select id="findByAuthorLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastAuthor != null">
 			<![CDATA[
 				and ((`author` > #{lastAuthor})
@@ -113,7 +113,7 @@
 		limit 10
 	</select>
 		<select id="findByPublisherLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastPublisher != null">
 			<![CDATA[
 				and ((`publisher` > #{lastPublisher})
@@ -128,7 +128,7 @@
 		limit 10
 	</select>
 		<select id="findByPriceLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastPrice != null">
 			<![CDATA[
 				and ((`price` > #{lastPrice})
@@ -150,7 +150,7 @@
 		limit 10
 	</select>
 		<select id="findByPublishedAtLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastPublishedAt != null">
 			<![CDATA[
 				and ((`publishedAt` > #{lastPublishedAt})
@@ -172,7 +172,7 @@
 		limit 10
 	</select>
 		<select id="findByPageLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastPage != null">
 			<![CDATA[
 				and ((`page` > #{lastPage})
@@ -194,7 +194,7 @@
 		limit 10
 	</select>
 		<select id="findByStatusCodeLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastStatusCode != null">
 			<![CDATA[
 				and ((`statusCode` > #{lastStatusCode})
@@ -209,7 +209,7 @@
 		limit 10
 	</select>
 		<select id="findByCreatedAtLimit10" resultType="Goods">
-		select * from tb_dzspring_goods where 1=1
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
 		<if test="lastCreatedAt != null">
 			<![CDATA[
 				and ((`createdAt` > #{lastCreatedAt})
