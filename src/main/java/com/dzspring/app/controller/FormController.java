@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.service.GoodsService;
 import com.dzspring.app.service.MemberService;
+import com.dzspring.app.service.impl.OrderService;
 
 @Controller
 @RequestMapping("/form")
@@ -20,11 +21,12 @@ public class FormController {
 
 	private final MemberService memberService;
 	private final GoodsService goodsService;
-	
+	private final OrderService orderService;
 	@Autowired
-	public FormController(MemberService memberService, GoodsService goodsService) {
+	public FormController(MemberService memberService, GoodsService goodsService, OrderService orderService) {
 		this.memberService = memberService;
 		this.goodsService = goodsService;
+		this.orderService = orderService;
 	}
 	
 	@RequestMapping("/loginForm")
@@ -73,6 +75,29 @@ public class FormController {
 	public ModelAndView goodsUpdateForm(@PathVariable int id) {
 		ModelAndView mav = new ModelAndView("/form/goodsUpdateForm");
 		mav.addObject("goods", goodsService.findOneById(id));
+		return mav;
+	}
+	
+	@RequestMapping("/orderInsertForm/{goodsId}")
+	public ModelAndView orderInsertForm(@PathVariable int goodsId) {
+		ModelAndView mav = new ModelAndView(); // TODO: 실패 시 주소 입력
+		goodsService.findOneById(goodsId).ifPresent(goods -> {
+			mav.addObject("goods", goods);
+			mav.setViewName("/form/orderInsertForm");
+		});
+		return mav;
+	}
+	
+	@RequestMapping("/orderUpdateForm/{orderId}")
+	public ModelAndView orderUpdateForm(@PathVariable int orderId) {
+		ModelAndView mav= new ModelAndView(""); // TODO: 실패 시 주소 입력
+		orderService.findOneById(orderId).ifPresent(order -> {
+			mav.addObject("order", order);
+			goodsService.findOneById(order.getGoodsId()).ifPresent(goods -> {
+				mav.addObject("goods", goods);
+				mav.setViewName("/form/orderUpdateForm");
+			});
+		});
 		return mav;
 	}
 }

@@ -7,16 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dzspring.app.service.GoodsService;
+import com.dzspring.app.service.impl.OrderService;
 
 @Controller
 @RequestMapping("/view")
 public class ViewController {
 
 	private final GoodsService goodsService;
+	private final OrderService orderService;
 	
 	@Autowired
-	public ViewController(GoodsService goodsService) {
+	public ViewController(GoodsService goodsService, OrderService orderService) {
 		this.goodsService = goodsService;
+		this.orderService = orderService;
 	}
 	
 	@RequestMapping("/member")
@@ -29,5 +32,29 @@ public class ViewController {
 		ModelAndView mav = new ModelAndView("/view/goods");
 		mav.addObject("goods", goodsService.findOneById(id));
 		return mav;
+	}
+	
+	@RequestMapping("/orderList")
+	public String orderList() {
+		return "/view/orderList";
+	}
+	
+	@RequestMapping("/order/{id}")
+	public ModelAndView viewOrder(@PathVariable int id) {
+		ModelAndView mav = new ModelAndView("403"); // TODO: 실패 시 초기화
+		orderService.findOneById(id).ifPresent(order -> {
+			mav.addObject("order", order);	
+			goodsService.findOneById(order.getGoodsId()).ifPresent(goods -> {
+				mav.addObject("goods", goods);
+				mav.setViewName("/view/order");
+			});
+		});
+
+		return mav;
+	}
+	
+	@RequestMapping("/cart")
+	public String cart() {
+		return "/view/cart";
 	}
 }
