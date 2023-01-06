@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dzspring.app.entity.GoodsImage;
 import com.dzspring.app.repository.GoodsImageRepository;
-import com.dzspring.app.repository.GoodsRepository;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -20,12 +19,10 @@ import net.coobird.thumbnailator.Thumbnails;
 public class GoodsImageService {
 	
 	private final GoodsImageRepository goodsImageRepository;
-	private final GoodsRepository goodsRepository;
 	
 	@Autowired
-	public GoodsImageService(GoodsImageRepository goodsImageRepository, GoodsRepository goodsRepository) {
+	public GoodsImageService(GoodsImageRepository goodsImageRepository) {
 		this.goodsImageRepository = goodsImageRepository;
-		this.goodsRepository = goodsRepository;
 	}
 	
 	public File insertThumbnail(File image) {
