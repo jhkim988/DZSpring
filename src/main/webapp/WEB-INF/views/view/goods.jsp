@@ -3,10 +3,10 @@
 <h1>${ goods.title }</h1>
 <c:choose>
 	<c:when test="${ goods.img != null }">
-		<img src=<c:url value="/goods/thumbnail/${ goods.img }"/>/>
+		<img src=<c:url value="/goods/file/${ goods.img }"/> style="width: 100%"/>
 	</c:when>
 	<c:otherwise>
-		<img src=<c:url value="/goods/thumbnail/default"/>/>
+		<img src=<c:url value="/goods/file/default"/> style="width: 100%"/>
 	</c:otherwise>
 </c:choose>
 
