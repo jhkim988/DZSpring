@@ -18,7 +18,7 @@ const main = async () => {
 		copy.querySelector("img").src = `${context.value}goods/thumbnail/${goods[i].img}`;
 		copy.querySelector(".title").textContent = goods[i].title;
 		copy.querySelector(".author").textContent = goods[i].author;
-		copy.querySelector(".quantity").textContent = carts[i].quantity;
+		copy.querySelector(".quantity").textContent = `수량: ${carts[i].quantity} 개`;
 		copy.querySelector(".delete").addEventListener("click", async e => {
 			e.preventDefault();
 			const response = await fetch(`${context.value}cart/${carts[i].id}`, {

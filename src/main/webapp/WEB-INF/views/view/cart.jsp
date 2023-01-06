@@ -5,16 +5,20 @@
 <div id="cartList">
 	<div class="card mb-3" style="max-width: 1000px;">
 		<div class="row g-0">
-			<div class="col-md-4">
+			<div class="col-md-2">
 				<img src="#" class="img-fluid rounded-start" style="max-height: 100%">
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-6">
 				<div class="card-body">
 					<h5 class="card-title title"></h5>
 					<p class="card-text author"></p>
-					<p class="card-text quantity"></p>
-					<button type="button" class="btn btn-danger delete">삭제</button>
 				</div>
+			</div>
+			<div class="col-md-2">
+				<p class="card-text quantity"></p>
+			</div>
+			<div class="col-md-2">
+				<button type="button" class="btn btn-danger delete">삭제</button>
 			</div>
 		</div>
 	</div>
