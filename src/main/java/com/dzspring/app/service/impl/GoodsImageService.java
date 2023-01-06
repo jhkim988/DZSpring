@@ -1,6 +1,7 @@
 package com.dzspring.app.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.ThreadLocalRandom;
@@ -56,14 +57,24 @@ public class GoodsImageService {
 	}
 	
 	public void printThumbnail(String stored_id, OutputStream out) {
-		File image = null;
 		try {
-			image = new File("C:\\upload\\thumbnail\\" + stored_id + ".png");
+			File image = new File("C:\\upload\\thumbnail\\" + stored_id + ".png");
 			Thumbnails.of(image).size(100, 100).outputFormat("png").toOutputStream(out);
 			byte[] buffer = new byte[4096];
 			out.write(buffer);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void printFile(String stored_id, OutputStream out) {
+		try (FileInputStream fis = new FileInputStream("C:\\upload\\" + stored_id);){
+			byte[] buffer = new byte[4096];
+			for (int read = fis.read(buffer); read > 0; read = fis.read(buffer)) {
+				out.write(buffer, 0, read);
+			}
+		} catch (IOException e) {
+			printFile("default", out);
 		}
 	}
 }
