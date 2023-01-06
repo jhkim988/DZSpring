@@ -14,7 +14,9 @@
 	<logger name="com.dzspring.app">
 		<level value="info" />
 	</logger>
-	
+	<logger name="com.dzspring.app.config">
+		<level value="debug" />
+	</logger>
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
