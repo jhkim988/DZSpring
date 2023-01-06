@@ -1,10 +1,14 @@
 package com.dzspring.app.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dzspring.app.entity.Cart;
 import com.dzspring.app.entity.Goods;
 import com.dzspring.app.repository.GoodsRepository;
 import com.dzspring.app.service.GoodsService;
@@ -37,5 +41,12 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public Optional<Goods> findOneById(int id) {
 		return Optional.ofNullable(goodsRepository.findOneById(id));
+	}
+
+	@Override
+	public List<Goods> cartToGoodsList(List<Cart> list) {
+		Map<String, List<Cart>> map = new HashMap<>();
+		map.put("list", list);
+		return goodsRepository.cartToGoodsList(map);
 	}
 }

@@ -3,6 +3,7 @@ package com.dzspring.app.repository;
 import java.util.List;
 import java.util.Map;
 
+import com.dzspring.app.entity.Cart;
 import com.dzspring.app.entity.Goods;
 
 public interface GoodsRepository {
@@ -20,4 +21,5 @@ public interface GoodsRepository {
 	List<Goods> findByPageLimit10(Map<String, Object> map);
 	List<Goods> findByStatusCodeLimit10(Map<String, Object> map);
 	List<Goods> findByCreatedAtLimit10(Map<String, Object> map);
+	List<Goods> cartToGoodsList(Map<String, List<Cart>> map);
 }

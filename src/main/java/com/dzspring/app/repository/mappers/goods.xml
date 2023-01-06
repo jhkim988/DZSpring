@@ -230,4 +230,11 @@
 		order by createdAt asc, id asc
 		limit 10
 	</select>
+	<select id="cartToGoodsList" resultType="Goods">
+		select id, title, category, author, publisher, price, img from tb_dzspring_goods where
+		id in
+		<foreach collection="list" item="list" open="(" separator="," close=")">
+			#{ list.goodsId }
+		</foreach>
+	</select>
 </mapper>
