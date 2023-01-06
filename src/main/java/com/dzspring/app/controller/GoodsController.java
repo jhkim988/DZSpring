@@ -127,4 +127,14 @@ public class GoodsController {
 		}
 		
 	}
+	
+	@RequestMapping(value="/file/{stored_id}", method=RequestMethod.GET)
+	public void file(@PathVariable String stored_id, HttpServletResponse response) {
+		try (OutputStream out = response.getOutputStream();) {
+			goodsImageService.printFile(stored_id, out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
