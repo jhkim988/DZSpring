@@ -29,8 +29,11 @@ public class ViewController {
 	
 	@RequestMapping("/goods/{id}")
 	public ModelAndView viewGoods(@PathVariable int id) {
-		ModelAndView mav = new ModelAndView("/view/goods");
-		mav.addObject("goods", goodsService.findOneById(id));
+		ModelAndView mav = new ModelAndView(); // TODO: 실패 화면
+		goodsService.findOneById(id).ifPresent(goods -> {
+			mav.addObject("goods", goods);
+			mav.setViewName("/view/goods");
+		});
 		return mav;
 	}
 	
