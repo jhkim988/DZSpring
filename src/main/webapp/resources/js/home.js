@@ -1,7 +1,9 @@
 const main = () => {
-	const suggestList = suggest.querySelector("li").cloneNode(true);
+	let prev = null;
+	let last = null;
+	const suggestList = suggest.querySelector(".card").cloneNode(true);
 	searchText.addEventListener("keyup", async e => {
-		if (searchText.value == '') {
+		if (searchText.value == '' || prev == searchText.value) {
 			suggest.replaceChildren();
 			return;
 		}
@@ -25,9 +27,13 @@ const main = () => {
 			copy.querySelector("img").src = `${context.value}goods/thumbnail/${d.img}`
 			copy.querySelector(".title").textContent = d.title;
 			copy.querySelector(".author").textContent = d.author;
-			copy.style.display = "list-item"
+			copy.style.display = "flex"
+			copy.addEventListener("click", () => {
+				location.href = `${context.value}view/goods/${d.id}`
+			})
 			suggest.appendChild(copy);
 		});
+		prev = searchText.value;
 	});
 	
 	
@@ -52,6 +58,10 @@ const main = () => {
 			})
 		});
 		const json = await response.json();
+		const keyword = searchKeywordCopy.cloneNode();
+		keyword.textContent = `검색어: ${searchText.value}`
+		searchResultList.appendChild(keyword);
+		if (json.data.length > 0) last = json.data[json.data.length-1];
 		makeCardGroup(json.data).forEach(card => searchResultList.appendChild(card));
 	});
 	
@@ -71,6 +81,9 @@ const main = () => {
 			})
 		});
 		const json = await response.json();
+		const keyword = searchKeywordCopy.cloneNode();
+		keyword.textContent = `베스트셀러`
+		searchResultList.appendChild(keyword);
 		makeCardGroup(json.data).forEach(card => searchResultList.appendChild(card));
 	})();
 	
@@ -93,6 +106,11 @@ const main = () => {
 		if (group.childElementCount > 0) ret.push(group);
 		return ret;
 	}
+	
+	window.addEventListener("scroll", e => {
+    	if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1) {
+			console.log("HERE");
+    	}
+	});
 }
-
 window.onload = main;
