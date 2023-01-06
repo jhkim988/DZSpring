@@ -21,7 +21,7 @@ public class LogAspect {
 	
 	@Around("publicTarget()")
 	public Object measure(ProceedingJoinPoint joinPoint) throws Throwable {
-		logger.debug(joinPoint.getSignature().toLongString());
+		logger.debug("[method]: " + joinPoint.getSignature().toLongString());
 		Arrays.asList(joinPoint.getArgs()).forEach(arg -> logger.debug("[Arg]: " + arg));
 		Object result = joinPoint.proceed();
 		logger.debug("[return] " + result);
