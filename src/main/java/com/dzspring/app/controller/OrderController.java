@@ -39,7 +39,7 @@ public class OrderController {
 	public ResponseEntity<ResponseMessage> insertOrder(@RequestBody Order order) {
 		ResponseMessage message = new ResponseMessage();
 		Map<String, Object> data = new HashMap<>();
-		boolean result = orderService.insertOrder(order); // who, what, where, how
+		boolean result = orderService.insert(order);
 		data.put("result", result);
 		if (result) {
 			data.put("url", ResponseMessage.path(""));
@@ -52,7 +52,7 @@ public class OrderController {
 	public ResponseEntity<ResponseMessage> updateOrder(@RequestBody Order order) {
 		ResponseMessage message = new ResponseMessage();
 		Map<String, Object> data = new HashMap<>();
-		boolean result = orderService.updateOrder(order); // who, what, where, how
+		boolean result = orderService.update(order);
 		data.put("result", result);
 		if (result) {
 			data.put("url", ResponseMessage.path(""));
@@ -65,7 +65,7 @@ public class OrderController {
 	public ResponseEntity<ResponseMessage> deleteOrder(@PathVariable int id) {
 		ResponseMessage message = new ResponseMessage();
 		Map<String, Object> data = new HashMap<>();
-		boolean result = orderService.deleteOrder(id); // who, what, where, how
+		boolean result = orderService.delete(id);
 		data.put("result", result);
 		if (result) {
 			data.put("url", ResponseMessage.path(""));

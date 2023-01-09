@@ -24,15 +24,15 @@ public class OrderService {
 		return orderRepository.list(map);
 	}
 	
-	public boolean insertOrder(Order order) {
+	public boolean insert(Order order) {
 		return 1 == orderRepository.insert(order);
 	}
 	
-	public boolean updateOrder(Order order) {
+	public boolean update(Order order) {
 		return 1 == orderRepository.update(order);
 	}
 	
-	public boolean deleteOrder(int id) {
+	public boolean delete(int id) {
 		return 1 == orderRepository.delete(id);
 	}
 	
