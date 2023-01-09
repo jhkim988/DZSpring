@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dzspring.app.repository.OrderRepository">
+	<insert id="insert">
+		insert into tb_dzspring_order (
+			memberId
+			, goodsId
+			, quantity
+			, receiverName
+			, receivetPhone
+			, payMethod	
+		) values (
+			#{memberId}
+			, #{goodsId}
+			, #{quantity}
+			, #{receiverName}
+			, #{receiverPhone}
+			, #{payMethod}
+		)
+	</insert>
+	<update id="update">
+		update tb_dzspring_order set
+		memberId = #{memberId}
+		, goodsId = #{goodsId}
+		, quantity = #{quantity}
+		, receiverName = #{receiverName}
+		, receiverPhone = #{receiverPhone}
+		, payMethod = #{payMethod}
+		where id = #{id}
+	</update>
+	<delete id="delete">
+		delete from tb_dzspring_order where id = #{id}
+	</delete>
+	<select id="findOneById">
+		select * from tb_dzspring_order where id = #{id}
+	</select>
+	<select id="list">
+		select * from tb_dzspring_order where memberId = #{memberId}
+		<if test="lastId != null">
+			and id > #{lastId}
+		</if>
+		limit 10;
+	</select>
+</mapper>
