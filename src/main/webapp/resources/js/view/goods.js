@@ -11,8 +11,12 @@ const main = () => {
 			})
 		});
 		const json = await response.json();
-		if (json.data && confirm(`장바구니로 이동하시겠습니까?`)) {
-			location.href = `${json.data.url}`;
+		if (json.data) {
+			if (confirm(`장바구니로 이동하시겠습니까?`)) {
+				location.href = `${json.data.url}`;				
+			}
+		} else {
+			alert(`일시적 오류`);
 		}
 	});
 }
