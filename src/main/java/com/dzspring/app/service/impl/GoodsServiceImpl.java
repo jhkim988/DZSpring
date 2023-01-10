@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dzspring.app.entity.Cart;
 import com.dzspring.app.entity.Goods;
 import com.dzspring.app.repository.GoodsRepository;
 import com.dzspring.app.service.GoodsService;
@@ -43,10 +42,14 @@ public class GoodsServiceImpl implements GoodsService {
 		return Optional.ofNullable(goodsRepository.findOneById(id));
 	}
 
+	/**
+	 * @param goodsId 의 목록
+	 * @return Goods 객체의 목록
+	 */
 	@Override
-	public List<Goods> cartToGoodsList(List<Cart> list) {
-		Map<String, List<Cart>> map = new HashMap<>();
-		map.put("list", list);
+	public List<Goods> toGoodsList(List<Integer> goodsIds) {
+		Map<String, List<Integer>> map = new HashMap<>();
+		map.put("list", goodsIds);
 		return goodsRepository.cartToGoodsList(map);
 	}
 }
