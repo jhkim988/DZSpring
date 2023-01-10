@@ -1,8 +1,11 @@
 package com.dzspring.app.controller;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dzspring.app.entity.Cart;
 import com.dzspring.app.entity.Member;
+import com.dzspring.app.entity.OrderItem;
 import com.dzspring.app.service.GoodsService;
 import com.dzspring.app.service.MemberService;
 import com.dzspring.app.service.impl.OrderService;
@@ -78,26 +83,29 @@ public class FormController {
 		return mav;
 	}
 	
-	@RequestMapping("/orderInsertForm/{goodsId}")
-	public ModelAndView orderInsertForm(@PathVariable int goodsId) {
-		ModelAndView mav = new ModelAndView(); // TODO: 실패 시 주소 입력
-		goodsService.findOneById(goodsId).ifPresent(goods -> {
-			mav.addObject("goods", goods);
-			mav.setViewName("/form/orderInsertForm");
-		});
+	@RequestMapping("/orderInsertForm")
+	public ModelAndView orderInsertForm(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/form/orderInsertForm");
+		HttpSession session = request.getSession();
+		@SuppressWarnings("unchecked")
+		List<Cart> cart = (List<Cart>) session.getAttribute("cart");
+		List<Integer> goodsIds = cart.stream()
+									.map(cartItem -> cartItem.getGoodsId())
+									.sorted(Integer::compare)
+									.collect(Collectors.toList());
+		mav.addObject("goods", goodsService.toGoodsList(goodsIds));
+		mav.addObject("cart", cart);
+		session.removeAttribute("cart");
 		return mav;
 	}
 	
 	@RequestMapping("/orderUpdateForm/{orderId}")
 	public ModelAndView orderUpdateForm(@PathVariable int orderId) {
-		ModelAndView mav= new ModelAndView(""); // TODO: 실패 시 주소 입력
-		orderService.findOneById(orderId).ifPresent(order -> {
-			mav.addObject("order", order);
-			goodsService.findOneById(order.getGoodsId()).ifPresent(goods -> {
-				mav.addObject("goods", goods);
-				mav.setViewName("/form/orderUpdateForm");
-			});
-		});
+		ModelAndView mav= new ModelAndView("/form/orderUpdateForm");
+		List<OrderItem> cart = orderService.findOrderItemByOrderId(orderId);
+		cart.sort((item1, item2) -> Integer.compare(item1.getId(), item2.getId()));
+		mav.addObject("goods", goodsService.toGoodsList(cart.stream().map(OrderItem::getGoodsId).collect(Collectors.toList())));
+		mav.addObject("cart", cart);
 		return mav;
 	}
 }
