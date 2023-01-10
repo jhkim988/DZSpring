@@ -20,12 +20,23 @@
 	<delete id="delete">
 		delete from tb_dzspring_cart where id = #{id}
 	</delete>
-	<select id="list" resultType="Cart">
+	<select id="listByMember" resultType="Cart">
 		select * from tb_dzspring_cart where 
 			memberId = #{memberId}
 		<if test="lastCartId != null">
-			and id > #{lastCartId}
+			<![CDATA[
+				and id < #{lastCartId}						
+			]]>
 		</if>
+		order by id desc
 		limit 10;
+	</select>
+	<select id="findByIdList" resultType="Cart">
+		select * from tb_dzspring_cart where
+			id in
+		<foreach collection="list" item="row" open="(" separator="," close=")">
+			#{row}
+		</foreach>
+		order by id desc
 	</select>
 </mapper>
