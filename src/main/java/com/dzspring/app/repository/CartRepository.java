@@ -9,5 +9,6 @@ public interface CartRepository {
 	int insert(Cart cart);
 	int update(Cart cart);
 	int delete(int id);
-	List<Cart> list(Map<String, Object> map);
+	List<Cart> listByMember(Map<String, Object> map);
+	List<Cart> findByIdList(Map<String, List<Integer>> map);
 }
