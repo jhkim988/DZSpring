@@ -20,5 +20,5 @@ public interface GoodsRepository {
 	List<Goods> findByPageLimit10(Map<String, Object> map);
 	List<Goods> findByStatusCodeLimit10(Map<String, Object> map);
 	List<Goods> findByCreatedAtLimit10(Map<String, Object> map);
-	List<Goods> cartToGoodsList(Map<String, List<Integer>> map);
+	List<Goods> toGoodsList(Map<String, List<Integer>> map);
 }

@@ -50,6 +50,6 @@ public class GoodsServiceImpl implements GoodsService {
 	public List<Goods> toGoodsList(List<Integer> goodsIds) {
 		Map<String, List<Integer>> map = new HashMap<>();
 		map.put("list", goodsIds);
-		return goodsRepository.cartToGoodsList(map);
+		return goodsRepository.toGoodsList(map);
 	}
 }
