@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dzspring.app.repository.OrderItemRepository">
+	<insert id="insert">
+		insert into tb_dzspring_order_item (
+			orderId
+			, goodsId
+			, quantity
+		) values (
+			#{orderId}
+			, #{goodsId}
+			, #{quantity}
+		)
+	</insert>
+		<insert id="insertItems">
+		insert into tb_dzspring_order_item (
+			orderId
+			, goodsId
+			, quantity
+		) values
+		<foreach separator="," collection="list" item="row">
+			(
+				#{orderId}
+				, #{row.goodsId}
+				, #{row.quantity}
+			)
+		</foreach>
+	</insert>
+	<update id="update">
+		update tb_dzspring_order_item
+		orderId = #{orderId}
+		, goodsId = #{goodsId}
+		, quantity = #{quantity}
+		where id = #{id}
+	</update>
+	<delete id="delete">
+		delete from tb_dzspring_order_item where id = #{id}
+	</delete>
+	<select id="findItemsByOrderId">
+		select * from tb_dzsprig_order_item where orderId = #{orderId} order by id desc
+	</select>
+</mapper>
