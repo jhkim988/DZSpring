@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,8 +46,8 @@ public class CartController {
 		Member member = (Member) session.getAttribute("member");
 		map.put("memberId", member.getId());
 		ResponseMessage message = new ResponseMessage();
-		List<Cart> cartList = cartService.list(map);
-		List<Goods> goodsList = goodsService.cartToGoodsList(cartList);
+		List<Cart> cartList = cartService.listByMember(map);
+		List<Goods> goodsList = goodsService.toGoodsList(cartList.stream().map(Cart::getGoodsId).collect(Collectors.toList()));
 		Map<String, Object> data = new HashMap<>();
 		data.put("cartList", cartList);
 		data.put("goodsList", goodsList);
