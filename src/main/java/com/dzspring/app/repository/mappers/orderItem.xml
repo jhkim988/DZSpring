@@ -20,7 +20,7 @@
 		) values
 		<foreach separator="," collection="list" item="row">
 			(
-				#{orderId}
+				#{row.orderId}
 				, #{row.goodsId}
 				, #{row.quantity}
 			)
