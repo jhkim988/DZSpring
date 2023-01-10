@@ -29,7 +29,7 @@ public class ViewController {
 	
 	@RequestMapping("/goods/{id}")
 	public ModelAndView viewGoods(@PathVariable int id) {
-		ModelAndView mav = new ModelAndView(); // TODO: 실패 화면
+		ModelAndView mav = new ModelAndView("403"); // TODO: 실패 화면
 		goodsService.findOneById(id).ifPresent(goods -> {
 			mav.addObject("goods", goods);
 			mav.setViewName("/view/goods");
@@ -44,15 +44,8 @@ public class ViewController {
 	
 	@RequestMapping("/order/{id}")
 	public ModelAndView viewOrder(@PathVariable int id) {
-		ModelAndView mav = new ModelAndView("403"); // TODO: 실패 시 초기화
-		orderService.findOneById(id).ifPresent(order -> {
-			mav.addObject("order", order);	
-			goodsService.findOneById(order.getGoodsId()).ifPresent(goods -> {
-				mav.addObject("goods", goods);
-				mav.setViewName("/view/order");
-			});
-		});
-
+		ModelAndView mav = new ModelAndView("/view/order");
+		mav.addObject("goods", orderService.findOrderItemByOrderId(id));
 		return mav;
 	}
 	
