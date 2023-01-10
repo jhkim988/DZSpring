@@ -6,9 +6,10 @@ import java.util.Map;
 import com.dzspring.app.entity.Order;
 
 public interface OrderRepository {
-	List<Order> list(Map<String, Object> map);
 	int insert(Order order);
 	int update(Order order);
 	int delete(int id);
+	List<Order> list(Map<String, Object> map);
 	Order findOneById(int id);
+	
 }
