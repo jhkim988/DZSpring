@@ -37,7 +37,7 @@
 		</if>
 		limit 10;
 	</select>
-	<select id="findOneById">
+	<select id="findOneById" resultType="Order">
 		select * from tb_dzspring_order where id = #{id}
 	</select>
 	<select id="findLimit10" resultType="Order">
