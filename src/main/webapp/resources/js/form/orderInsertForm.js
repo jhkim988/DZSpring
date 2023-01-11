@@ -1,5 +1,6 @@
 const main = () => {
 	insertOrder.addEventListener("click", async e => {
+		e.preventDefault();
 		const checkedCarts = document.querySelectorAll("input[type='checkbox']:checked");
 		const response = await fetch(`${context.value}order`, {
 			method: `POST`

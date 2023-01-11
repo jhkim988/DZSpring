@@ -18,7 +18,7 @@
 				<td><input type="checkbox" data-cartId="${ cart[stat.index].id }"></td>
 				<td>
 					<c:choose>
-						<c:when test="row.img != null">
+						<c:when test="${ row.img != null }">
 							<img src=<c:url value="/goods/thumbnail/${ row.img }"/>/>	
 						</c:when>
 						<c:otherwise>
