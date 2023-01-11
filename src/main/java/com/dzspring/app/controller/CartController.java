@@ -62,7 +62,7 @@ public class CartController {
 		cart.setMemberId(member.getId());
 		ResponseMessage message = new ResponseMessage();
 		Map<String, Object> data = new HashMap<>();
-		boolean result = cartService.insert(cart);
+		boolean result = cartService.insert(cart) > 0;
 		data.put("result", result);
 		if (result) {
 			data.put("url", ResponseMessage.path("/view/cart"));
