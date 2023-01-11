@@ -40,7 +40,7 @@ public class OrderSearchService {
 	
 	@Command("orderId")
 	public List<Order> orderIdSearch(Map<String, String> map) {
-		int id = Integer.parseInt(map.get("id"));
+		int id = Integer.parseInt(map.get("value"));
 		return Arrays.asList(orderRepository.findOneById(id));
 	}
 	
