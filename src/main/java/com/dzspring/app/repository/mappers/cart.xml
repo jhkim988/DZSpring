@@ -18,7 +18,10 @@
 		where id = #{id}
 	</update>
 	<delete id="delete">
-		delete from tb_dzspring_cart where id = #{id}
+		delete from tb_dzspring_cart
+			<foreach open=" where id in (" separator="," close=")" collection="list" item="item">
+				#{item}
+			</foreach>
 	</delete>
 	<select id="listByMember" resultType="Cart">
 		select * from tb_dzspring_cart where 
