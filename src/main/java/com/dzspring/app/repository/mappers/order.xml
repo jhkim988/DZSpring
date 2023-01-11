@@ -23,6 +23,9 @@
 		, receiverPhone = #{receiverPhone}
 		, address = #{address}
 		, payMethod = #{payMethod}
+		, status = #{status}
+		, totalPrice = #{totalPrice}
+		where id = #{id}
 	</update>
 	<delete id="delete">
 		delete from tb_dzspring_order where id = #{id}
