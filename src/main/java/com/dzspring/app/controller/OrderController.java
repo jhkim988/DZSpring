@@ -107,6 +107,7 @@ public class OrderController {
 						.receiverPhone((String) map.get("receiverPhone"))
 						.address((String) map.get("address"))
 						.payMethod((String) map.get("payMethod"))
+						.status("상품 준비중")
 						.build();
 
 		@SuppressWarnings("unchecked")
