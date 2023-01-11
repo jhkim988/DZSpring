@@ -43,15 +43,19 @@ public class OrderService {
 
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor = {Exception.class})
 	public boolean order(Order order, List<Integer> cartIds) {
-		int orderId = orderRepository.insert(order);
-		return orderItemRepository.insertItems(
-				cartService
+		orderRepository.insert(order);
+		boolean result = orderItemRepository.insertItems(cartService
 					.findByIdList(cartIds).stream()
 					.map(cartItem -> OrderItem.builder()
-						.orderId(orderId)
+						.orderId(order.getId())
 						.goodsId(cartItem.getGoodsId())
 						.quantity(cartItem.getQuantity())
 						.build())
-					.collect(Collectors.toList())) > 0;
+					.collect(Collectors.toList())
+					) > 0;
+		order.setTotalPrice(cartService.getTotalPrice(cartIds));
+		cartService.delete(cartIds);
+		orderRepository.update(order);
+		return result;
 	}
 }
