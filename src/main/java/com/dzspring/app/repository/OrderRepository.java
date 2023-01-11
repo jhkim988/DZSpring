@@ -11,5 +11,6 @@ public interface OrderRepository {
 	int delete(int id);
 	List<Order> list(Map<String, Object> map);
 	Order findOneById(int id);
-	
+	List<Order> findLimit10(Map<String, String> map);
+	List<Order> findByMemberIdLimit10(Map<String, String> map);
 }
