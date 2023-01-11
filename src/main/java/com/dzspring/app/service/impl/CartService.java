@@ -4,27 +4,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dzspring.app.entity.Cart;
-import com.dzspring.app.entity.Goods;
 import com.dzspring.app.repository.CartRepository;
-import com.dzspring.app.service.GoodsService;
 
 @Service
 public class CartService {
 
 	private final CartRepository cartRepository;
-	private final GoodsService goodsService;
 	
 	@Autowired
-	public CartService(CartRepository cartRepository, GoodsService goodsService) {
+	public CartService(CartRepository cartRepository) {
 		this.cartRepository = cartRepository;
-		this.goodsService = goodsService;
 	}
 	
 	/**
@@ -58,11 +52,6 @@ public class CartService {
 	}
 	
 	public long getTotalPrice(List<Integer> cartIds) {
-		Map<String, List<Integer>> map = new HashMap<>();
-		map.put("list", cartIds);
-		List<Cart> carts = cartRepository.findByIdList(map);
-		List<Goods> goods = goodsService.toGoodsList(carts.stream().map(Cart::getGoodsId).collect(Collectors.toList()));
-		return IntStream.range(0, carts.size()).mapToObj(Integer::new)
-					.reduce(0L, (total, idx) -> total + carts.get(idx).getQuantity()*goods.get(idx).getPrice(), (x, y) -> x+y);
+		return cartRepository.totalPriceByIds(cartIds);
 	}
 }

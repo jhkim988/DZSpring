@@ -42,4 +42,15 @@
 		</foreach>
 		order by id desc
 	</select>
+	<select id="totalPriceByIds" resultType="long">
+		select sum(Cart.quantity * Goods.price)
+		from tb_dzspring_cart Cart
+		inner join tb_dzspring_goods Goods
+			on Cart.goodsId = Goods.id
+		where Cart.id in (''
+		<foreach open="," separator="," collection="list" item="item">
+			#{item}
+		</foreach>
+		)
+	</select>
 </mapper>

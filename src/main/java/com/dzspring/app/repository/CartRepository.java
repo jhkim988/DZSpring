@@ -11,4 +11,5 @@ public interface CartRepository {
 	int delete(List<Integer> cartIds);
 	List<Cart> listByMember(Map<String, Object> map);
 	List<Cart> findByIdList(Map<String, List<Integer>> map);
+	long totalPriceByIds(List<Integer> cartIds);
 }
