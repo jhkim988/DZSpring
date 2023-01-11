@@ -1,5 +1,5 @@
 const main = async () => {
-	let type = `all`, value = null;
+	let type = `all`, value = null, lastId = null;
 	const tbody = document.querySelector("tbody");
 	const orderRow = document.querySelector("tbody > .order").cloneNode(true);
 	const orderItemRow = document.querySelector("tbody > .orderItem").cloneNode(true);
@@ -31,11 +31,13 @@ const main = async () => {
 		tbody.replaceChildren();
 		const json = await fetchOrder({ type, value });
 		json.data.forEach(data => tbody.appendChild(makeTag(orderRow, data)));
+		lastId = json.data[json.data.length-1].id;
 	});
 	
 	more.addEventListener("click", async e => {
-		const json = await fetchOrder({ type, value });
+		const json = await fetchOrder({ type, value, lastId });
 		json.data.forEach(data => tbody.appendChild(makeTag(orderRow, data)));
+		lastId = json.data[json.data.length-1].id;
 	});
 }
 window.onload = main;
