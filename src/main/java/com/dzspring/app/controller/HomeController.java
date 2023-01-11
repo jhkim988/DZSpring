@@ -26,4 +26,9 @@ public class HomeController {
 	public String adminGoods() {
 		return "/admin/goods";
 	}
+	
+	@RequestMapping(value="/admin/order")
+	public String adminOrder() {
+		return "/admin/order";
+	}
 }
