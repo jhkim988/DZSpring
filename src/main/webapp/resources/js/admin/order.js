@@ -18,7 +18,7 @@ const main = async () => {
 	
 	const updateOrderEvent = e => {
 		const orderId = e.target.parentElement.parentElement.dataset.id;
-		location.href = `${context.value}form/admin/order/${orderId}`;
+		location.href = `${context.value}form/orderUpdateForm/${orderId}`;
 	}
 
 	const makeTag = (origin, data) => {

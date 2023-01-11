@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dzspring.app.entity.Cart;
 import com.dzspring.app.entity.Member;
-import com.dzspring.app.entity.OrderItem;
 import com.dzspring.app.service.GoodsService;
 import com.dzspring.app.service.MemberService;
 import com.dzspring.app.service.impl.OrderService;
@@ -99,13 +98,11 @@ public class FormController {
 		return mav;
 	}
 	
-	@RequestMapping("/orderUpdateForm/{orderId}")
-	public ModelAndView orderUpdateForm(@PathVariable int orderId) {
-		ModelAndView mav= new ModelAndView("/form/orderUpdateForm");
-		List<OrderItem> cart = orderService.findOrderItemByOrderId(orderId);
-		cart.sort((item1, item2) -> Integer.compare(item1.getId(), item2.getId()));
-		mav.addObject("goods", goodsService.toGoodsList(cart.stream().map(OrderItem::getGoodsId).collect(Collectors.toList())));
-		mav.addObject("cart", cart);
+	@RequestMapping("/orderUpdateForm/{id}")
+	public ModelAndView orderUpdateForm(@PathVariable int id) {
+		ModelAndView mav= new ModelAndView("/form/adminUpdateOrderForm");
+		mav.addObject("order", orderService.findOneById(id).get());
+		mav.addObject("orderItems", orderService.getGoodsByOrderId(id));
 		return mav;
 	}
 }
