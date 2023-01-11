@@ -36,7 +36,22 @@
 	<delete id="delete">
 		delete from tb_dzspring_order_item where id = #{id}
 	</delete>
-	<select id="findItemsByOrderId">
-		select * from tb_dzsprig_order_item where orderId = #{orderId} order by id desc
+	<select id="findItemsByOrderId" resultType="OrderItem">
+		select * from tb_dzspring_order_item where orderId = #{orderId} order by id desc
+	</select>
+		<select id="getGoodsByOrderId" resultType="java.util.HashMap">
+		select
+			GoodsImage.stored_name
+			, Goods.title
+			, Goods.author
+			, Goods.publisher
+			, Goods.price
+			, OrderItem.quantity
+		from tb_dzspring_order_item OrderItem
+		Inner Join tb_dzspring_goods Goods
+			on OrderItem.goodsId = Goods.id 
+		Left Join tb_dzspring_goods_image GoodsImage
+			on Goods.id = GoodsImage.goods_id
+		where OrderItem.orderId = #{orderId}
 	</select>
 </mapper>

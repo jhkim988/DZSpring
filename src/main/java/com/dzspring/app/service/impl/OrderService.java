@@ -1,6 +1,7 @@
 package com.dzspring.app.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -57,5 +58,9 @@ public class OrderService {
 		cartService.delete(cartIds);
 		orderRepository.update(order);
 		return result;
+	}
+	
+	public List<Map<String, Object>> getGoodsByOrderId(int id) {
+		return orderItemRepository.getGoodsByOrderId(id);
 	}
 }

@@ -45,7 +45,8 @@ public class ViewController {
 	@RequestMapping("/order/{id}")
 	public ModelAndView viewOrder(@PathVariable int id) {
 		ModelAndView mav = new ModelAndView("/view/order");
-		mav.addObject("goods", orderService.findOrderItemByOrderId(id));
+		mav.addObject("order", orderService.findOneById(id).get());
+		mav.addObject("orderItems", orderService.getGoodsByOrderId(id));
 		return mav;
 	}
 	

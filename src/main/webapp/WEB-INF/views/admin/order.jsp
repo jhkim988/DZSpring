@@ -22,6 +22,8 @@
 			<th>총 가격</th>
 			<th>배송 상태</th>
 			<th>주문 날짜</th>
+			<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -35,10 +37,8 @@
 			<td class="totalPrice">총 가격</td>
 			<td class="status">배송 상태</td>
 			<td class="createdAt">주문 날짜</td>
-		</tr>
-		<tr class="orderItem" style="display:none">
-			<td class="goodsId">상품번호</td>
-			<td class="quantity">수량</td>
+			<td class="view"><button class="btn btn-success">상세보기</button></td>
+			<td class="update"><button class="btn btn-warning">수정</button></td>
 		</tr>
 	</tbody>
 </table>

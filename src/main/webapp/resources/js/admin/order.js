@@ -2,7 +2,6 @@ const main = async () => {
 	let type = `all`, value = null, lastId = null;
 	const tbody = document.querySelector("tbody");
 	const orderRow = document.querySelector("tbody > .order").cloneNode(true);
-	const orderItemRow = document.querySelector("tbody > .orderItem").cloneNode(true);
 	tbody.replaceChildren();
 	
 	const fetchOrder = async (obj) => {
@@ -12,12 +11,25 @@ const main = async () => {
 		return await response.json();
 	}
 
+	const detailOrderEvent = e => {
+		const orderId = e.target.parentElement.parentElement.dataset.id;
+		location.href = `${context.value}view/order/${orderId}`
+	}
+	
+	const updateOrderEvent = e => {
+		const orderId = e.target.parentElement.parentElement.dataset.id;
+		location.href = `${context.value}form/admin/order/${orderId}`;
+	}
+
 	const makeTag = (origin, data) => {
 		const copy = origin.cloneNode(true);
+		copy.dataset.id = data.id;
 		copy.style.display = "table-row";
 		for (let key in data) {
 			copy.querySelector(`.${key}`).textContent = data[key];
 		}
+		copy.querySelector(".view > button").addEventListener("click", detailOrderEvent);
+		copy.querySelector(".update > button").addEventListener("click", updateOrderEvent);
 		return copy;
 	}
 	
