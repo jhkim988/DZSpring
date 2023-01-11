@@ -2,8 +2,12 @@ const main = () => {
 	const formParser = nodes => {
 		const ret = { };
 		[...nodes].forEach(node => {
+			if (!node.id) return;
 			ret[node.id] = node.value;
 		});
+		const img = [];
+		document.querySelectorAll("input[name='img']").forEach(node => img.push(node.value));
+		ret.img = img;
 		return ret;
 	}
 	goodsInsertForm.addEventListener("submit", async e => {

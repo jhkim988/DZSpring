@@ -7,8 +7,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dzspring.app.entity.Goods;
+import com.dzspring.app.repository.GoodsImageRepository;
 import com.dzspring.app.repository.GoodsRepository;
 import com.dzspring.app.service.GoodsService;
 
@@ -16,15 +18,27 @@ import com.dzspring.app.service.GoodsService;
 public class GoodsServiceImpl implements GoodsService {
 
 	private final GoodsRepository goodsRepository;
-
+	private final GoodsImageRepository goodsImageRepository;
+	
 	@Autowired
-	public GoodsServiceImpl(GoodsRepository goodsRepository) {
+	public GoodsServiceImpl(GoodsRepository goodsRepository, GoodsImageRepository goodsImageRepository) {
 		this.goodsRepository = goodsRepository;
+		this.goodsImageRepository = goodsImageRepository;
 	}
 	
 	@Override
-	public boolean insert(Goods goods) {
-		return 1 == goodsRepository.insert(goods);
+	@Transactional
+	public boolean insert(Map<String, Object> goods) {
+		boolean result = 1 == goodsRepository.insert(Goods.mapToGoods(goods));
+		
+		@SuppressWarnings("unchecked")
+		List<String> storedNames = (List<String>) goods.get("img");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("storedNames", storedNames);
+		map.put("goodsId", goods.get("id"));
+		goodsImageRepository.updateGoodsId(map);
+		return result;
 	}
 
 	@Override

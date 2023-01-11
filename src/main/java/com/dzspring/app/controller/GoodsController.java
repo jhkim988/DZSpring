@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.StreamSupport;
 
 import javax.servlet.http.HttpServletResponse;
@@ -45,8 +46,8 @@ public class GoodsController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<ResponseMessage> insert(@RequestBody Goods goods) {
-		boolean result = goodsService.insert(goods);
+	public ResponseEntity<ResponseMessage> insert(@RequestBody Map<String, Object> goodsInfo) {
+		boolean result = goodsService.insert(goodsInfo);
 		ResponseMessage message = new ResponseMessage();
 		if (result) {
 			message.setData(true);

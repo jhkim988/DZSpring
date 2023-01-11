@@ -16,4 +16,11 @@
 			, #{content_length}
 		)
 	</insert>
+	<update id="updateGoodsId">
+		update tb_dzspring_goods_image set
+		goods_id = #{goodsId}
+		<foreach collection="storedNames" item="item" open=" where stored_name in (" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
 </mapper>
