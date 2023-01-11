@@ -23,6 +23,7 @@ const main = async () => {
 	
 	const json = await fetchOrder({ type: "all" });
 	json.data.forEach(data => tbody.appendChild(makeTag(orderRow, data)));
+	lastId = json.data[json.data.length-1].id;
 
 	searchForm.addEventListener("submit", async e => {
 		e.preventDefault();
