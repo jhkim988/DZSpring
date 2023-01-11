@@ -28,10 +28,10 @@
 			memberId = #{memberId}
 		<if test="lastCartId != null">
 			<![CDATA[
-				and id < #{lastCartId}						
+				and id < #{lastCartId}
 			]]>
 		</if>
-		order by id desc
+		order by goodsId desc
 		limit 10;
 	</select>
 	<select id="findByIdList" resultType="Cart">
