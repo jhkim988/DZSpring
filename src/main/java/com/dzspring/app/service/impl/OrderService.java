@@ -1,7 +1,6 @@
 package com.dzspring.app.service.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,10 +27,6 @@ public class OrderService {
 		this.orderRepository = orderRepository;
 		this.orderItemRepository = orderItemRepository;
 		this.cartService = cartService;
-	}
-
-	public List<Order> list(Map<String, Object> map) {
-		return orderRepository.list(map);
 	}
 
 	public boolean delete(int id) {
