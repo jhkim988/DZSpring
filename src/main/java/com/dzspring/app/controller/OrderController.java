@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dzspring.app.entity.Cart;
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.entity.Order;
 import com.dzspring.app.service.impl.CartService;
+import com.dzspring.app.service.impl.OrderSearchService;
 import com.dzspring.app.service.impl.OrderService;
 
 @RestController
@@ -31,11 +33,13 @@ import com.dzspring.app.service.impl.OrderService;
 public class OrderController {
 
 	private final OrderService orderService;
+	private final OrderSearchService orderSearchService;
 	private final CartService cartService;
 
 	@Autowired
-	public OrderController(OrderService orderService, CartService cartService) {
+	public OrderController(OrderService orderService, OrderSearchService orderSearchService, CartService cartService) {
 		this.orderService = orderService;
+		this.orderSearchService = orderSearchService;
 		this.cartService = cartService;
 	}
 
@@ -84,9 +88,10 @@ public class OrderController {
 
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<ResponseMessage> listOrder(Map<String, Object> map) {
+	public ResponseEntity<ResponseMessage> listOrder(@RequestParam Map<String, String> map) {
 		ResponseMessage message = new ResponseMessage();
-		message.setData(orderService.list(map));
+		List<Order> data = orderSearchService.search(map);
+		message.setData(data);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
