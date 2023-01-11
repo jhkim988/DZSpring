@@ -34,8 +34,8 @@ public class CartService {
 		return cartRepository.findByIdList(map);
 	}
 	
-	public boolean insert(Cart cart) {
-		return 1 == cartRepository.insert(cart);
+	public int insert(Cart cart) {
+		return cartRepository.insert(cart);
 	}
 	
 	public boolean update(Cart cart) {
