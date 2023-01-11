@@ -116,7 +116,7 @@ public class OrderController {
 		
 		data.put("result", result);
 		if (result) {
-			data.put("url", ResponseMessage.path("/"));
+			message.setUrl(ResponseMessage.path(""));
 		}
 		message.setData(data);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
