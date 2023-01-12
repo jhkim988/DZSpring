@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dzspring.app.repository.QnaRepository">
+	<select id="findByGoodsIdLimit10WithOffset" resultType="Qna">
+		select qna.id, qna.goodsId, qna.parentId, qna.type, qna.title, qna.memberId, qna.createdAt from tb_dzspring_qna as qna inner join (
+			select id from tb_dzspring_qna where
+				goodsId = #{goodsId}
+				order by id desc
+				limit #{offset}, 5
+			) as tmp
+			on qna.id = tmp.id
+			order by qna.id desc
+	</select>
+	<select id="findOneById" resultType="Qna">
+		select * from tb_dzspring_qna where id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into tb_dzspring_qna (
+			goodsId
+			, parentId
+			, type
+			, title
+			, content
+			, memberId
+		) values (
+			#{goodsId}
+			, #{parentId}
+			, #{type}
+			, #{title}
+			, #{content}
+			, #{memberId}
+		)
+	</insert>
+	<select id="getCount" resultType="int">
+		select count(*) from tb_dzspring_qna where goodsId = #{goodsId}
+	</select>
+	<update id="update">
+		update tb_dzspring_qna set
+			goodsId = #{goodsId}
+			, parentId = #{parentId}
+			, type = #{type}
+			, content = #{content}
+		where id = #{id}
+	</update>
+	<delete id="delete">
+		delete from tb_dzspring_qna where id = #{id}
+	</delete>
+</mapper>

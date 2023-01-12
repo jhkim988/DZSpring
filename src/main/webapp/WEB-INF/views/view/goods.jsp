@@ -26,10 +26,51 @@
 <button id="insertCart">장바구니 담기</button>
 <button id="insertOrder">구매하기</button>
 
-<h5>상품 리뷰</h5>
-<div>
-	<div>상품 리뷰 댓글 1</div>
-	<div>상품 리뷰 댓글 2</div>
-	<div>상품 리뷰 댓글 3</div>
-	<div>상품 리뷰 댓글 4</div>
+<h5>QnA</h5>
+<table>
+	<thead>
+		<tr>
+			<th>번호</th>
+			<th>유형</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>작성일</th>
+			<th>수정</th>
+			<th>삭제</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="qna" style="display:none;">
+			<td class="id"></td>
+			<td class="type"></td>
+			<td class="title"></td>
+			<td class="memberId"></td>
+			<td class="createdAt"></td>
+			<td><button class="updateButton btn btn-warning">수정</button></td>
+			<td><button class="deleteButton btn btn-danger">삭제</button></td>
+		</tr>
+	</tbody>
+</table>
+<div class="buttonList">
+	<button id="first">처음</button>
+	<button id="prev">이전</button>
+	<div id="numBtnList">
+		<button>1</button>
+		<button>2</button>
+		<button>3</button>
+		<button>4</button>
+		<button>5</button>
+	</div>
+	<button id="next">다음</button>
+	<button id="last">끝</button>
 </div>
+<form id="qnaForm">
+	<input id="title" type="text" placeholder="제목"/>
+	<select id="type">
+		<option value="제품문의">제품문의</option>
+		<option value="배송문의">배송문의</option>
+		<option value="기타">기타</option>
+	</select>
+	<textarea id="content" placeholder="문의글 작성"></textarea>
+	<input type="submit" value="등록"/>
+</form>
