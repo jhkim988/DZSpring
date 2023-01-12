@@ -27,6 +27,15 @@
 		, totalPrice = #{totalPrice}
 		where id = #{id}
 	</update>
+	<update id="updateReceiverInfo">
+		update tb_dzspring_order set
+			receiverName = #{receiverName}
+			, receiverPhone = #{receiverPhone}
+			, address = #{address}
+			, payMethod = #{payMethod}
+			, status = #{status}
+		where id = #{id}
+	</update>
 	<delete id="delete">
 		delete from tb_dzspring_order where id = #{id}
 	</delete>
