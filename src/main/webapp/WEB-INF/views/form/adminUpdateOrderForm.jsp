@@ -31,13 +31,14 @@
 </div>
 <div>
 	<form id="updateOrderForm">
-		<input type="text" value="${ order.memberId }" readOnly/>
-		<input type="text" value="${ order.receiverName }"/>
-		<input type="text" value="${ order.receiverPhone }"/>
-		<input type="text" value="${ order.address }"/>
-		<input type="text" value="${ order.payMethod }"/>
-		<input type="text" value="${ order.totalPrice }" readOnly/>
-		<input type="text" value="${ order.status }"/>
-		<input type="text" value="${ order.createdAt }" readOnly/>
+		<input id="memberId" type="text" value="${ order.memberId }" readOnly/>
+		<input id="receiverName" type="text" value="${ order.receiverName }"/>
+		<input id="receiverPhone" type="text" value="${ order.receiverPhone }"/>
+		<input id="address" type="text" value="${ order.address }"/>
+		<input id="payMethod" type="text" value="${ order.payMethod }"/>
+		<input id="totalPrice" type="text" value="${ order.totalPrice }" readOnly/>
+		<input id="status" type="text" value="${ order.status }"/>
+		<input id="createdAt" type="text" value="${ order.createdAt }" readOnly/>
+		<input type="submit" value="수정"/>
 	</form>
 </div>

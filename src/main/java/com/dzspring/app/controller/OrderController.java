@@ -126,14 +126,11 @@ public class OrderController {
 	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<ResponseMessage> updateOrder(@RequestBody Order order) {
 		ResponseMessage message = new ResponseMessage();
-		Map<String, Object> data = new HashMap<>();
-		boolean result = false;
-//		boolean result = orderService.update(order);
-		data.put("result", result);
+		boolean result = orderService.update(order);
 		if (result) {
-			data.put("url", ResponseMessage.path(""));
+			message.setUrl(ResponseMessage.path("admin/order"));
 		}
-		message.setData(data);
+		message.setData(result);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 

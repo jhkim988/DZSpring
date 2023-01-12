@@ -30,6 +30,15 @@ public class OrderService {
 		this.cartService = cartService;
 	}
 
+	/**
+	 * Order Table 의 허용된 컬럼(receiverName, receiverPhone, address, payMethod, status)만 수정합니다.
+	 * @param order
+	 * @return db 쿼리 수행 성공 여부
+	 */
+	public boolean update(Order order) {
+		return 1 == orderRepository.updateReceiverInfo(order);
+	}
+	
 	public boolean delete(int id) {
 		return 1 == orderRepository.delete(id);
 	}
