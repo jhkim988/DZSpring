@@ -85,11 +85,10 @@ public class GoodsSearchService {
 	
 	@SuppressWarnings("unchecked")
 	public List<Goods> invoke(Map<String, Object> map) {
-		String method = (String) map.get("method");
-		Map<String, Object> value = (Map<String, Object>) map.get("value");
-		if (!goodsCommandMap.containsKey(method)) throw new UnsupportedOperationException();
+		String searchType = (String) map.get("searchType");
+		if (!goodsCommandMap.containsKey(searchType)) throw new UnsupportedOperationException();
 		try {
-			return (List<Goods>) goodsCommandMap.get(method).invoke(this, value);
+			return (List<Goods>) goodsCommandMap.get(searchType).invoke(this, map);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
