@@ -59,9 +59,7 @@ const main = async () => {
 		json.data.answers.forEach(dataAns => {
 			const copy = answer.cloneNode(true);
 			copy.childNodes.forEach(node => {
-				console.log(node.nodeType);
 				if (node.nodeType != Node.ELEMENT_NODE || !dataAns[node.getAttribute("class")]) return;
-				console.log(node.getAttribute("class"));
 				node.textContent = dataAns[node.getAttribute("class")];
 			});
 			answerList.appendChild(copy);
