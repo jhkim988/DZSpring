@@ -27,6 +27,16 @@
 <button id="insertOrder">구매하기</button>
 
 <h5>QnA</h5>
+<form id="qnaForm">
+	<input id="form_title" type="text" placeholder="제목"/>
+	<select id="form_type">
+		<option value="제품문의">제품문의</option>
+		<option value="배송문의">배송문의</option>
+		<option value="기타">기타</option>
+	</select>
+	<textarea id="form_content" placeholder="문의글 작성"></textarea>
+	<input type="submit" value="등록"/>
+</form>
 <table>
 	<thead>
 		<tr>
@@ -35,8 +45,6 @@
 			<th>제목</th>
 			<th>작성자</th>
 			<th>작성일</th>
-			<th>수정</th>
-			<th>삭제</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -46,8 +54,6 @@
 			<td class="title"></td>
 			<td class="memberId"></td>
 			<td class="createdAt"></td>
-			<td><button class="updateButton btn btn-warning">수정</button></td>
-			<td><button class="deleteButton btn btn-danger">삭제</button></td>
 		</tr>
 	</tbody>
 </table>
@@ -64,13 +70,33 @@
 	<button id="next">&gt;</button>
 	<button id="last">&gt;&gt;</button>
 </div>
-<form id="qnaForm">
-	<input id="title" type="text" placeholder="제목"/>
-	<select id="type">
+<div id="qnaView" style="display:none;">
+	제목: <h5 id="title"></h5>
+	유형: <p id="type"></p>
+	작성자: <p id="memberId"></p>
+	작성일: <p id="createdAt"></p>
+	<p id="content"></p>
+	<button id="updateFormButton" class="btn btn-warning">수정</button>
+	<button id="deleteButton" class="btn btn-danger">삭제</button>
+	<div id="answerList">
+		<div class="answer">
+		<h5>답변</h5>
+			제목: <h5 class="title"></h5>
+			유형: <p class="type"></p>
+			작성자: <p class="memberId"></p>
+			작성일: <p class="createdAt"></p>
+			<p class="content"></p>
+		</div>
+	</div>
+</div>
+<form id="qnaUpdateForm" style="display:none;">
+	<input name="title" type="text" placeholder="제목"/>
+		<select name="type">
 		<option value="제품문의">제품문의</option>
 		<option value="배송문의">배송문의</option>
 		<option value="기타">기타</option>
 	</select>
-	<textarea id="content" placeholder="문의글 작성"></textarea>
-	<input type="submit" value="등록"/>
+	<textarea name="content"></textarea>
+	<button id="updateButton" class="btn btn-warning">수정</button>
+	<button id="cancel" class="btn btn-danger">취소</button>
 </form>

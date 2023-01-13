@@ -7,6 +7,7 @@ import com.dzspring.app.entity.Qna;
 
 public interface QnaRepository {
 	List<Qna> findByGoodsIdLimit10WithOffset(Map<String, Object> map);
+	List<Qna> findByParentId(int id);
 	Qna findOneById(int id);
 	int insert(Qna qna);
 	int update(Qna qna);

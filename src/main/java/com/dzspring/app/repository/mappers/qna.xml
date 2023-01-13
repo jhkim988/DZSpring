@@ -11,6 +11,9 @@
 			on qna.id = tmp.id
 			order by qna.id desc
 	</select>
+	<select id="findByParentId" resultType="Qna">
+		select * from tb_dzspring_qna where parentId= #{parentId} and id != #{parentId}
+	</select>
 	<select id="findOneById" resultType="Qna">
 		select * from tb_dzspring_qna where id = #{id}
 	</select>
@@ -38,6 +41,7 @@
 		update tb_dzspring_qna set
 			goodsId = #{goodsId}
 			, parentId = #{parentId}
+			, title = #{title}
 			, type = #{type}
 			, content = #{content}
 		where id = #{id}

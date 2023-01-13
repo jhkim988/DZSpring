@@ -42,21 +42,91 @@ const main = async () => {
 	
 	// qna
 	const tbody = document.querySelector("tbody");
-	const updateForm = async e => {
-		
+	
+	// Qna 글 조회
+	const answer = answerList.querySelector(".answer").cloneNode(true);
+	const qnaViewEvent = async e => {
+		qnaView.style.display = "inline-block";
+		qnaUpdateForm.style.display="none"
+		const id = e.currentTarget.dataset.id;
+		const response = await fetch(`${context.value}qna/view/${id}`, { method: `GET`});
+		const json = await response.json();
+		qnaView.childNodes.forEach(node => {
+			if (!json.data.view[node.id]) return;
+			node.textContent = json.data.view[node.id];
+		});
+		answerList.replaceChildren();
+		json.data.answers.forEach(dataAns => {
+			const copy = answer.cloneNode(true);
+			copy.childNodes.forEach(node => {
+				console.log(node.nodeType);
+				if (node.nodeType != Node.ELEMENT_NODE || !dataAns[node.getAttribute("class")]) return;
+				console.log(node.getAttribute("class"));
+				node.textContent = dataAns[node.getAttribute("class")];
+			});
+			answerList.appendChild(copy);
+		});
+		qnaView.dataset.id = id;
+		qnaUpdateForm.dataset.id = id;
 	}
-	const deleteQna = async e => {
+	
+	// Qna 수정 Form
+	updateFormButton.addEventListener("click",  async e => {
+		const id = e.target.parentElement.dataset.id;
+		const response = await fetch(`${context.value}qna/view/${id}`, { method: `GET`});
+		const json = await response.json();
+		qnaUpdateForm.childNodes.forEach(node => {
+			console.log(node.name);
+			if (!json.data[node.name]) return;
+			node.value = json.data[node.name];
+		})
+		qnaView.style.display="none";
+		qnaUpdateForm.style.display = "inline-block";
+	});
+	
+	// Qna 수정
+	updateButton.addEventListener("click", async e => {
 		e.preventDefault();
-		const id = e.target.parentElement.parentElement.dataset.id;
+		const response = await fetch(`${context.value}qna`, {
+			method:`PUT`
+			, headers: {
+				'Content-Type': `application/json;charset=utf-8`
+			}
+			, body: JSON.stringify({
+				id: qnaUpdateForm.dataset.id
+				, title: qnaUpdateForm.querySelector("input[name='title']").value
+				, type: qnaUpdateForm.querySelector("select[name='type']").value
+				, content: qnaUpdateForm.querySelector("textarea[name='content']").value
+			})
+		});
+		const json = await response.json();
+		if (json.data) {
+			alert(`수정됐습니다.`);
+			cancel.click();
+			first.click();
+		}
+	});
+	
+	// Qna 삭제
+	deleteButton.addEventListener("click", async e => {
+		e.preventDefault();
+		const id = e.target.parentElement.dataset.id;
 		const response = await fetch(`${context.value}qna/${id}`, { method: `DELETE`});
 		const json = await response.json();
 		if (json.data) {
 			alert(`삭제됐습니다.`);
-			search();
+			first.click();
+			cancel.click();
 		} else {
 			alert(`삭제 실패`);
 		}
-	}
+	});
+	
+	cancel.addEventListener("click", e => {
+		e.preventDefault();
+		qnaView.style.display="none";
+		qnaUpdateForm.style.display="none";
+	});
 	
 	// pagination
 	let crnt = 1, lo = 1, hi = 5, maxPage = 0, totalCount = 0;
@@ -82,8 +152,7 @@ const main = async () => {
 			if (!copy.querySelector(`.${key}`)) continue;
 			copy.querySelector(`.${key}`).textContent = data[key];
 		}
-		copy.querySelector(".updateButton").addEventListener("click", updateForm);
-		copy.querySelector(".deleteButton").addEventListener("click", deleteQna);
+		copy.addEventListener("click", qnaViewEvent);
 		copy.style.display = `table-row`;
 		return copy;
 	}
@@ -111,18 +180,25 @@ const main = async () => {
 		changeBtnSet();
 	});
 	prev.addEventListener("click", async e => {
-		if (lo <= 1) return;
-		crnt = lo-1;
-		await listQna({ goodsId: goodsId.value, page: crnt });
-		lo -= 5, hi = lo+4;
+		if (lo <= 1 || crnt != lo) {
+			crnt = lo;
+			await listQna({ goodsId: goodsId.value, page: crnt });
+		} else {
+			crnt = lo-1;
+			await listQna({ goodsId: goodsId.value, page: crnt });
+			lo -= 5, hi = lo+4;
+		}
 		changeBtnSet();
 	});
 	next.addEventListener("click", async e => {
-		console.log(`lo: ${lo}, hi: ${hi}, crnt: ${crnt}, maxPage: ${maxPage}`);
-		if (hi >= maxPage) return;
-		crnt = hi+1;
-		await listQna({ goodsId: goodsId.value, page: crnt });
-		lo += 5, hi = Math.min(lo+4, maxPage);
+		if (hi >= maxPage || crnt != hi) {
+			crnt = hi;
+			await listQna({ goodsId: goodsId.value, page: crnt });
+		} else {
+			crnt = hi+1;
+			await listQna({ goodsId: goodsId.value, page: crnt });
+			lo += 5, hi = Math.min(lo+4, maxPage);
+		}
 		changeBtnSet();
 	});
 	numBtnList.querySelectorAll("button").forEach(btn => {
@@ -157,14 +233,15 @@ const main = async () => {
 			}
 			, body: JSON.stringify({
 				goodsId: goodsId.value
-				, type: type.value
-				, title: title.value
-				, content: content.value
+				, type: form_type.value
+				, title: form_title.value
+				, content: form_content.value
 			})
 		});
 		const json = await response.json();
 		if (json.data) {
 			alert(`등록됐습니다.`);
+			first.click();
 		}
 	});
 }

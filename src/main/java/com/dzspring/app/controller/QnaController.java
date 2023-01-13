@@ -43,6 +43,16 @@ public class QnaController {
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/view/{id}", method=RequestMethod.GET)
+	public ResponseEntity<ResponseMessage> view(@PathVariable int id) {
+		ResponseMessage message = new ResponseMessage();
+		Map<String, Object> data = new HashMap<>();
+		data.put("view", qnaService.view(id).get());
+		data.put("answers", qnaService.answerlist(id));
+		message.setData(data);
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<ResponseMessage> post(@RequestBody Qna qna, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -54,6 +64,15 @@ public class QnaController {
 			qna.setMemberId(member.getId());
 			message.setData(qnaService.insert(qna));
 		}
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT)
+	public ResponseEntity<ResponseMessage> put(@RequestBody Qna qna, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("member");
+		ResponseMessage message = new ResponseMessage();
+		message.setData(qnaService.update(member, qna));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 	
