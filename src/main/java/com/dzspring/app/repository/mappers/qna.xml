@@ -5,6 +5,7 @@
 		select qna.id, qna.goodsId, qna.parentId, qna.type, qna.title, qna.memberId, qna.createdAt from tb_dzspring_qna as qna inner join (
 			select id from tb_dzspring_qna where
 				goodsId = #{goodsId}
+				and id = parentId
 				order by id desc
 				limit #{offset}, 5
 			) as tmp
