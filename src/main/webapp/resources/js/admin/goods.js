@@ -69,17 +69,16 @@ const main = () => {
 				, to : secondQuery.value || null
 			}
 		};
-		
-		const response = await fetch(`${context.value}goods/search`, {
-			method: `POST`
-			, headers: {
-				'Content-Type': 'application/json;charset=utf-8'
-			}
-			, body: JSON.stringify({
-				method: searchType.value
-				, value: searchRequestJSON[searchType.value]
-			})
+		const param = new URLSearchParams({
+			searchType: searchType.value
+			, value: firstQuery.value || null
+			, lo: firstQuery.value || null
+			, hi: secondQuery.value || null
+			, from: firstQuery.value || null
+			, to : secondQuery.value || null
 		});
+		console.log(param.toString());
+		const response = await fetch(`${context.value}goods/search?${param.toString()}`);
 		
 		if (!response.ok) {
 			alert("네트워크 오류");
@@ -99,28 +98,25 @@ const main = () => {
 	searchButton.addEventListener("click", searchCallback);
 	
 	more.addEventListener("click", async e => {
-		const moreRequestBody = {
-			all: { lastId: last.id }
-			, category: { lastId: last.id, lastCategory: last.category, value: firstQuery.value || null }
-			, title: { lastId: last.id, lastTitle: last.title, value: firstQuery.value || null}
-			, author: { lastId: last.id, lastAuthor: last.author, value: firstQuery.value || null }
-			, publisher: { lastId: last.id, lastPublisher: last.publisher, value: firstQuery.value || null}
-			, price: { lastId: last.id, lastPrice: last.price, lo: firstQuery.value || null, hi: secondQuery.value || null}
-			, publishedAt: { lastId: last.id, lastPublishedAt: last.publishedAt, from: firstQuery.value || null, to: secondQuery.value || null}
-			, page: { lastId: last.id, lastPage: last.page, lo: firstQuery.value || null, hi: secondQuery.value || null }
-			, statusCode: { lastId: last.id, lastStatusCode: last.statusCode, value: firstQuery.value || null }
-			, createdAt: { lastId: last.id, lastCreatedAt: last.createdAt, from: firstQuery.value || null, to: secondQuery.value || null }
-		};
-		const response = await fetch(`${context.value}goods/search`, {
-			method: `POST`
-			, headers: {
-				'Content-Type': `application/json;charset=utf-8`
-			}
-			, body: JSON.stringify({
-				method: searchType.value
-				, value: moreRequestBody[searchType.value] 
-			})
+		const param = new URLSearchParams({
+			searchType: searchType.value
+			, value: firstQuery.value || null
+			, lo: firstQuery.value || null
+			, hi: secondQuery.value || null
+			, from: firstQuery.value || null
+			, to : secondQuery.value || null
+			, lastId: last.id
+			, lastCategory: last.category
+			, lastTitle: last.title
+			, lastAuthor: last.author
+			, lastPublisher: last.publisher
+			, lastPublishedAt: last.publishtedAt
+			, lastPage: last.page
+			, lastStatusCode: last.statusCode
+			, lastCreatedAt: last.createdAt
 		});
+		console.log(param.toString());
+		const response = await fetch(`${context.value}goods/search?${param.toString()}`);
 		if (!response.ok) {
 			alert("네트워크 오류");
 			return false;
