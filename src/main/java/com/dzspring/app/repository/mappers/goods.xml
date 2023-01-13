@@ -59,10 +59,10 @@
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods
 		<if test="lastId != null">
 			<![CDATA[
-				where id > #{lastId}
+				where id < #{lastId}
 			]]>
 		</if>
-		order by id asc
+		order by id desc
 		limit 10
 	</select>
 		<select id="findByCategoryLimit10" resultType="Goods">
@@ -70,14 +70,14 @@
 		<if test="lastCategory != null">
 			<![CDATA[
 				and ((category > #{lastCategory})
-					or (category = #{lastCategory} and id > #{lastId})
+					or (category = #{lastCategory} and id < #{lastId})
 				)
 			]]>
 		</if>
 		<if test="value != null">
 			and category like concat('%', #{value}, '%')
 		</if>
-		order by category asc, id asc
+		order by category asc, id desc
 		limit 10
 	</select>
 		<select id="findByTitleLimit10" resultType="Goods">
@@ -85,14 +85,14 @@
 		<if test="lastTitle != null">
 			<![CDATA[
 				and ((`title` > #{lastTitle})
-					or (`title`= #{lastTitle} and id > #{lastId})
+					or (`title`= #{lastTitle} and id < #{lastId})
 				)
 			]]>
 		</if>
 		<if test="value != null">
 			and title like concat('%', #{value}, '%')
 		</if>
-		order by title asc, id asc
+		order by title asc, id desc
 		limit 10
 	</select>
 		<select id="findByAuthorLimit10" resultType="Goods">
@@ -100,14 +100,14 @@
 		<if test="lastAuthor != null">
 			<![CDATA[
 				and ((`author` > #{lastAuthor})
-					or (`author`= #{lastAuthor} and id > #{lastId})
+					or (`author`= #{lastAuthor} and id < #{lastId})
 				)
 			]]>
 		</if>
 		<if test="value != null">
 			and author like concat('%', #{value}, '%')
 		</if>
-		order by author asc, id asc
+		order by author asc, id desc
 		limit 10
 	</select>
 		<select id="findByPublisherLimit10" resultType="Goods">
@@ -115,14 +115,14 @@
 		<if test="lastPublisher != null">
 			<![CDATA[
 				and ((`publisher` > #{lastPublisher})
-					or (`publisher`= #{lastPublisher} and id > #{lastId})
+					or (`publisher`= #{lastPublisher} and id < #{lastId})
 				)
 			]]>
 		</if>
 		<if test="value != null">
 			and publisher like concat('%', #{value}, '%')
 		</if>
-		order by publisher asc, id asc
+		order by publisher asc, id desc
 		limit 10
 	</select>
 		<select id="findByPriceLimit10" resultType="Goods">
@@ -130,7 +130,7 @@
 		<if test="lastPrice != null">
 			<![CDATA[
 				and ((`price` > #{lastPrice})
-					or (`price`= #{lastPrice} and id > #{lastId})
+					or (`price`= #{lastPrice} and id < #{lastId})
 				)
 			]]>
 		</if>
@@ -144,7 +144,7 @@
 				and `price` <= #{hi}
 			]]>
 		</if>
-		order by `price` asc, id asc
+		order by `price` asc, id desc
 		limit 10
 	</select>
 		<select id="findByPublishedAtLimit10" resultType="Goods">
@@ -152,7 +152,7 @@
 		<if test="lastPublishedAt != null">
 			<![CDATA[
 				and ((`publishedAt` > #{lastPublishedAt})
-					or (`publishedAt`= #{lastPublishedAt} and id > #{lastId})
+					or (`publishedAt`= #{lastPublishedAt} and id < #{lastId})
 				)
 			]]>
 		</if>
@@ -166,7 +166,7 @@
 				and `publishedAt` <= #{to}
 			]]>
 		</if>
-		order by publishedAt asc, id asc
+		order by publishedAt asc, id desc
 		limit 10
 	</select>
 		<select id="findByPageLimit10" resultType="Goods">
@@ -174,7 +174,7 @@
 		<if test="lastPage != null">
 			<![CDATA[
 				and ((`page` > #{lastPage})
-					or (`page`= #{lastPage} and id > #{lastId})
+					or (`page`= #{lastPage} and id < #{lastId})
 				)
 			]]>
 		</if>
@@ -188,7 +188,7 @@
 				and `page` <= #{hi}
 			]]>
 		</if>
-		order by page asc, id asc
+		order by page asc, id desc
 		limit 10
 	</select>
 		<select id="findByStatusCodeLimit10" resultType="Goods">
@@ -196,14 +196,14 @@
 		<if test="lastStatusCode != null">
 			<![CDATA[
 				and ((`statusCode` > #{lastStatusCode})
-					or (`statusCode`= #{lastStatusCode} and id > #{lastId})
+					or (`statusCode`= #{lastStatusCode} and id < #{lastId})
 				)
 			]]>
 		</if>
 		<if test="value != null">
 			and statusCode like concat('%', #{value}, '%')
 		</if>
-		order by statusCode asc, id asc
+		order by statusCode asc, id desc
 		limit 10
 	</select>
 		<select id="findByCreatedAtLimit10" resultType="Goods">
@@ -211,7 +211,7 @@
 		<if test="lastCreatedAt != null">
 			<![CDATA[
 				and ((`createdAt` > #{lastCreatedAt})
-					or (`createdAt`= #{lastCreatedAt} and id > #{lastId})
+					or (`createdAt`= #{lastCreatedAt} and id < #{lastId})
 				)
 			]]>
 		</if>
@@ -225,7 +225,7 @@
 				and `createdAt` <= #{to}
 			]]>
 		</if>
-		order by createdAt asc, id asc
+		order by createdAt asc, id desc
 		limit 10
 	</select>
 	<select id="toGoodsList" resultType="Goods">
