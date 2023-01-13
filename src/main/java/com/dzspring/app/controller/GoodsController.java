@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -91,8 +92,8 @@ public class GoodsController {
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/search")
-	public ResponseEntity<ResponseMessage> search(@RequestBody HashMap<String, Object> searchInfo) {
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public ResponseEntity<ResponseMessage> search(@RequestParam HashMap<String, Object> searchInfo) {
 		ResponseMessage message = new ResponseMessage();
 		message.setData(goodsSearchService.invoke(searchInfo));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
