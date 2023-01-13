@@ -52,17 +52,17 @@
 	</tbody>
 </table>
 <div class="buttonList">
-	<button id="first">처음</button>
-	<button id="prev">이전</button>
+	<button id="first">&lt;&lt;</button>
+	<button id="prev">&lt;</button>
 	<div id="numBtnList">
-		<button>1</button>
-		<button>2</button>
-		<button>3</button>
-		<button>4</button>
-		<button>5</button>
+		<button data-page="1">1</button>
+		<button data-page="2">2</button>
+		<button data-page="3">3</button>
+		<button data-page="4">4</button>
+		<button data-page="5">5</button>
 	</div>
-	<button id="next">다음</button>
-	<button id="last">끝</button>
+	<button id="next">&gt;</button>
+	<button id="last">&gt;&gt;</button>
 </div>
 <form id="qnaForm">
 	<input id="title" type="text" placeholder="제목"/>
