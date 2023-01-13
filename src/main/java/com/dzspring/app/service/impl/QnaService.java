@@ -40,9 +40,12 @@ public class QnaService {
 	@Transactional
 	public boolean insert(Qna qna) {
 		int insert = qnaRepository.insert(qna);
-		qna.setParentId(qna.getId());
-		int update = qnaRepository.update(qna);
-		return insert == 1 && update == 1;
+		if (qna.getParentId() == 0) {
+			qna.setParentId(qna.getId());
+			int update = qnaRepository.update(qna);
+			return insert == 1 && update == 1;
+		}
+		return insert == 1;
 	}
 	
 	public boolean update(Member member, Qna qna) {
@@ -56,7 +59,7 @@ public class QnaService {
 	
 	public boolean delete(Member member, int id) {
 		Qna qna = qnaRepository.findOneById(id);
-		if (qna == null || !qna.getMemberId().equals(member.getId())) return false;
+		if (qna == null || (member.getAuthority() != 99 && !qna.getMemberId().equals(member.getId()))) return false;
 		return 1 == qnaRepository.delete(id);
 	}
 	

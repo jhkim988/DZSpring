@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dzspring.app.entity.Member;
 import com.dzspring.app.entity.Qna;
+import com.dzspring.app.service.impl.QnaSearchService;
 import com.dzspring.app.service.impl.QnaService;
 
 @RestController
@@ -27,10 +28,12 @@ import com.dzspring.app.service.impl.QnaService;
 public class QnaController {
 
 	private final QnaService qnaService;
+	private final QnaSearchService qnaSearchService;
 	
 	@Autowired
-	public QnaController(QnaService qnaService) {
+	public QnaController(QnaService qnaService, QnaSearchService qnaSearchService) {
 		this.qnaService = qnaService;
+		this.qnaSearchService = qnaSearchService;
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -40,6 +43,13 @@ public class QnaController {
 		data.put("list", qnaService.list(map));
 		data.put("total", qnaService.getCount(map));
 		message.setData(data);
+		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/noOffset", method=RequestMethod.GET)
+	public ResponseEntity<ResponseMessage> getNoOffset(@RequestParam HashMap<String, Object> map) {
+		ResponseMessage message = new ResponseMessage();
+		message.setData(qnaSearchService.invoke(map));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 	

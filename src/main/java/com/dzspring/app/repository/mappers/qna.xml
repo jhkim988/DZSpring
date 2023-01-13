@@ -50,4 +50,57 @@
 	<delete id="delete">
 		delete from tb_dzspring_qna where id = #{id}
 	</delete>
+	<select id="searchAll" resultType="Qna">
+		select * from tb_dzspring_qna where 1=1
+		<if test="lastId != null">
+			<![CDATA[
+				and id < #{lastId}
+			]]>
+		</if>
+		order by id desc
+		limit 10;
+	</select>
+		<select id="searchById" resultType="Qna">
+		select * from tb_dzspring_qna where id = #{id}
+	</select>
+		<select id="searchByGoodsId" resultType="Qna">
+		select * from tb_dzspring_qna where goodsId = #{goodsId}
+		<if test="lastId != null">
+			<![CDATA[
+				and id < #{lastId}
+			]]>
+		</if>
+		order by id desc
+		limit 10;
+	</select>
+		<select id="searchByType" resultType="Qna">
+		select * from tb_dzspring_qna where type = #{type}
+		<if test="lastId != null">
+			<![CDATA[
+				and id < #{lastId}
+			]]>
+		</if>
+		order by id desc
+		limit 10;
+	</select>
+		<select id="searchByTitle" resultType="Qna">
+		select * from tb_dzspring_qna where title = #{title}
+		<if test="lastId != null">
+			<![CDATA[
+				and id < #{lastId}
+			]]>
+		</if>
+		order by id desc
+		limit 10;
+	</select>
+		<select id="searchByMemberId" resultType="Qna">
+		select * from tb_dzspring_qna where memberId = #{memberId}
+		<if test="lastId != null">
+			<![CDATA[
+				and id < #{lastId}
+			]]>
+		</if>
+		order by id desc
+		limit 10;
+	</select>
 </mapper>

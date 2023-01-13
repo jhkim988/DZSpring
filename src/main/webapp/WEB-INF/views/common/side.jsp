@@ -15,6 +15,7 @@
 				<li><a href=<c:url value="/admin/page"/>>페이지 권한 관리</a></li>
 				<li><a href=<c:url value="/admin/goods"/>>상품 관리</a></li>
 				<li><a href=<c:url value="/admin/order"/>>주문 관리</a>
+				<li><a href=<c:url value="/admin/qna"/>>Q&A 관리</a></li>
 			</c:if>
 		</c:when>
 		<c:otherwise>

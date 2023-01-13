@@ -13,4 +13,10 @@ public interface QnaRepository {
 	int update(Qna qna);
 	int delete(int id);
 	int getCount(Map<String, Object> map);
+	List<Qna> searchAll(Map<String, Object> map);
+	List<Qna> searchById(Map<String, Object> map);
+	List<Qna> searchByGoodsId(Map<String, Object> map);
+	List<Qna> searchByType(Map<String, Object> map);
+	List<Qna> searchByTitle(Map<String, Object> map);
+	List<Qna> searchByMemberId(Map<String, Object> map);
 }

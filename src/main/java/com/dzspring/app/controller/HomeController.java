@@ -31,4 +31,9 @@ public class HomeController {
 	public String adminOrder() {
 		return "/admin/order";
 	}
+	
+	@RequestMapping(value="/admin/qna")
+	public String adminQna() {
+		return "/admin/qna";
+	}
 }
