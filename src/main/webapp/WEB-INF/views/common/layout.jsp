@@ -12,11 +12,8 @@
 	rel="stylesheet"
 	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
 	crossorigin="anonymous">
-<link rel="stylesheet" href=<c:url value='/resources/'/>
-	<tiles:getAsString name="css"/> />
-<script type="text/javascript"
-		src=<c:url value='/resources/'/><tiles:getAsString name="javascript"/>>
-</script>
+<link rel="stylesheet" href=<c:url value='/resources/'/><tiles:getAsString name="css"/> />
+<script type="text/javascript" src=<c:url value='/resources/'/><tiles:getAsString name="javascript"/>></script>
 </head>
 <body>
 	<input type="hidden" id="context" value=<c:url value="/"/>>
