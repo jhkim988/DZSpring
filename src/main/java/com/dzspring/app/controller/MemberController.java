@@ -65,10 +65,12 @@ public class MemberController {
 	public ResponseEntity<ResponseMessage> logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("member");
 		ResponseMessage message = new ResponseMessage("로그아웃 성공!");
+		message.setUrl(ResponseMessage.path(""));
+		message.setData(true);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<ResponseMessage> view(HttpServletRequest request) {
 		Member member = (Member) request.getSession().getAttribute("member");
 		ResponseMessage message = new ResponseMessage("회원 상세보기");
@@ -76,17 +78,19 @@ public class MemberController {
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<ResponseMessage> register(@RequestBody Member registerInfo, HttpServletRequest request) {
 		boolean result = memberService.register(registerInfo);
 		ResponseMessage message = new ResponseMessage(result ? "회원 가입 성공!" : "일시적 오류");
 		message.setData(result);
-		if (result)
+		if (result) {
 			message.setUrl(request.getContextPath());
+			emailService.sendWelcome(registerInfo.getEmail(), registerInfo.getName());
+		}
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<ResponseMessage> update(@RequestBody Member updateInfo, HttpServletRequest request) {
 		Optional<Member> member = memberService.update(updateInfo);
 
