@@ -163,8 +163,23 @@ const main = async () => {
 			}
 		});
 	}
+	const changeBtnSet = () => {
+		let nIter = 0;
+		numBtnList.querySelectorAll("button").forEach(btn => {
+			btn.dataset.page = lo + nIter;
+			btn.textContent = lo + nIter;
+			if (lo + nIter > maxPage) {
+				btn.style.display = "none";
+			} else {
+				btn.style.display = "inline-block";
+			}
+			nIter++;
+		});	
+		changeCurrentButtonColor();
+	}
 	await listQna({ goodsId: goodsId.value, page: 1 });
 	hi = Math.min(hi, maxPage);
+	changeBtnSet();
 	changeCurrentButtonColor();
 	
 	first.addEventListener("click", async e => {
@@ -206,20 +221,6 @@ const main = async () => {
 			changeCurrentButtonColor();
 		});	
 	});
-	const changeBtnSet = () => {
-		let nIter = 0;
-		numBtnList.querySelectorAll("button").forEach(btn => {
-			btn.dataset.page = lo + nIter;
-			btn.textContent = lo + nIter;
-			if (lo + nIter > maxPage) {
-				btn.style.display = "none";
-			} else {
-				btn.style.display = "inline-block";
-			}
-			nIter++;
-		});	
-		changeCurrentButtonColor();
-	}
 
 	// Q&A 글 작성
 	qnaForm.addEventListener("submit", async e => {
