@@ -9,6 +9,7 @@ const main = async () => {
 		const json = await response.json();
 		if (json.data) {
 			alert(`삭제`);
+			tbody.removeChild(e.target.parentElement.parentElement);
 		}
 	}
 
