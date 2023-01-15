@@ -1,50 +1,56 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <body>
 	<table>
-		<thead>
-			<tr>
-				<th>아이디</th>
-				<th>비밀번호</th>
-				<th>이름</th>
-				<th>성별</th>
-				<th>이메일</th>
-				<th>연락처</th>
-				<th>생일</th>
-				<th>회원 가입 일자</th>
-				<th>최근 활동 일자</th>
-				<th>권한 레벨</th>
-			</tr>
-		</thead>
 		<tbody>
 			<tr>
+				<td>아이디</td>
 				<td id="id">${ manage_member.id }</td>
-				<td id="pwd">${ manage_member.pwd }</td>
-				<td id="name">${ manage_member.name }</td>
-				<td id="sex">${ manage_member.sex }</td>
-				<td id="email">${ manage_member.email }</td>
-				<td id="phone">${ manage_member.phone }</td>
-				<td id="birth">${ manage_member.birth }</td>
-				<td id="createdAt">${ manage_member.createdAt }</td>
-				<td id="updatedAt">${ manage_member.updatedAt }</td>
-				<td id="authority">${ manage_member.authority }</td>
 			</tr>
 			<tr>
-				<td>${ manage_member.id }</td>
-				<td><input type="text" id="pwd" value='${manage_member.pwd}'/></td>
-				<td><input type="text" id="name" value='${manage_member.name}'/></td>
-				<td>
-					<select id="text">
+				<td>비밀번호</td>
+				<td><input type="text" id="pwd" value='${manage_member.pwd}' /></td>
+			</tr>
+			<tr>
+				<td>이름</td>
+				<td><input type="text" id="name" value='${manage_member.name}' /></td>
+			</tr>
+			<tr>
+				<td>성별</td>
+				<td><select id="sex">
 						<option value="M">남자</option>
 						<option value="F">여자</option>
-					</select>
-				<input type="text" id="sex" value='${manage_member.sex}'/></td>
-				<td><input type="text" id="email" value='${manage_member.email}'/></td>
-				<td><input type="text" id="phone" value='${manage_member.phone}'/></td>
-				<td><input type="date" id="birth" value='${manage_member.birth }'/></td>
+				</select></td>
+			</tr>
+			<tr>
+				<td>이메일</td>
+				<td><input type="text" id="email"
+					value='${manage_member.email}' /></td>
+			</tr>
+			<tr>
+				<td>연락처</td>
+				<td><input type="text" id="phone"
+					value='${manage_member.phone}' /></td>
+			</tr>
+			<tr>
+				<td>생일</td>
+				<td><input type="date" id="birth"
+					value='${manage_member.birth }' /></td>
+			</tr>
+			<tr>
+				<td>회원가입일자</td>
 				<td>${ manage_member.createdAt }</td>
+			</tr>
+			<tr>
+				<td>최근활동일자</td>
 				<td>${ manage_member.updatedAt }</td>
-				<td><input type="number" id="authority" value='${manage_member.authority}'/></td>
+			</tr>
+			<tr>
+				<td>권한</td>
+				<td><input type="number" id="authority"
+					value='${manage_member.authority}' /></td>
+			</tr>
 			</tr>
 		</tbody>
 	</table>
