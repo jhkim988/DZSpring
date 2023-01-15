@@ -61,10 +61,10 @@
 		limit 10;
 	</select>
 		<select id="searchById" resultType="Qna">
-		select * from tb_dzspring_qna where id = #{id}
+		select * from tb_dzspring_qna where id = #{value}
 	</select>
 		<select id="searchByGoodsId" resultType="Qna">
-		select * from tb_dzspring_qna where goodsId = #{goodsId}
+		select * from tb_dzspring_qna where goodsId = #{value}
 		<if test="lastId != null">
 			<![CDATA[
 				and id < #{lastId}
@@ -74,7 +74,7 @@
 		limit 10;
 	</select>
 		<select id="searchByType" resultType="Qna">
-		select * from tb_dzspring_qna where type = #{type}
+		select * from tb_dzspring_qna where type = #{value}
 		<if test="lastId != null">
 			<![CDATA[
 				and id < #{lastId}
@@ -84,7 +84,7 @@
 		limit 10;
 	</select>
 		<select id="searchByTitle" resultType="Qna">
-		select * from tb_dzspring_qna where title = #{title}
+		select * from tb_dzspring_qna where title = #{value}
 		<if test="lastId != null">
 			<![CDATA[
 				and id < #{lastId}
@@ -94,7 +94,7 @@
 		limit 10;
 	</select>
 		<select id="searchByMemberId" resultType="Qna">
-		select * from tb_dzspring_qna where memberId = #{memberId}
+		select * from tb_dzspring_qna where memberId = #{value}
 		<if test="lastId != null">
 			<![CDATA[
 				and id < #{lastId}
