@@ -53,31 +53,10 @@ public class AdminController {
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 	
-	// TODO: 구현 필요
 	@RequestMapping("/updateMember")
 	public ResponseEntity<ResponseMessage> updateMember(@RequestBody Member member) {
 		ResponseMessage message = new ResponseMessage();
+		message.setData(memberService.update(member));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
-	}
-	
-	// TODO: 구현 필요
-	@RequestMapping(value="/urlAuth", method=RequestMethod.GET)
-	public ResponseEntity<ResponseMessage> urlAuthlist() {
-		return null;
-	}
-	
-	@RequestMapping(value="/urlAuth", method=RequestMethod.POST)
-	public ResponseEntity<ResponseMessage> insertUrlAuth() {
-		return null;
-	}
-	
-	@RequestMapping(value="/urlAuth/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<ResponseMessage> updateUrlAuth() {
-		return null;
-	}
-	
-	@RequestMapping(value="/urlAuth/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<ResponseMessage> updateUrlDelete() {
-		return null;
 	}
 }
