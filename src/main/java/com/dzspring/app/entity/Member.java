@@ -21,10 +21,7 @@ public class Member {
 	private String sex;
 	private String email;
 	private String phone;
-	private String address_si;
-	private String address_gu;
-	private String address_dong;
-	private String address_other;
+	private String address;
 	private Date birth;
 	@JsonFormat(pattern="yyyy년 MM월 dd일")
 	private Timestamp createdAt;
