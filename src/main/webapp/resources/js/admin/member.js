@@ -137,21 +137,18 @@ const main = () => {
 	
 	const deleteMember = async e => {
 		e.preventDefault();
-		alert(e.target.dataset.id);
-		const response = await fetch(`${context.value}admin/deleteMember`, {
+		const response = await fetch(`${context.value}admin/deleteMembers`, {
 			method: 'POST'
 			, headers: {
 				'Content-Type': `application/json;charset=utf-8`
 			}
 			, body: JSON.stringify({
-				id: e.target.dataset.id
+				ids: [e.target.dataset.id]
 			})
 		});
 		const json = await response.json();
-		if (json.status) {
-			alert(json.message);
-			tbody.removeChild(e.target.parentNode.parentNode);
-		}
+		alert(json.message);
+		tbody.removeChild(e.target.parentElement.parentElement);
 	}
 	
 	const makeTRTag = member => {
