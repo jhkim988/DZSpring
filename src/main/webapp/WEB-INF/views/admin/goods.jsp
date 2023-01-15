@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <body>
 <a href=<c:url value="/admin/goods"/>><button>상품 검색</button></a>
-<a href=<c:url value="/form/goodsInsertForm"/>><button>상품 등록</button></a>
+<a href=<c:url value="/form/admin/insertGoodsForm"/>><button>상품 등록</button></a>
 	<form>
 		<label>
 			<select id="searchType">

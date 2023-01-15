@@ -5,7 +5,7 @@
 	<c:choose>
 		<c:when test="${member != null}">
 			<!-- TODO: Logout JS -->
-			<li><button>로그아웃</button></li>
+			<li><button id="logout">로그아웃</button></li>
 			<li><a href=<c:url value="/view/member"/>>회원 정보 상세보기</a></li>
 			<li><a href=<c:url value="/view/orderList"/>>주문 정보 보기</a></li>
 			<li><a href=<c:url value="/view/cart"/>>장바구니</a></li>

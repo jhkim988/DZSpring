@@ -22,7 +22,7 @@ const main = async () => {
 	
 	const moveUpdateOrder = e => {
 		const orderId = e.target.parentElement.parentElement.dataset.orderId;
-		location.href = `${context.value}form/orderUpdateForm/${orderId}`
+		location.href = `${context.value}form/admin/updateOrderForm/${orderId}`
 	}
 	
 	const makeTrTag = data => {

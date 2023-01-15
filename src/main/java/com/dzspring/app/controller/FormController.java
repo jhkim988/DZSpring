@@ -26,6 +26,7 @@ public class FormController {
 	private final MemberService memberService;
 	private final GoodsService goodsService;
 	private final OrderService orderService;
+	
 	@Autowired
 	public FormController(MemberService memberService, GoodsService goodsService, OrderService orderService) {
 		this.memberService = memberService;
@@ -63,28 +64,28 @@ public class FormController {
 		return "/form/updateMemberForm";
 	}
 	
-	@RequestMapping("/adminUpdateMemberForm/{id}")
+	@RequestMapping("/admin/updateMemberForm/{id}")
 	public String adminUpdateMemberForm(@PathVariable String id, HttpServletRequest request) {
 		Optional<Member> member = memberService.findOneById(id);
 		member.ifPresent(mem -> request.setAttribute("manage_member", mem));
-		return "/form/adminUpdateMemberForm";
+		return "/form/admin/updateMemberForm";
 	}
 	
-	@RequestMapping("/goodsInsertForm")
-	public String goodsInsertForm() {
-		return "/form/goodsInsertForm";
+	@RequestMapping("/admin/insertGoodsForm")
+	public String insertGoodsForm() {
+		return "/admin/form/insertGoodsForm";
 	}
 	
-	@RequestMapping("/goodsUpdateForm/{id}")
-	public ModelAndView goodsUpdateForm(@PathVariable int id) {
-		ModelAndView mav = new ModelAndView("/form/goodsUpdateForm");
+	@RequestMapping("/admin/updateGoodsForm/{id}")
+	public ModelAndView updateGoodsForm(@PathVariable int id) {
+		ModelAndView mav = new ModelAndView("/form/admin/updateGoodsForm");
 		mav.addObject("goods", goodsService.findOneById(id));
 		return mav;
 	}
 	
-	@RequestMapping("/orderInsertForm")
-	public ModelAndView orderInsertForm(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/form/orderInsertForm");
+	@RequestMapping("/admin/insertOrderForm")
+	public ModelAndView insertOrderForm(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/form/admin/insertOrderForm");
 		HttpSession session = request.getSession();
 		@SuppressWarnings("unchecked")
 		List<Cart> cart = (List<Cart>) session.getAttribute("cart");
@@ -98,9 +99,9 @@ public class FormController {
 		return mav;
 	}
 	
-	@RequestMapping("/orderUpdateForm/{id}")
-	public ModelAndView orderUpdateForm(@PathVariable int id) {
-		ModelAndView mav= new ModelAndView("/form/adminUpdateOrderForm");
+	@RequestMapping("/admin/updateOrderForm/{id}")
+	public ModelAndView updateOrderForm(@PathVariable int id) {
+		ModelAndView mav= new ModelAndView("/form/admin/updateOrderForm");
 		mav.addObject("order", orderService.findOneById(id).get());
 		mav.addObject("orderItems", orderService.getGoodsByOrderId(id));
 		return mav;

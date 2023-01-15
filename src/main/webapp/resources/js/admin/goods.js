@@ -157,7 +157,7 @@ const main = () => {
 		copy.querySelector('.page').textContent = goods.totalPage;
 		copy.querySelector('.code').textContent = goods.statusCode;
 		copy.querySelector('.createdAt').textContent = goods.createdAt;
-		copy.querySelector('.updateFormButton > a').href = `${context.value}form/goodsUpdateForm/${goods.id}`;
+		copy.querySelector('.updateFormButton > a').href = `${context.value}form/admin/updateGoodsForm/${goods.id}`;
 		const deleteATag = copy.querySelector('.deleteButton > a');
 		deleteATag.dataset.id = goods.id;
 		deleteATag.addEventListener("click", deleteGoods);

@@ -39,8 +39,8 @@
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<mvc:exclude-mapping path="/resources/**"/>
+			<mvc:mapping path="/admin/**"/>
+			<mvc:mapping path="/form/admin/**"/>
 			<beans:bean class="com.dzspring.app.config.AuthInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

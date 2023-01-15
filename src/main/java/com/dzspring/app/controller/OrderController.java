@@ -57,7 +57,7 @@ public class OrderController {
 		cartService.insert(cartItem);
 		cart.add(cartItem);
 		ResponseMessage message = new ResponseMessage();
-		message.setUrl(ResponseMessage.path("form/orderInsertForm"));
+		message.setUrl(ResponseMessage.path("form/admin/insertOrderForm"));
 		message.setData(true);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
@@ -81,7 +81,7 @@ public class OrderController {
 			.stream()
 			.forEach(cart::add);
 		ResponseMessage message = new ResponseMessage();
-		message.setUrl(ResponseMessage.path("form/orderInsertForm"));
+		message.setUrl(ResponseMessage.path("form/admin/insertOrderForm"));
 		message.setData(true);
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
