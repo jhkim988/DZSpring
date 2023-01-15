@@ -106,5 +106,6 @@ const main = async () => {
 	}
 	window.addEventListener("scroll", scrollEvent);
 	await scrollEvent();
+	
 }
-window.onload = main;
+window.addEventListener("load", main);
