@@ -73,13 +73,13 @@ public class FormController {
 	
 	@RequestMapping("/admin/insertGoodsForm")
 	public String insertGoodsForm() {
-		return "/admin/form/insertGoodsForm";
+		return "/form/admin/insertGoodsForm";
 	}
 	
 	@RequestMapping("/admin/updateGoodsForm/{id}")
 	public ModelAndView updateGoodsForm(@PathVariable int id) {
 		ModelAndView mav = new ModelAndView("/form/admin/updateGoodsForm");
-		mav.addObject("goods", goodsService.findOneById(id));
+		mav.addObject("goods", goodsService.findOneById(id).get());
 		return mav;
 	}
 	
