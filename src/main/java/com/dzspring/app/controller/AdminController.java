@@ -57,6 +57,7 @@ public class AdminController {
 	public ResponseEntity<ResponseMessage> updateMember(@RequestBody Member member) {
 		ResponseMessage message = new ResponseMessage();
 		message.setData(memberService.update(member));
+		message.setUrl(ResponseMessage.path("admin/member"));
 		return new ResponseEntity<>(message, getJSONHeader(), HttpStatus.OK);
 	}
 }
