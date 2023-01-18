@@ -23,7 +23,9 @@ public class LogAspect {
 	public Object measure(ProceedingJoinPoint joinPoint) throws Throwable {
 		logger.debug("[method]: " + joinPoint.getSignature().toLongString());
 		Arrays.asList(joinPoint.getArgs()).forEach(arg -> logger.debug("[Arg]: " + arg));
+		long start = System.nanoTime();
 		Object result = joinPoint.proceed();
+		logger.debug("[time]: " + joinPoint.getSignature().toLongString() + " - " + (System.nanoTime() - start));
 		logger.debug("[return] " + result);
 		return result;
 	}

@@ -15,7 +15,7 @@
 		<beans:property name="host" value="smtp.gmail.com"/>
 		<beans:property name="port" value="465"/>
 		<beans:property name="username" value="douzone212@gmail.com"/>
-		<beans:property name="password" value="yakvjuhlqjevcbxz"/>
+		<beans:property name="password" value="utqmzvfqktlnkwqc"/>
 		<beans:property name="javaMailProperties" >
 			<beans:props>
 				<beans:prop key="mail.transport.protocol">smtps</beans:prop>
