@@ -57,18 +57,18 @@
 		</tr>
 	</tbody>
 </table>
-<div class="buttonList">
-	<button id="first">&lt;&lt;</button>
-	<button id="prev">&lt;</button>
-	<div id="numBtnList">
-		<button data-page="1">1</button>
-		<button data-page="2">2</button>
-		<button data-page="3">3</button>
-		<button data-page="4">4</button>
-		<button data-page="5">5</button>
-	</div>
-	<button id="next">&gt;</button>
-	<button id="last">&gt;&gt;</button>
+<div id="buttonWrapper">
+    <button class="firstButtonSet">&lt;&lt;</button>
+    <button class="prevButtonSet">&lt;</button>
+    <span class="pageButtonSet" data-numbutton="5" data-totalcount="100">
+        <button class="pageButton" data-page="1">1</button>
+        <button class="pageButton" data-page="2">2</button>
+        <button class="pageButton" data-page="3">3</button>
+        <button class="pageButton" data-page="4">4</button>
+        <button class="pageButton" data-page="5">5</button>
+    </span>
+    <button class="nextButtonSet">&gt;</button>
+    <button class="lastButtonSet">&gt;&gt;</button>
 </div>
 <div id="qnaView" style="display:none;">
 	제목: <h5 id="title"></h5>
