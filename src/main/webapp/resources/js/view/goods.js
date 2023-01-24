@@ -127,22 +127,8 @@ const main = async () => {
 	});
 	
 	// pagination
-	let crnt = 1, lo = 1, hi = 5, maxPage = 0, totalCount = 0;
-	const qnaRow = document.querySelector(".qna").cloneNode(true);
-	const listQna = async (param) => {
-		const urlSearchParam = new URLSearchParams(param);
-		let url = `${context.value}qna?${urlSearchParam}`;
-		const response = await fetch(url, { method: `GET` });
-		const json = await response.json();
-		totalCount = json.data.total;
-		maxPage = parseInt(Math.ceil(totalCount/5));
-		tbody.replaceChildren();
-		json.data.list.forEach(data => {
-			const trTag = makeTrTag(data);
-			tbody.appendChild(trTag);
-		});
-		return json;
-	}
+	const qnaRow = tbody.querySelector(".qna");
+	const pageButtonSet = buttonWrapper.querySelector(".pageButtonSet");
 	const makeTrTag = data => {
 		const copy = qnaRow.cloneNode(true);
 		copy.dataset.id = data.id;
@@ -154,8 +140,9 @@ const main = async () => {
 		copy.style.display = `table-row`;
 		return copy;
 	}
-	const changeCurrentButtonColor = () => {
-		numBtnList.querySelectorAll("button").forEach(btn => {
+	
+	const changeCurrentButtonColor = (crnt) => {
+		pageButtonSet.querySelectorAll("button").forEach(btn => {
 			if (btn.dataset.page == crnt) {
 				btn.style.color = 'red';
 			} else {
@@ -163,64 +150,19 @@ const main = async () => {
 			}
 		});
 	}
-	const changeBtnSet = () => {
-		let nIter = 0;
-		numBtnList.querySelectorAll("button").forEach(btn => {
-			btn.dataset.page = lo + nIter;
-			btn.textContent = lo + nIter;
-			if (lo + nIter > maxPage) {
-				btn.style.display = "none";
-			} else {
-				btn.style.display = "inline-block";
-			}
-			nIter++;
-		});	
-		changeCurrentButtonColor();
+	const fetchAndDraw = async page => {
+		const param = new URLSearchParams({ goodsId: goodsId.value, page });
+		let url = `${context.value}qna?${param}`;
+		const response = await fetch(url, { method: `GET` });
+		const json = await response.json();
+		tbody.replaceChildren();
+		json.data.list.forEach(data => tbody.appendChild(makeTrTag(data)));
+		changeCurrentButtonColor(page);
+		pageButtonSet.dataset.totalcount = json.data.total;
 	}
-	await listQna({ goodsId: goodsId.value, page: 1 });
-	hi = Math.min(hi, maxPage);
-	changeBtnSet();
-	changeCurrentButtonColor();
+	fetchAndDraw(1);
+	new Pagination(buttonWrapper, fetchAndDraw);
 	
-	first.addEventListener("click", async e => {
-		await listQna({ goodsId: goodsId.value, page: 1});
-		crnt = 1, lo = 1, hi = Math.min(5, maxPage);
-		changeBtnSet();
-	});
-	last.addEventListener("click", async e => {
-		await listQna({ goodsId: goodsId.value, page: maxPage});
-		crnt = maxPage; hi = maxPage; lo = (Math.ceil(maxPage/5)-1)*5+1;
-		changeBtnSet();
-	});
-	prev.addEventListener("click", async e => {
-		if (lo <= 1 || crnt != lo) {
-			crnt = lo;
-			await listQna({ goodsId: goodsId.value, page: crnt });
-		} else {
-			crnt = lo-1;
-			await listQna({ goodsId: goodsId.value, page: crnt });
-			lo -= 5, hi = lo+4;
-		}
-		changeBtnSet();
-	});
-	next.addEventListener("click", async e => {
-		if (hi >= maxPage || crnt != hi) {
-			crnt = hi;
-			await listQna({ goodsId: goodsId.value, page: crnt });
-		} else {
-			crnt = hi+1;
-			await listQna({ goodsId: goodsId.value, page: crnt });
-			lo += 5, hi = Math.min(lo+4, maxPage);
-		}
-		changeBtnSet();
-	});
-	numBtnList.querySelectorAll("button").forEach(btn => {
-		btn.addEventListener("click", async e => {
-			await listQna({ goodsId: goodsId.value, page: e.target.dataset.page });
-			crnt = e.target.dataset.page;
-			changeCurrentButtonColor();
-		});	
-	});
 
 	// Q&A 글 작성
 	qnaForm.addEventListener("submit", async e => {
@@ -244,4 +186,75 @@ const main = async () => {
 		}
 	});
 }
+
+class Pagination {
+    constructor (buttonWrapper, movePageCallback) {
+        this.buttonWrapper = buttonWrapper;
+        this.movePageCallback = movePageCallback
+        this.numButton = parseInt(buttonWrapper.querySelector(".pageButtonSet").dataset.numbutton);
+        this.lo = 1;
+        this.hi = this.numButton;
+        this.crnt = 1;
+        this.initButtonWrapper();
+    }
+
+    initButtonWrapper() {
+        this.buttonWrapper.querySelector(".firstButtonSet").addEventListener("click", async () => {
+            this.movePage(1);
+            this.moveButtonSet();
+        });
+        this.buttonWrapper.querySelector(".prevButtonSet").addEventListener("click", async () => {
+            this.movePage(this.lo-1);
+            this.moveButtonSet();
+        });
+        this.buttonWrapper.querySelector(".nextButtonSet").addEventListener("click", async () => {
+            this.movePage(this.hi+1);
+            this.moveButtonSet();
+        });
+        this.buttonWrapper.querySelector(".lastButtonSet").addEventListener("click", async () => {
+            this.movePage(this.getMaxPage());
+            this.moveButtonSet();
+        });
+        this.buttonWrapper.querySelectorAll(".pageButtonSet .pageButton").forEach(btn => {
+            btn.addEventListener("click", e => {
+                this.movePage(e.target.dataset.page);
+            });
+        });
+    }
+
+    async movePage(page) {
+        if (page < 1) {
+            this.movePage(1);
+            return;
+        } else if (page > this.getMaxPage()) {
+            this.movePage(this.getMaxPage());
+            return;
+        }
+        this.movePageCallback(page);
+        this.crnt = page;
+        this.lo = parseInt((page-1)/this.numButton)*this.numButton + 1;
+        this.hi = Math.min(this.lo + this.numButton - 1, this.getMaxPage());
+    }
+
+    moveButtonSet() {
+        let p = this.lo;
+        buttonWrapper.querySelectorAll(`.pageButtonSet .pageButton`).forEach(btn => {
+            if (p <= this.getMaxPage()) {
+                btn.style.display = `inline-block`;
+                btn.dataset.page = p;
+                btn.textContent = p;
+            } else {
+                btn.style.display = `none`;
+            }
+            p++;
+        });
+
+    }
+    getCurrentPage() { return this.crnt; }
+    getMaxPage() {
+        this.totalCount = parseInt(buttonWrapper.querySelector(".pageButtonSet").dataset.totalcount);
+        return this.maxPage = parseInt(this.totalCount/this.numButton);
+    }
+}
+
 window.onload = main;

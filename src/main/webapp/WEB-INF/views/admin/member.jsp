@@ -41,17 +41,17 @@
 		</thead>
 		<tbody>
 			<tr style="display:none">
-				<td class='id'></td>
-				<td class='pwd'></td>
-				<td class='name'></td>
-				<td class='email'></td>
-				<td class='phone'></td>
-				<td class='address'></td>
-				<td class='createdAt'></td>
-				<td class='updatedAt'></td>
-				<td class='authority'></td>
-				<td class='updateFormButton'><a href="#">수정</a></td>
-				<td class='deleteButton'><a href="#">삭제</a></td>
+				<td class='id'>@{id}</td>
+				<td class='pwd'>@{pwd}</td>
+				<td class='name'>@{name}</td>
+				<td class='email'>@{email}</td>
+				<td class='phone'>@{phone}</td>
+				<td class='address'>@{address}</td>
+				<td class='createdAt'>@{createdAt}</td>
+				<td class='updatedAt'>@{updatedAt}</td>
+				<td class='authority'>@{authority}</td>
+				<td class='updateFormButton'><a href=<c:url value='/form/admin/updateMemberForm/@{id}'/>>수정</a></td>
+				<td class='deleteButton'><a href="#" data-id="@{id}">삭제</a></td>
 			</tr>
 		</tbody>
 	</table>

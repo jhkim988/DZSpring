@@ -4,7 +4,7 @@ const main = () => {
 	const secondQuery = document.querySelector("#second");
 	const searchType = document.querySelector("#searchType");
 	const more = document.querySelector("button[id=more]");
-	const row = tbody.querySelector("tr").cloneNode(true);
+	const row = tbody.querySelector(".row").cloneNode(true);
 	
 	let last = null;
 	
@@ -146,21 +146,10 @@ const main = () => {
 	const makeTRTag = goods => {
 		const copy = row.cloneNode(true);
 		goods.img = goods.img || `default`;
-		copy.querySelector('.thumbnail > img').src = `${context.value}goods/thumbnail/${goods.img}`
-		copy.querySelector('.id').textContent = goods.id;
-		copy.querySelector('.category').textContent = goods.category;
-		copy.querySelector('.title').textContent = goods.title;
-		copy.querySelector('.author').textContent = goods.author;
-		copy.querySelector('.publisher').textContent = goods.publisher;
-		copy.querySelector('.price').textContent = goods.price;
-		copy.querySelector('.publishedAt').textContent = goods.publishedAt;
-		copy.querySelector('.page').textContent = goods.totalPage;
-		copy.querySelector('.code').textContent = goods.statusCode;
-		copy.querySelector('.createdAt').textContent = goods.createdAt;
-		copy.querySelector('.updateFormButton > a').href = `${context.value}form/admin/updateGoodsForm/${goods.id}`;
-		const deleteATag = copy.querySelector('.deleteButton > a');
-		deleteATag.dataset.id = goods.id;
-		deleteATag.addEventListener("click", deleteGoods);
+		console.log(goods.totalPage);
+		const tagReplacer = new TagReplacer(copy);
+		tagReplacer.replace(goods);
+		copy.querySelector('.deleteButton a').addEventListener("click", deleteGoods);
 		copy.style.display = "table-row";
 		return copy;
 	}

@@ -153,18 +153,9 @@ const main = () => {
 	
 	const makeTRTag = member => {
 		const copy = row.cloneNode(true);
-		copy.querySelector('.id').textContent = member.id;
-		copy.querySelector('.pwd').textContent = member.pwd;
-		copy.querySelector('.name').textContent = member.name;
-		copy.querySelector('.email').textContent = member.email;
-		copy.querySelector('.phone').textContent = member.phone;
-		copy.querySelector('.address').textContent = member.address;
-		copy.querySelector('.createdAt').textContent = member.createdAt;
-		copy.querySelector('.updatedAt').textContent = member.updatedAt;
-		copy.querySelector('.authority').textContent = member.authority;
-		copy.querySelector('.updateFormButton > a').href = `${context.value}form/admin/updateMemberForm/${member.id}`;
+		const tagReplacer = new TagReplacer(copy);
+		tagReplacer.replace(member);
 		const deleteATag = copy.querySelector('.deleteButton > a');
-		deleteATag.dataset.id = member.id;
 		deleteATag.addEventListener("click", deleteMember);
 		copy.style.display = "table-row";
 		return copy;

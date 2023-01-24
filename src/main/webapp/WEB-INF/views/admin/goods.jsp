@@ -45,20 +45,20 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr style="display:none">
-				<td class='thumbnail'><img/></td>
-				<td class='id'></td>
-				<td class='category'></td>
-				<td class='title'></td>
-				<td class='author'></td>
-				<td class='publisher'></td>
-				<td class='price'></td>
-				<td class='publishedAt'></td>
-				<td class='page'></td>
-				<td class='code'></td>
-				<td class='createdAt'></td>
-				<td class='updateFormButton'><a href="#">수정</a></td>
-				<td class='deleteButton'><a href="#">삭제</a></td>
+			<tr class="row" style="display:none">
+				<td class='thumbnail'><img src=<c:url value="/goods/thumbnail/@{img}"/>/></td>
+				<td class='id'>@{id}</td>
+				<td class='category'>@{category}</td>
+				<td class='title'>@{title}</td>
+				<td class='author'>@{author}</td>
+				<td class='publisher'>@{publisher}</td>
+				<td class='price'>@{price}</td>
+				<td class='publishedAt'>@{publishedAt}</td>
+				<td class='page'>@{totalPage}</td>
+				<td class='code'>@{statusCode}</td>
+				<td class='createdAt'>@{createdAt}</td>
+				<td class='updateFormButton'><a href=<c:url value='/form/admin/updateGoodsForm/@{id}'/>>수정</a></td>
+				<td class='deleteButton'><a href="#" data-id="@{id}">삭제</a></td>
 			</tr>
 		</tbody>
 	</table>
