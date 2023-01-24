@@ -57,7 +57,7 @@
 	</select>
 	<select id="findAllLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods
-		<if test="lastId != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
 				where id < #{lastId}
 			]]>
@@ -67,11 +67,9 @@
 	</select>
 		<select id="findByCategoryLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastCategory != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((category > #{lastCategory})
-					or (category = #{lastCategory} and id < #{lastId})
-				)
+				and id < #{lastId}
 			]]>
 		</if>
 		<if test="value != null">
@@ -82,11 +80,9 @@
 	</select>
 		<select id="findByTitleLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastTitle != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((`title` > #{lastTitle})
-					or (`title`= #{lastTitle} and id < #{lastId})
-				)
+				id < #{lastId})
 			]]>
 		</if>
 		<if test="value != null">
@@ -97,11 +93,9 @@
 	</select>
 		<select id="findByAuthorLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastAuthor != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((`author` > #{lastAuthor})
-					or (`author`= #{lastAuthor} and id < #{lastId})
-				)
+				and id < #{lastId}
 			]]>
 		</if>
 		<if test="value != null">
@@ -112,11 +106,9 @@
 	</select>
 		<select id="findByPublisherLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastPublisher != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((`publisher` > #{lastPublisher})
-					or (`publisher`= #{lastPublisher} and id < #{lastId})
-				)
+				and id < #{lastId}
 			]]>
 		</if>
 		<if test="value != null">
@@ -127,11 +119,9 @@
 	</select>
 		<select id="findByPriceLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastPrice != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((`price` > #{lastPrice})
-					or (`price`= #{lastPrice} and id < #{lastId})
-				)
+				and id < #{lastId}
 			]]>
 		</if>
 		<if test="lo != null">
@@ -149,11 +139,9 @@
 	</select>
 		<select id="findByPublishedAtLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastPublishedAt != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((`publishedAt` > #{lastPublishedAt})
-					or (`publishedAt`= #{lastPublishedAt} and id < #{lastId})
-				)
+				and id < #{lastId}
 			]]>
 		</if>
 		<if test="from != null">
@@ -171,11 +159,9 @@
 	</select>
 		<select id="findByPageLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastPage != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((`page` > #{lastPage})
-					or (`page`= #{lastPage} and id < #{lastId})
-				)
+				and id < #{lastId}
 			]]>
 		</if>
 		<if test="lo != null">
@@ -193,11 +179,9 @@
 	</select>
 		<select id="findByStatusCodeLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastStatusCode != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((`statusCode` > #{lastStatusCode})
-					or (`statusCode`= #{lastStatusCode} and id < #{lastId})
-				)
+				and id < #{lastId}
 			]]>
 		</if>
 		<if test="value != null">
@@ -208,11 +192,9 @@
 	</select>
 		<select id="findByCreatedAtLimit10" resultType="Goods">
 		select id, title, category, author, publisher, price, img from tb_dzspring_goods where 1=1
-		<if test="lastCreatedAt != null">
+		<if test="lastId != null and !lastId.equals('')">
 			<![CDATA[
-				and ((`createdAt` > #{lastCreatedAt})
-					or (`createdAt`= #{lastCreatedAt} and id < #{lastId})
-				)
+				and id < #{lastId}
 			]]>
 		</if>
 		<if test="from != null">
